@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" sx={{ borderRadius: '13px', backgroundColor: 'pink' }}>
+      <AppBar position="sticky" sx={{ backgroundColor: 'transparent', borderRadius:'none' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Restro-web
@@ -37,7 +37,7 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
       <StyledModal open={open} onClose={handleClose} >
-        <Box sx={{width:{sm: '50%',}}}>
+        <Box sx={{width:{xs: '90%', sm: '50%'}}}>
           <AuthForm />
         </Box>
       </StyledModal>

@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Container } from '@mui/material';
 
-const Login = () => {
+const Login = ({setIsLogin}) => {
 
   const handleKey = (event) => {
     if (!/\d/.test(event.key)) {
         event.preventDefault()
     }
 }
+const [contactNumber, setContactNumber] = useState('')
+
+const handleLogin = () =>{
+  if (contactNumber.length>=10) {
+    setIsLogin(false)
+  }else{
+    alert('Invalid contact number')
+  }
+}
 
   return (
-    <Container maxWidth="xs" sx={{backgroundColor:'pink', borderRadius: 3}}>
+    <Container maxWidth="xs" sx={{backgroundColor:'white', borderRadius: 4}}>
       <Box
         display="flex"
         flexDirection="column"
@@ -29,10 +38,14 @@ const Login = () => {
           fullWidth
           label="Mobile Number"
           onKeyPress={handleKey}
+          value={contactNumber}
+          onChange={(e) => setContactNumber(e.target.value)}
         />
         <Button
           variant="contained"
           sx={{color: 'white' , backgroundColor:'red'}}
+          onClick={handleLogin}
+          
         >
           Send OTP
         </Button>        
