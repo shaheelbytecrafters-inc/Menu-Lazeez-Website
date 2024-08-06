@@ -1,195 +1,99 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { Input as BaseInput } from '@mui/material';
-import { Box, styled } from '@mui/system';
-
-// Define and style the InputElement component
-const InputElement = styled('input')({
-  textAlign: 'center',
-  width: '2em',
-  height: '2em',
-  fontSize: '1.5em',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-});
-
-function OTP({ separator, length, value, onChange }) {
-  const inputRefs = React.useRef(new Array(length).fill(null));
-
-  const focusInput = (targetIndex) => {
-    const targetInput = inputRefs.current[targetIndex];
-    targetInput.focus();
-  };
-
-  const selectInput = (targetIndex) => {
-    const targetInput = inputRefs.current[targetIndex];
-    targetInput.select();
-  };
-
-  const handleKeyDown = (event, currentIndex) => {
-    switch (event.key) {
-      case 'ArrowUp':
-      case 'ArrowDown':
-      case ' ':
-        event.preventDefault();
-        break;
-      case 'ArrowLeft':
-        event.preventDefault();
-        if (currentIndex > 0) {
-          focusInput(currentIndex - 1);
-          selectInput(currentIndex - 1);
-        }
-        break;
-      case 'ArrowRight':
-        event.preventDefault();
-        if (currentIndex < length - 1) {
-          focusInput(currentIndex + 1);
-          selectInput(currentIndex + 1);
-        }
-        break;
-      case 'Delete':
-        event.preventDefault();
-        onChange((prevOtp) => {
-          const otp =
-            prevOtp.slice(0, currentIndex) + prevOtp.slice(currentIndex + 1);
-          return otp;
-        });
-
-        break;
-      case 'Backspace':
-        event.preventDefault();
-        if (currentIndex > 0) {
-          focusInput(currentIndex - 1);
-          selectInput(currentIndex - 1);
-        }
-
-        onChange((prevOtp) => {
-          const otp =
-            prevOtp.slice(0, currentIndex) + prevOtp.slice(currentIndex + 1);
-          return otp;
-        });
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleChange = (event, currentIndex) => {
-    const currentValue = event.target.value;
-    let indexToEnter = 0;
-
-    while (indexToEnter <= currentIndex) {
-      if (inputRefs.current[indexToEnter].value && indexToEnter < currentIndex) {
-        indexToEnter += 1;
-      } else {
-        break;
-      }
-    }
-    onChange((prev) => {
-      const otpArray = prev.split('');
-      const lastValue = currentValue[currentValue.length - 1];
-      otpArray[indexToEnter] = lastValue;
-      return otpArray.join('');
-    });
-    if (currentValue !== '') {
-      if (currentIndex < length - 1) {
-        focusInput(currentIndex + 1);
-      }
-    }
-  };
-
-  const handleClick = (event, currentIndex) => {
-    selectInput(currentIndex);
-  };
-
-  const handlePaste = (event, currentIndex) => {
-    event.preventDefault();
-    const clipboardData = event.clipboardData;
-
-    // Check if there is text data in the clipboard
-    if (clipboardData.types.includes('text/plain')) {
-      let pastedText = clipboardData.getData('text/plain');
-      pastedText = pastedText.substring(0, length).trim();
-      let indexToEnter = 0;
-
-      while (indexToEnter <= currentIndex) {
-        if (inputRefs.current[indexToEnter].value && indexToEnter < currentIndex) {
-          indexToEnter += 1;
-        } else {
-          break;
-        }
-      }
-
-      const otpArray = value.split('');
-
-      for (let i = indexToEnter; i < length; i += 1) {
-        const lastValue = pastedText[i - indexToEnter] ?? ' ';
-        otpArray[i] = lastValue;
-      }
-
-      onChange(otpArray.join(''));
-    }
-  };
-
-  return (
-    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-      {new Array(length).fill(null).map((_, index) => (
-        <React.Fragment key={index}>
-          <BaseInput
-            slots={{
-              input: InputElement,
-            }}
-            aria-label={`Digit ${index + 1} of OTP`}
-            slotProps={{
-              input: {
-                ref: (ele) => {
-                  inputRefs.current[index] = ele;
-                },
-                onKeyDown: (event) => handleKeyDown(event, index),
-                onChange: (event) => handleChange(event, index),
-                onClick: (event) => handleClick(event, index),
-                onPaste: (event) => handlePaste(event, index),
-                value: value[index] ?? '',
-              },
-            }}
-          />
-          {index === length - 1 ? null : separator}
-        </React.Fragment>
-      ))}
-    </Box>
-  );
-}
-
-OTP.propTypes = {
-  length: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  separator: PropTypes.node,
-  value: PropTypes.string.isRequired,
-};
+import { TextField, Button, Typography, Box, Container } from '@mui/material';
+import { useRef, useState } from 'react';
 
 export default function OTPInput() {
-  const [otp, setOtp] = React.useState('');
+    const Ref1 = useRef(null)
+    const Ref2 = useRef(null)
+    const Ref3 = useRef(null)
+    const Ref4 = useRef(null)
+    const handleKey = (event) => {
+        if (!/\d/.test(event.key)) {
+            event.preventDefault()
+        }
+    }
+    const [input1, setInput1] = useState()
+    const [input2, setInput2] = useState()
+    const [input3, setInput3] = useState()
+    const [input4, setInput4] = useState()
+    return (
+        <Container maxWidth="xs" sx={{ backgroundColor: 'white', borderRadius: 4 }}>
+            <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                height={300}
+                padding={5}
+            >
+                <Typography variant="h4" marginTop={3}>
+                    Enter OTP
+                </Typography>
 
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height={400}
-      gap={3}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={5} />
-        <span>Entered value: {otp}</span>
-      </Box>
-    </Box>
-  );
+                <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="center"
+                    height={400}
+                    gap={2}
+                >
+                    <TextField
+                        type="text"
+                        sx={{ flex: 1 }}
+                        value={input1}
+                        ref={Ref1}
+                        onChange={(e) => {
+                            setInput1(e.target.value)
+                            Ref2.current.focus()
+                        }}
+                        maxLength={1}
+                        onKeyPress={handleKey} />
+                    <TextField
+                        sx={{ flex: 1 }}
+                        type="text"
+                        value={input2}
+                        ref={Ref2}
+                        onChange={(e) => {
+                            setInput2(e.target.value)
+                            Ref3.current.focus()
+                        }}
+                        maxLength={1}
+                        onKeyPress={handleKey} />
+                    <TextField
+                        sx={{ flex: 1 }}
+                        type="text"
+                        value={input3}
+                        ref={Ref3}
+                        onChange={(e) => {
+                            setInput3(e.target.value)
+                            Ref4.current.focus()
+                        }}
+                        maxLength={1}
+                        onKeyPress={handleKey} />
+                    <TextField
+                        sx={{ flex: 1 }}
+                        type="text"
+                        value={input4}
+                        ref={Ref4}
+                        onChange={(e) => {
+                            setInput4(e.target.value)
+
+                        }}
+                        maxLength={1}
+                        onKeyPress={handleKey}
+                    />
+                </Box>
+
+                <Button
+                    variant="contained"
+                    sx={{ color: 'white', backgroundColor: 'red' }}
+                //   onClick={handleLogin}
+
+                >
+                    Login
+                </Button>
+
+            </Box>
+        </Container>
+    )
 }

@@ -16,11 +16,11 @@ const StyledModal = styled(Modal)({
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpenLogin = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseLogin = () => {
     setOpen(false);
   };
 
@@ -31,12 +31,25 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Restro-web
           </Typography>
-          <Button color="inherit" onClick={handleOpen}>
+
+          <Box
+          display={'flex'}
+          gap={'10px'}
+          >
+          <Button color="inherit">
+            Add Restraunt
+          </Button>
+          <Button color="inherit">
+            Sign up
+          </Button>
+          <Button color="inherit" onClick={handleOpenLogin}>
             Login
           </Button>
+          </Box>
+
         </Toolbar>
       </AppBar>
-      <StyledModal open={open} onClose={handleClose} >
+      <StyledModal open={open} onClose={handleCloseLogin} >
         <Box sx={{width:{xs: '90%', sm: '50%'}}}>
           <AuthForm />
         </Box>

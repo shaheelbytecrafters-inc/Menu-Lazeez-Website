@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, InputAdornment, Button, Hidden } from '@mui/material';
+import { Box, TextField, InputAdornment, Button, Hidden, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
@@ -9,6 +9,24 @@ const SearchBar = () => {
     location: '',
     searchInput: ''
   })
+
+  const SmallScreenBox = styled(Box)(({ theme }) => ({
+    display: 'block',
+    alignItems: 'center',
+    gap: '20px',
+    [theme.breakpoints.up("sm")]: {
+      display: 'none',
+    }
+  }))
+
+  const LargeScreenBox = styled(Box)(({ theme }) => ({
+    display: 'none',
+    alignItems: 'center',
+    [theme.breakpoints.up("sm")]: {
+      display: 'flex'
+    }
+  }))
+
 
   const handleGpsClick = () => {
     if (navigator.geolocation) {
@@ -25,21 +43,20 @@ const SearchBar = () => {
       console.error('Geolocation is not supported by this browser.');
     }
   };
+
   return (
     <Box
       sx={{
         width: '100%',
-        maxWidth: '600px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         marginBottom: 15,
-        gap: 2
       }}
       mx={2}
     >
-      <Hidden mdUp>
+      <SmallScreenBox width={'100%'}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column', gap: 1 }}>
           <TextField
             placeholder='Enter location or use GPS'
@@ -72,7 +89,7 @@ const SearchBar = () => {
             variant='outlined'
             fullWidth
             value={inputs.searchInput}
-            onChange={(e) => setSearchInput({ ...inputs, searchInput: e.target.value })}
+            onChange={(e) => setInputs({ ...inputs, searchInput: e.target.value })}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -88,19 +105,20 @@ const SearchBar = () => {
             }}
           />
         </Box>
-      </Hidden>
+      </SmallScreenBox>
 
-      <Hidden smDown>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
+      <LargeScreenBox width={'100%'}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: '0px', justifyContent: 'center'}} mx={15}>
           <TextField
             placeholder='Enter location or use GPS'
             variant='outlined'
-            fullWidth
             value={inputs.location}
             onChange={(e) => setInputs({ ...inputs, location: e.target.value })}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
+              flex: 1,
+              maxWidth: '250px',
             }}
             InputProps={{
               endAdornment: (
@@ -121,14 +139,16 @@ const SearchBar = () => {
           <TextField
             placeholder='Search for the restaurant or a dish'
             variant='outlined'
-            fullWidth
+            flex={2}
             value={inputs.searchInput}
-            onChange={(e) => setSearchInput({ ...inputs, searchInput: e.target.value })}
+            onChange={(e) => setInputs({ ...inputs, searchInput: e.target.value })}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
               marginLeft: '10px',
-              marginRight: '10px'
+              marginRight: '10px',
+              flex: 2,
+              maxWidth: '600px'
             }}
             InputProps={{
               startAdornment: (
@@ -139,7 +159,7 @@ const SearchBar = () => {
             }}
           />
         </Box>
-      </Hidden>
+      </LargeScreenBox>
     </Box>
   );
 }
