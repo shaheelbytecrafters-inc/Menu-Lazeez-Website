@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import Navbar from './Navbar'; 
-import SearchBar from './SearchBar';
+import Searchbar from '../Searchbar/Searchbar';
 
 const Header = () => {
   return (
@@ -40,7 +40,7 @@ const Header = () => {
         justifyContent: 'center',
       }}
       >
-        <SearchBar />
+        <Searchbar />
       </Box>
     </Box>
   );
