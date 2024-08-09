@@ -15,12 +15,24 @@ const foods = [
     image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
     description: 'Delicious cheese burger with pepperoni',
   },
+  {
+    id: 3,
+    name: 'Pizza',
+    image: 'https://wallup.net/wp-content/uploads/2017/11/22/371886-food-pizza.jpg',
+    description: 'Delicious cheese pizza with pepperoni',
+  },
+  {
+    id: 4,
+    name: 'burger',
+    image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
+    description: 'Delicious cheese burger with pepperoni',
+  },
  ];
 
 const FlexCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  margin: '10px',
+  margin: '0px',
   padding: '5px',
   cursor: 'pointer',
 }));
@@ -40,7 +52,7 @@ const ContentBox = styled(CardContent)({
 
 function SearchItem() {
   return (
-    <Box display="flex" flexWrap="wrap" justifyContent="center" gap={1}>
+    <Box display="flex" flexDirection="column" flexWrap="wrap" justifyContent="center" marginTop={"600px"}>
       {foods.map((food) => (
         <FlexCard key={food.id}>
           <CardImage

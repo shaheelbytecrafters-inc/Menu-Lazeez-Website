@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useTransition } from 'react';
 import { Box } from '@mui/material';
 import Navbar from './Navbar'; 
 import Searchbar from '../Searchbar/Searchbar';
+import SearchbarModel from '../Searchbar/SearchModel'
 
-const Header = () => {
+const Hero = () => {
+
+  const [open, setOpen] = useState(false)
+
   return (
     <Box
       sx={{
@@ -13,7 +17,10 @@ const Header = () => {
         backgroundRepeat: 'no-repeat',
         width: '100vw', 
         height: '60vh', 
-        position: 'relative' 
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <Box
@@ -31,19 +38,22 @@ const Header = () => {
 
       <Box
        sx={{
-        position: 'absolute', 
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
         bottom: 0, 
         left: 0,
         width: '100%',
-        zIndex: 1,
-        display:'flex',
-        justifyContent: 'center',
+        zIndex: 1,      
       }}
       >
-        <Searchbar />
+        <Searchbar setOpen={setOpen}/>
       </Box>
+        {open &&
+          <SearchbarModel />
+        }        
     </Box>
   );
 };
 
-export default Header;
+export default Hero;

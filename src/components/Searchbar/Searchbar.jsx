@@ -27,13 +27,11 @@ const StyledModel = styled(Box)({
   alignItems: 'center',
 });
 
-const Searchbar = () => {
+const Searchbar = ({setOpen}) => {
   const [inputs, setInputs] = useState({
     searchValue: '',
     location: ''
   });
-
-  const [open, setOpen] = useState(false);
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
@@ -91,15 +89,18 @@ const Searchbar = () => {
     <Box
       sx={{
         width: '100%',
+        height: 'auto',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        marginBottom: 15,
+        marginBottom: 26,
+        mx: '0px'
+
       }}
       mx={2}
     >
-      <SmallScreenBox width={'100%'}>
+      <SmallScreenBox width={'90%'}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column', gap: 1 }}>
           <TextField
             placeholder='Enter location or use GPS'
@@ -150,19 +151,21 @@ const Searchbar = () => {
         </Box>
       </SmallScreenBox>
 
-      <LargeScreenBox width={'100%'} position={'fixed'}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: '0px', justifyContent: 'center' }} mx={15}>
+      <LargeScreenBox width={'100%'}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: '0px', justifyContent: 'center' }} mx={9}>
           <TextField
             placeholder='Enter location or use GPS'
             variant='outlined'
             value={inputs.location}
             name='location'
             onChange={handleInputs}
+
             sx={{
               backgroundColor: 'white',
-              borderRadius: "10px",
               flex: 1,
               maxWidth: '250px',
+              borderTopLeftRadius: '12px',
+              borderBottomLeftRadius: '12px',
             }}
             InputProps={{
               endAdornment: (
@@ -183,17 +186,15 @@ const Searchbar = () => {
           <TextField
             placeholder='Search for the restaurant or a dish'
             variant='outlined'
-            flex={2}
             value={inputs.searchValue}
             name='searchValue'
             onChange={handleInputs}
             sx={{
               backgroundColor: 'white',
-              borderRadius: "10px",
-              marginLeft: '10px',
-              marginRight: '10px',
               flex: 2,
-              maxWidth: '600px'
+              maxWidth: '600px',              
+              borderTopRightRadius: '12px',
+              borderBottomRightRadius: '12px'
             }}
             InputProps={{
               startAdornment: (
@@ -205,14 +206,6 @@ const Searchbar = () => {
           />
         </Box>
       </LargeScreenBox>
-
-      {open && (
-        <StyledModel width={'400px'} marginTop={'400px'} height={'200px'} bgcolor={'white'} borderRadius={'10px'} overflow={'auto'}>
-          <Box>
-            <SearchModel />
-          </Box>
-        </StyledModel>
-      )}
     </Box>
   );
 }

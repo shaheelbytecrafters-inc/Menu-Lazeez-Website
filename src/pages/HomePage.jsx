@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Header from '../components/Header/Header';
+import Hero from '../components/Header/Hero';
 
 const HomePage = () => {
   return (
@@ -8,7 +8,7 @@ const HomePage = () => {
       display="flex"
       flexDirection="column"
     >
-      <Header />
+      <Hero />
     </Box>
   );
 };
