@@ -1,22 +1,18 @@
-import React, { useState, useTransition } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
-import Navbar from './Navbar'; 
-import Searchbar from '../Searchbar/Searchbar';
-import SearchbarModel from '../Searchbar/SearchModel'
+import Navbar from './Navbar';
+import MainSearchBar from '../Searchbar/MainSearchBar';
 
 const Hero = () => {
-
-  const [open, setOpen] = useState(false)
-
   return (
     <Box
       sx={{
-        backgroundImage: 'url(https://wallpaperaccess.com/full/767048.jpg)',
+        backgroundImage: 'url(/HeroImage.jpeg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        width: '100vw', 
-        height: '60vh', 
+        width: '100vw',
+        height: '60vh',
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
@@ -25,33 +21,30 @@ const Hero = () => {
     >
       <Box
         sx={{
-          position: 'absolute', 
+          position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           zIndex: 1,
-          marginTop: 1, 
+          marginTop: 1,
         }}
       >
         <Navbar />
       </Box>
-
       <Box
-       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'absolute',
-        bottom: 0, 
-        left: 0,
-        width: '100%',
-        zIndex: 1,      
-      }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 1,
+          marginBottom: 26,
+        }}
       >
-        <Searchbar setOpen={setOpen}/>
+        <MainSearchBar />
       </Box>
-        {open &&
-          <SearchbarModel />
-        }        
     </Box>
   );
 };

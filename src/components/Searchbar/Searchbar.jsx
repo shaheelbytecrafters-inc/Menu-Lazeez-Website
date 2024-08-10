@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Box, TextField, InputAdornment, Button, Hidden, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SearchModel from './SearchModel';
 
 const SmallScreenBox = styled(Box)(({ theme }) => ({
   display: 'block',
@@ -28,6 +27,7 @@ const StyledModel = styled(Box)({
 });
 
 const Searchbar = ({setOpen}) => {
+  
   const [inputs, setInputs] = useState({
     searchValue: '',
     location: ''
@@ -39,7 +39,7 @@ const Searchbar = ({setOpen}) => {
       ...prevInputs,
       [name]: value
     }));
-  };
+  }; 
 
   const handleGpsClick = () => {
     if (navigator.geolocation) {
@@ -94,8 +94,7 @@ const Searchbar = ({setOpen}) => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        marginBottom: 26,
-        mx: '0px'
+        mx: '0px',
 
       }}
       mx={2}
