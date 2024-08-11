@@ -1,167 +1,174 @@
-import React from 'react'
-import { Box, Button, IconButton, ImageListItemBar, Typography } from '@mui/material'
+import { Box, Button, Modal, styled, Typography } from '@mui/material'
 import MainSearchBar from '../Searchbar/MainSearchBar'
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DirectionIcon from '@mui/icons-material/Directions';
 import ShareIcon from '@mui/icons-material/Share';
+import { useState } from "react";
+import "./Restaurant.css"
+// import Slider from "react-slick";
+// import { baseUrl } from "./config";
 
+// const GalleryModal = styled(Modal)({
+//   display: 'flex',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+// });
 
-function srcset(image, width, height, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${width * cols}&h=${height * rows
-      }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
+const ImageGalleryModal = styled(Modal)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}))
 
 const Restruant = () => {
+  const [showGalleryModal, setShowGalleryModal] = useState(false)
+
+  // const handleHideGalleryModal = () =>{
+  //   setShowGalleryModal(false)
+  //   console.log(showGalleryModal)
+  // }
+  // const handleShowGalleryModal = () =>{
+  //   setShowGalleryModal(true)
+  //   console.log(showGalleryModal)
+  // }
+
   return (
     <Box
-      sx={{
-        overflowX: 'hidden',
-        width: '100vw',
-        height: '100vh',
-      }}
+      width={'100vw'}
+      display={'flex'}
+      justifyContent={'center'}
+      mx={'20px'}
+      bgcolor={'blue'}
     >
-      {/* Header  */}
-
       <Box
-        display={'flex'}
-        flexDirection={'row'}
-        height={'7vh'}
-        bgcolor={'white'}
-        position={'relative'}
-        py={'10px'}
-        px={'10px'}
-        alignItems={'center'}
-        justifyContent={'space-evenly'}
+        sx={{
+          overflowX: 'hidden',
+          width: '100vw',
+          height: '100vh',
+        }}
       >
-        <Typography variant="h6">
-          Restro-web
-        </Typography>
-        <MainSearchBar />
-        <Box bgcolor={'green'}>User</Box>
+        {/* Header  */}
 
-      </Box>
-
-
-      {/* MainSection  */}
-      <Box
-        height={'93vh'}
-      >
-
-        {/* Gallary  */}
         <Box
-          sx={{
-            width: '100vw',
-            height: '450px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            my: '5px'
-          }}
+          display={'flex'}
+          flexDirection={'row'}
+          height={'7vh'}
+          bgcolor={'white'}
+          position={'relative'}
+          py={'10px'}
+          px={'10px'}
+          alignItems={'center'}
+          justifyContent={'space-evenly'}
         >
-          <ImageList
+          <Typography variant="h6">
+            Restro-web
+          </Typography>
+          <MainSearchBar />
+          <Box >User</Box>
+
+        </Box>
+
+
+        {/* MainSection  */}
+        <Box
+          height={'93vh'}
+        >
+
+          {/* Gallary  */}
+          <Box
+            className='restroGallery'
             sx={{
-              width: 500,
-              height: 450,
-              // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
-              transform: 'translateZ(0)',
+              width: '80vw',
+              height: 'auto',
+              my: '5px',
+              bgcolor: 'red',
+              padding: '2px',
             }}
-            rowHeight={200}
-            gap={1}
+          // onClick={handleShowGalleryModal}
           >
-            {itemData.map((item) => {
-              const cols = item.featured ? 2 : 1;
-              const rows = item.featured ? 2 : 1;
+            {itemData.map((item, indx)=>(
+              <Box id={`box-${indx+1}`} className='box'>
+                <img src={item.img} alt={item.title} />
+              </Box>
+            ))}
+            {/* <div class="box" id="box-1">box-1</div>
+            <div class="box" id="box-2">box-2</div>
+            <div class="box" id="box-4">box-4</div>
+            <div class="box" id="box-3">box-3</div> */}
+          </Box>
 
-              return (
-                <ImageListItem key={item.img} cols={cols} rows={rows}>
-                  <img
-                    {...srcset(item.img, 250, 200, rows, cols)}
-                    alt={item.title}
-                    loading="lazy"
-                  />
-                  <ImageListItemBar
-                    sx={{
-                      background:
-                        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                    }}
-                    title={item.title}
-                    position="top"
-                    actionIcon={
-                      <IconButton
-                        sx={{ color: 'white' }}
-                        aria-label={`star ${item.title}`}
-                      >
-                        <StarBorderIcon />
-                      </IconButton>
-                    }
-                    actionPosition="left"
-                  />
-                </ImageListItem>
-              );
-            })}
-          </ImageList>
+          {/* <ImageGalleryModal open={showGalleryModal}></ImageGalleryModal> */}
 
-        </Box>
+          {/* Info-div  */}
 
-        {/* Info-div  */}
-
-        <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        height={'150px'}
-        >
-          <Box flex={1} p={'10px'}>
-            <Typography variant="h6" color="black">
-              Biryani Blues
-            </Typography>
-            <Typography>
-              Biryani, Hydrabadi, Mughlai
-            </Typography>
-            <Box display={'flex'} gap={3} marginTop={'5px'}>
-              <Button
-               variant="outlined"
-               size="small"
-               startIcon={<DirectionIcon />} 
-               sx={{
-                 backgroundColor: 'transparent',
-                 color: 'red'
-                }}
-              >Direction</Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small" 
-                startIcon={<BookmarkIcon />} 
-                sx={{
-                  backgroundColor: 'transparent',}}
-              >Bookmark</Button>
-              <Button
-               variant="outlined"
-               size="small" 
-               startIcon={<ShareIcon />} 
-               sx={{
-                 backgroundColor: 'transparent',
-                 color: 'red'
-                }}
-              >Share</Button>
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            height={'150px'}
+          >
+            <Box flex={1} mx={'40px'}>
+              <Typography variant="h6" color="black">
+                Biryani Blues
+              </Typography>
+              <Typography>
+                Biryani, Hydrabadi, Mughlai
+              </Typography>
+              <Box display={'flex'} gap={1} marginTop={'5px'}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<DirectionIcon />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                    color: 'red'
+                  }}
+                >Direction</Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  startIcon={<BookmarkIcon />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                  }}
+                >Bookmark</Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<ShareIcon />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                    color: 'red'
+                  }}
+                >Share</Button>
+              </Box>
+            </Box>
+            <Box flex={1} position={'relative'}>
+              <Box position={'absolute'} top={'0'} right={'0'}>
+                <Button
+                  sx={{ color: 'blue' }}
+                >2849 ratings</Button>
+                <Button>
+                  <Box display={'flex'}>
+                    <Box display={'flex'} flexDirection={'column'}>
+                      <Typography variant='h6'> 3.5k</Typography>
+                      <Typography variant='p'>Delivery Ratings</Typography>
+                    </Box>
+                  </Box>
+                </Button>
+              </Box>
             </Box>
           </Box>
-          <Box flex={1} position={'relative'}>
-            <Box position={'absolute'} top={'0'} right={'0'}>
-              <Button>2849 ratings</Button>
-              <Button>30.7k delivery ratings</Button>
-            </Box>
+
+          <Box display={'flex'} gap={3} borderBottom={'1px solid gray'} mx={'10px'}>
+            <Button>Overview</Button>
+            <Button>Order Online</Button>
+            <Button>Reviews</Button>
+            <Button>Photos</Button>
+            <Button>Menu</Button>
+
           </Box>
         </Box>
-
-
       </Box>
     </Box>
   )

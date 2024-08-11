@@ -24,7 +24,7 @@ const Hero = () => {
           position: 'absolute',
           top: 0,
           left: 0,
-          width: '100%',
+          width: '100vw',
           zIndex: 1,
           marginTop: 1,
         }}
