@@ -8,13 +8,30 @@ const MainSearchBar = () => {
   const [open, setOpen] = useState(false)
 
   return (
-    <Box
-    >
-      <Searchbar setOpen={setOpen} />
-      {open &&
-        <SearchbarModel />
-      }
-    </Box>
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 1,
+        }}
+      >
+        <Searchbar setOpen={setOpen} />
+      </Box>
+      <Box
+      sx={{
+        width: '100%',
+      }}
+      >
+        {open &&
+          <SearchbarModel />
+        }
+      </Box>
+    </>
   )
 }
 

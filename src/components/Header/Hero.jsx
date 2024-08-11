@@ -32,18 +32,16 @@ const Hero = () => {
         <Navbar />
       </Box>
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          zIndex: 1,
-          marginBottom: 26,
-        }}
+      sx={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        zIndex: 1,
+        marginBottom: 26
+      }}
       >
-        <MainSearchBar />
+      <MainSearchBar />
       </Box>
     </Box>
   );
