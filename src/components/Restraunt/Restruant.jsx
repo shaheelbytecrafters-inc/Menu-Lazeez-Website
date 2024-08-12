@@ -5,60 +5,37 @@ import DirectionIcon from '@mui/icons-material/Directions';
 import ShareIcon from '@mui/icons-material/Share';
 import { useState } from "react";
 import "./Restaurant.css"
-// import Slider from "react-slick";
-// import { baseUrl } from "./config";
-
-// const GalleryModal = styled(Modal)({
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-// });
-
-const ImageGalleryModal = styled(Modal)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-}))
 
 const Restruant = () => {
-  const [showGalleryModal, setShowGalleryModal] = useState(false)
-
-  // const handleHideGalleryModal = () =>{
-  //   setShowGalleryModal(false)
-  //   console.log(showGalleryModal)
-  // }
-  // const handleShowGalleryModal = () =>{
-  //   setShowGalleryModal(true)
-  //   console.log(showGalleryModal)
-  // }
-
   return (
     <Box
-      width={'100vw'}
       display={'flex'}
-      justifyContent={'center'}
-      mx={'20px'}
-      bgcolor={'blue'}
+      flexDirection={'column'}
+      width={'100vw'}
+      height={'100vh'}
     >
       <Box
-        sx={{
+         sx={{
           overflowX: 'hidden',
-          width: '100vw',
-          height: '100vh',
+          boxSizing: 'border-box',
+          px: {xs: '0px', sm: '10px', md:'50px', lg: '90px'},
+          flexWrap: 'wrap'  
         }}
       >
         {/* Header  */}
 
         <Box
           display={'flex'}
+          boxSizing={'border-box'}
           flexDirection={'row'}
           height={'7vh'}
           bgcolor={'white'}
           position={'relative'}
-          py={'10px'}
-          px={'10px'}
           alignItems={'center'}
           justifyContent={'space-evenly'}
+          sx={{
+            p:{xs: '0', sm: '5', md: "20px", lg: '40px'}
+          }}
         >
           <Typography variant="h6">
             Restro-web
@@ -71,42 +48,34 @@ const Restruant = () => {
 
         {/* MainSection  */}
         <Box
-          height={'93vh'}
+            display={'flex'}
+            flexDirection={'column'}
+            height={'93vh'}
+
         >
 
           {/* Gallary  */}
           <Box
             className='restroGallery'
-            sx={{
-              width: '80vw',
-              height: 'auto',
-              my: '5px',
-              bgcolor: 'red',
-              padding: '2px',
-            }}
-          // onClick={handleShowGalleryModal}
+            height={'35vw'}
           >
-            {itemData.map((item, indx)=>(
-              <Box id={`box-${indx+1}`} className='box'>
+            {/* {itemData.map((item, indx) => (
+              <Box id={`box-${indx + 1}`} className='box'>
                 <img src={item.img} alt={item.title} />
               </Box>
-            ))}
-            {/* <div class="box" id="box-1">box-1</div>
+            ))} */}
+            <div class="box" id="box-1">box-1</div>
             <div class="box" id="box-2">box-2</div>
             <div class="box" id="box-4">box-4</div>
-            <div class="box" id="box-3">box-3</div> */}
+            <div class="box" id="box-3">box-3</div>
           </Box>
-
-          {/* <ImageGalleryModal open={showGalleryModal}></ImageGalleryModal> */}
-
-          {/* Info-div  */}
 
           <Box
             display={'flex'}
             justifyContent={'space-between'}
-            height={'150px'}
+            // height={'150px'}
           >
-            <Box flex={1} mx={'40px'}>
+            <Box flex={1} >
               <Typography variant="h6" color="black">
                 Biryani Blues
               </Typography>

@@ -25,7 +25,6 @@ const Hero = () => {
           top: 0,
           left: 0,
           width: '100vw',
-          zIndex: 1,
           marginTop: 1,
         }}
       >
@@ -33,12 +32,11 @@ const Hero = () => {
       </Box>
       <Box
       sx={{
-        position: 'absolute',
         bottom: 0,
         left: 0,
         width: '100%',
+        height: '100%',
         zIndex: 1,
-        marginBottom: 26
       }}
       >
       <MainSearchBar />
