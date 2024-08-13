@@ -14,43 +14,8 @@ const foods = [
     name: 'Pizza',
     image: 'https://wallup.net/wp-content/uploads/2017/11/22/371886-food-pizza.jpg',
     description: 'Delicious cheese pizza with pepperoni',
-  },
-  {
-    id: 2,
-    name: 'burger',
-    image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
-    description: 'Delicious cheese burger with pepperoni',
-  },
-  {
-    id: 4,
-    name: 'burger',
-    image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
-    description: 'Delicious cheese burger with pepperoni',
-  }, {
-    id: 5,
-    name: 'Pizza',
-    image: 'https://wallup.net/wp-content/uploads/2017/11/22/371886-food-pizza.jpg',
-    description: 'Delicious cheese pizza with pepperoni',
-  },
-  {
-    id: 6,
-    name: 'Pizza',
-    image: 'https://wallup.net/wp-content/uploads/2017/11/22/371886-food-pizza.jpg',
-    description: 'Delicious cheese pizza with pepperoni',
-  },
-  {
-    id: 7,
-    name: 'burger',
-    image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
-    description: 'Delicious cheese burger with pepperoni',
-  },
-  {
-    id: 8,
-    name: 'burger',
-    image: 'https://i0.wp.com/thenutritionadventure.com/wp-content/uploads/2017/07/PourHouseAmericanBurger.jpg?resize=5236%2C3490',
-    description: 'Delicious cheese burger with pepperoni',
-  },
-];
+  }
+ ];
 
 const FlexCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -58,6 +23,7 @@ const FlexCard = styled(Card)(({ theme }) => ({
   margin: '1px',
   padding: '5px',
   cursor: 'pointer',
+
 }));
 
 const CardImage = styled(CardMedia)({
@@ -73,10 +39,10 @@ const ContentBox = styled(CardContent)({
   justifyContent: 'center',
 });
 
-function SearchItem() {
+function LocationModel() {
   return (
-    <Box
-      sx={{  flexDirection: "column", height: "400px",  overflow: 'auto'}}>
+    <Box flexDirection="column"
+    sx={{display: 'flex', alignItems: 'center', justifyContent: "flex-end", backgroundColor: 'green', my:{ xs:'33px', sm:'0px' ,lg:'0px'}}}>
       {foods.map((food) => (
         <FlexCard key={food.id}>
           <CardImage
@@ -98,4 +64,4 @@ function SearchItem() {
   );
 }
 
-export default SearchItem;
+export default LocationModel;
