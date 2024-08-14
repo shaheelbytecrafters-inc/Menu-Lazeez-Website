@@ -24,26 +24,22 @@ const Hero = () => {
           position: 'absolute',
           top: 0,
           left: 0,
-          width: '100%',
-          zIndex: 1,
+          width: '100vw',
           marginTop: 1,
         }}
       >
         <Navbar />
       </Box>
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          zIndex: 1,
-          marginBottom: 26,
-        }}
+      sx={{
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1,
+      }}
       >
-        <MainSearchBar />
+      <MainSearchBar />
       </Box>
     </Box>
   );

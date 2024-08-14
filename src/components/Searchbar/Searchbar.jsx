@@ -7,6 +7,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 const SmallScreenBox = styled(Box)(({ theme }) => ({
   display: 'block',
   alignItems: 'center',
+  backgroundColor: 'red',
   gap: '20px',
   [theme.breakpoints.up("sm")]: {
     display: 'none',
@@ -16,6 +17,8 @@ const SmallScreenBox = styled(Box)(({ theme }) => ({
 const LargeScreenBox = styled(Box)(({ theme }) => ({
   display: 'none',
   alignItems: 'center',
+  width: '100%',
+  justifyContent: 'center',
   [theme.breakpoints.up("sm") ]: {
     display: 'flex',
   }
@@ -26,8 +29,7 @@ const StyledModel = styled(Box)({
   alignItems: 'center',
 });
 
-const Searchbar = ({setOpen}) => {
-  
+const Searchbar = ({setShowModels}) => {  
   const [inputs, setInputs] = useState({
     searchValue: '',
     location: ''
@@ -40,6 +42,11 @@ const Searchbar = ({setOpen}) => {
       [name]: value
     }));
   }; 
+
+  const handleFieldClick = (name) => {
+    setShowModels(name);
+  };
+  
 
   const handleGpsClick = () => {
     if (navigator.geolocation) {
@@ -77,36 +84,28 @@ const Searchbar = ({setOpen}) => {
     }
   };
 
-  useEffect(() => {
-    if (inputs.searchValue !== '') {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-  }, [inputs.searchValue]);
-
   return (
     <Box
       sx={{
-        width: '100%',
+        width: 'auto',
         height: 'auto',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        mx: '0px',
-
       }}
-      mx={2}
     >
-      <SmallScreenBox width={'90%'}>
+      <SmallScreenBox width={'95%'}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column', gap: 1 }}>
           <TextField
             placeholder='Enter location or use GPS'
             variant='outlined'
-            fullWidth
             value={inputs.location}
-            onChange={(e) => setInputs({ ...inputs, location: e.target.value })}
+            name='location'
+            fullWidth
+            onChange={handleInputs}
+            onFocus={() => handleFieldClick('location')}
+            onBlur={()=> handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -128,11 +127,14 @@ const Searchbar = ({setOpen}) => {
             }}
           />
           <TextField
-            placeholder='Search for the restaurant or a dish'
-            variant='outlined'
-            fullWidth
-            value={inputs.searchValue}
-            onChange={(e) => setInputs({ ...inputs, searchValue: e.target.value })}
+             placeholder='Search for the restaurant or a dish'
+             variant='outlined'
+             value={inputs.searchValue}
+             name='searchValue'
+             fullWidth
+             onChange={handleInputs}
+             onFocus={() => handleFieldClick('searchValue')}
+             onBlur={()=> handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -150,21 +152,27 @@ const Searchbar = ({setOpen}) => {
         </Box>
       </SmallScreenBox>
 
-      <LargeScreenBox width={'100%'}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: '0px', justifyContent: 'center' }} mx={9}>
+      <LargeScreenBox>
+          <Box           
+            sx={{flex: 1}}
+          >
           <TextField
             placeholder='Enter location or use GPS'
             variant='outlined'
             value={inputs.location}
             name='location'
+            fullWidth
+            focused 
             onChange={handleInputs}
+            onFocus={() => handleFieldClick('location')}
+            onBlur={()=> handleFieldClick('')}          
 
             sx={{
               backgroundColor: 'white',
-              flex: 1,
-              maxWidth: '250px',
+              borderWidth: '0px',
               borderTopLeftRadius: '12px',
               borderBottomLeftRadius: '12px',
+              ":hover":{borderWidth: '0px'}
             }}
             InputProps={{
               endAdornment: (
@@ -182,18 +190,25 @@ const Searchbar = ({setOpen}) => {
               ),
             }}
           />
+          </Box>
+
+          <Box
+            sx={{flex: 2}}>
           <TextField
             placeholder='Search for the restaurant or a dish'
             variant='outlined'
             value={inputs.searchValue}
             name='searchValue'
+            fullWidth
             onChange={handleInputs}
+            onFocus={() => handleFieldClick('searchValue')}
+            onBlur={()=> handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
-              flex: 2,
-              maxWidth: '600px',              
+              borderWidth: '0px',             
               borderTopRightRadius: '12px',
-              borderBottomRightRadius: '12px'
+              borderBottomRightRadius: '12px',
+              ":hover":{borderWidth: '0px'}
             }}
             InputProps={{
               startAdornment: (
@@ -202,8 +217,8 @@ const Searchbar = ({setOpen}) => {
                 </InputAdornment>
               ),
             }}
-          />
-        </Box>
+          />          
+          </Box>
       </LargeScreenBox>
     </Box>
   );
