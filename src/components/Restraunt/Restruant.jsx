@@ -1,44 +1,73 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material';
 import MainSearchBar from '../Searchbar/MainSearchBar';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DirectionIcon from '@mui/icons-material/Directions';
 import ShareIcon from '@mui/icons-material/Share';
 import './Restaurant.css';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Restruant = () => {
   return (
-    <Box display="flex" flexDirection="column" width="100vw" height="100vh">
+    <Box
+      display="flex"
+      flexDirection="column"
+      width="100vw"
+      justifyContent="center"
+      alignItems="center"
+      boxSizing={'border-box'}
+      px={"3px"}
+
+    >
       <Box
-        sx={{
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          px: { xs: '0px', sm: '10px', md: '50px', lg: '90px' },
-          flexWrap: 'wrap',
-        }}
+        maxWidth={'1000px'}
+        width={'100%'}
       >
         {/* Header */}
         <Box
           display="flex"
-          boxSizing="border-box"
           flexDirection="row"
           height="7vh"
-          bgcolor="white"
           alignItems="center"
           justifyContent="space-between"
-          sx={{
-            p: { xs: '0', sm: '5', md: '20px', lg: '40px' },
-          }}
+          borderBottom={'2px solid gray'}
+          p={'3px'}
         >
-          <Typography variant="h6">Restro-web</Typography>
-          <MainSearchBar />
-          <Box>User</Box>
+          <Typography variant="h6" flex={2} >Restro-web</Typography>
+          <Box display={{ xs: 'none', sm: 'flex' }} flex={6}>
+            <MainSearchBar />
+          </Box>
+          <Box flex={1} display={'flex'} justifyContent={'center'}>User</Box>
+        </Box>
+
+        {/* smallScreenSearchBar */}
+        <Box
+          display={{ xs: 'flex', sm: 'none' }}
+          py={'10px'}
+        >
+          <TextField
+            placeholder='Search for the restaurant or a dish'
+            variant='outlined'
+            name='searchValue'
+            fullWidth
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: "10px",
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         </Box>
 
         {/* Main Section */}
-        <Box display="flex" flexDirection="column" height="93vh">
+        <Box display="flex" flexDirection="column" height="93vh" py={'10px'}>
 
           {/* Gallery */}
-          <Box className="restroGallery" sx={{width:"auto",height:"60vh"}}>
+          <Box className="restroGallery" sx={{ width: "auto", height: "60vh" }}>
             {itemData.map((item, index) => (
               <Box key={index} id={`box-${index + 1}`} className="box">
                 <img src={item.img} alt={item.title} />
@@ -46,12 +75,14 @@ const Restruant = () => {
             ))}
           </Box>
 
+          {/* Info  */}
           <Box display="flex" justifyContent="space-between" mt={2}>
             <Box flex={1}>
               <Typography variant="h6" color="black">
                 Biryani Blues
               </Typography>
               <Typography>Biryani, Hydrabadi, Mughlai</Typography>
+
               <Box display="flex" gap={1} mt={1}>
                 <Button
                   variant="outlined"
@@ -93,6 +124,7 @@ const Restruant = () => {
             </Box>
           </Box>
 
+          {/* Bottom Section */}
           <Box display="flex" gap={3} borderBottom="1px solid gray" mx="10px" mt={2}>
             <Button>Overview</Button>
             <Button>Order Online</Button>

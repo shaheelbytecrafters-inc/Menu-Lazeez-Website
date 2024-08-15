@@ -7,7 +7,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 const SmallScreenBox = styled(Box)(({ theme }) => ({
   display: 'block',
   alignItems: 'center',
-  backgroundColor: 'red',
   gap: '20px',
   [theme.breakpoints.up("sm")]: {
     display: 'none',
@@ -19,17 +18,28 @@ const LargeScreenBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   width: '100%',
   justifyContent: 'center',
-  [theme.breakpoints.up("sm") ]: {
+  [theme.breakpoints.up("sm")]: {
     display: 'flex',
   }
 }));
 
-const StyledModel = styled(Box)({
-  justifyContent: 'center',
-  alignItems: 'center',
-});
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  backgroundColor: 'white',
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
+    },
+    "&:hover fieldset": {
+      border: "none",
+    },
+    "&:hover": {
+      borderWidth: '0px',
+    },
+  },
+}));
 
-const Searchbar = ({setShowModels}) => {  
+
+const Searchbar = ({ setShowModels }) => {
   const [inputs, setInputs] = useState({
     searchValue: '',
     location: ''
@@ -41,12 +51,12 @@ const Searchbar = ({setShowModels}) => {
       ...prevInputs,
       [name]: value
     }));
-  }; 
+  };
 
   const handleFieldClick = (name) => {
     setShowModels(name);
   };
-  
+
 
   const handleGpsClick = () => {
     if (navigator.geolocation) {
@@ -105,7 +115,7 @@ const Searchbar = ({setShowModels}) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('location')}
-            onBlur={()=> handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -127,14 +137,14 @@ const Searchbar = ({setShowModels}) => {
             }}
           />
           <TextField
-             placeholder='Search for the restaurant or a dish'
-             variant='outlined'
-             value={inputs.searchValue}
-             name='searchValue'
-             fullWidth
-             onChange={handleInputs}
-             onFocus={() => handleFieldClick('searchValue')}
-             onBlur={()=> handleFieldClick('')}
+            placeholder='Search for the restaurant or a dish'
+            variant='outlined'
+            value={inputs.searchValue}
+            name='searchValue'
+            fullWidth
+            onChange={handleInputs}
+            onFocus={() => handleFieldClick('searchValue')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -156,7 +166,7 @@ const Searchbar = ({setShowModels}) => {
           <Box           
             sx={{flex: 1}}
           >
-          <TextField
+          <CustomTextField
             placeholder='Enter location or use GPS'
             variant='outlined'
             value={inputs.location}
@@ -194,7 +204,7 @@ const Searchbar = ({setShowModels}) => {
 
           <Box
             sx={{flex: 2}}>
-          <TextField
+          <CustomTextField
             placeholder='Search for the restaurant or a dish'
             variant='outlined'
             value={inputs.searchValue}
@@ -220,6 +230,26 @@ const Searchbar = ({setShowModels}) => {
           />          
           </Box>
       </LargeScreenBox>
+
+{/* <TextField
+      variant="outlined"
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            border: 'none',
+          },
+          '&:hover fieldset': {
+            border: 'none',
+          },
+        },
+        '& .MuiOutlinedInput-input': {
+          '&:hover': {
+            backgroundColor: 'transparent', // Ensure no hover effect
+          },
+        },
+      }}
+      placeholder="No border on hover"
+    /> */}
     </Box>
   );
 }
