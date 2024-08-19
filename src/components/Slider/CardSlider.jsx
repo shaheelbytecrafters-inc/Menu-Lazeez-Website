@@ -1,100 +1,115 @@
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Box, Button, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
 
 // Custom styles for the arrow buttons
-const ArrowButton = styled(Box)(({ direction, isHidden }) => ({
+const ArrowButton = styled(Box)(({ direction }) => ({
   position: "absolute",
   top: "50%",
   transform: "translateY(-50%)",
   cursor: "pointer",
   zIndex: 1,
-  [direction]: direction === "left" ? "-40px" : "-23px", // Adjust this value to move the button further from the card
-  display: isHidden ? "none" : "block", // Hide the button if it's at the edge
+  [direction]: direction === "left" ? "-10px" : "-10px", // Adjust this value to position the button
 }));
 
-function CardSlider() {
-  const [hideLeftArrow, setHideLeftArrow] = useState(true);
-  const [hideRightArrow, setHideRightArrow] = useState(false);
+// Custom Arrow Components
+const PrevArrow = ({ onClick }) => (
+  <ArrowButton direction="left" onClick={onClick}>
+    <IconButton
+      sx={{
+        color: "white",
+        background: "#D32F2F", // Initial background color
+        "&:hover": {
+          background: "#B71C1C", // Darker background color on hover
+        },
+      }}
+    >
+      <ArrowBackIosIcon />
+    </IconButton>
+  </ArrowButton>
+);
 
+const NextArrow = ({ onClick }) => (
+  <ArrowButton direction="right" onClick={onClick}>
+    <IconButton
+      sx={{
+        color: "white",
+        background: "#D32F2F", // Initial background color
+        "&:hover": {
+          background: "#B71C1C", // Darker background color on hover
+        },
+      }}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
+  </ArrowButton>
+);
+
+function CardSlider() {
   const cards = [
     {
-      title: "Card 1",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3jTszSflQt-SjZGIWqJRegF0GrAVzpCQtg&s",
-      description: "Description 1",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 1",
+      description: "Description for Restaurant 1",
     },
     {
-      title: "Card 2",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3jTszSflQt-SjZGIWqJRegF0GrAVzpCQtg&s",
-      description: "Description 2",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 2",
+      description: "Description for Restaurant 2",
     },
     {
-      title: "Card 3",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3jTszSflQt-SjZGIWqJRegF0GrAVzpCQtg&s",
-      description: "Description 3",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 3",
+      description: "Description for Restaurant 3",
     },
     {
-      title: "Card 4",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3jTszSflQt-SjZGIWqJRegF0GrAVzpCQtg&s",
-      description: "Description 4",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 4",
+      description: "Description for Restaurant 4",
     },
     {
-      title: "Card 5",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3jTszSflQt-SjZGIWqJRegF0GrAVzpCQtg&s",
-      description: "Description 5",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 5",
+      description: "Description for Restaurant 5",
     },
+    {
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+      title: "Restaurant 6",
+      description: "Description for Restaurant 6",
+    },
+    // Add more cards as needed
   ];
 
   const settings = {
     dots: false,
-    infinite: false, // Set to false to show/hide arrows at edges
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1, // Scrolls one card at a time
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    nextArrow: (
-      <ArrowButton direction="right" isHidden={hideRightArrow}>
-        <IconButton
-          sx={{
-            color: "white",
-            background: "#D32F2F", // Initial background color
-
-            "&:hover": {
-              background: "#D32F2F", // Background color on hover
-            },
-          }}
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
-      </ArrowButton>
-    ),
-    prevArrow: (
-      <ArrowButton direction="left" isHidden={hideLeftArrow}>
-        <IconButton
-          sx={{
-            color: "white",
-            background: "#D32F2F", // Initial background color
-            "&:hover": {
-              background: "#D32F2F", // Background color on hover
-            },
-          }}
-        >
-          <ArrowBackIosIcon />
-        </IconButton>
-      </ArrowButton>
-    ),
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    centerMode: false, // Ensure consistent spacing
+    centerPadding: "0", // Ensure no additional padding is added in the center mode
     responsive: [
       {
         breakpoint: 1024,
@@ -104,7 +119,7 @@ function CardSlider() {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -118,12 +133,6 @@ function CardSlider() {
         },
       },
     ],
-    beforeChange: (current, next) => {
-      // Hide the left arrow when on the first slide
-      setHideLeftArrow(next === 0);
-      // Hide the right arrow when on the last slide
-      setHideRightArrow(next === cards.length - settings.slidesToShow);
-    },
   };
 
   return (
@@ -157,27 +166,28 @@ function CardSlider() {
 
       <Box
         sx={{
-          width: "90%",
+          width: "100%",
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "20px 0",
           position: "relative",
         }}
       >
-        <Slider {...settings} sx={{ background: "red" }}>
+        <Slider {...settings}>
           {cards.map((card, index) => (
             <Box
               key={index}
               sx={{
-                padding: "0 5px", // Adjusted padding to include space around each card
+                padding: "0 5px", // Reduced space around each card to ~5px
+                boxSizing: "border-box",
               }}
             >
               <Card
                 sx={{
-                  width: "calc(100% - 10px)", // Adjusted width to account for the padding on both sides
                   borderRadius: "10px",
                   overflow: "hidden",
                   boxShadow: 3,
+                  width: "100%", // Full width for responsiveness
                 }}
               >
                 <CardMedia
@@ -195,7 +205,6 @@ function CardSlider() {
                   </Typography>
                   <Button
                     variant="contained"
-                    color="primary"
                     size="small"
                     fullWidth
                     sx={{
