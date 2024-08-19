@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useState } from "react";
 
 // Custom styles for the arrow buttons
-const ArrowButton = styled("div")(({ direction, isHidden }) => ({
+const ArrowButton = styled(Box)(({ direction, isHidden }) => ({
   position: "absolute",
   top: "50%",
   transform: "translateY(-50%)",
   cursor: "pointer",
   zIndex: 1,
-  [direction]: "-20px", // Positioning the arrow slightly outside the slider for a Zomato-like design
+  [direction]: direction === "left" ? "-40px" : "-23px", // Adjust this value to move the button further from the card
   display: isHidden ? "none" : "block", // Hide the button if it's at the edge
-  color: "#000", // Black color for the icons
 }));
 
 function CardSlider() {
@@ -66,12 +66,33 @@ function CardSlider() {
     autoplaySpeed: 3000,
     nextArrow: (
       <ArrowButton direction="right" isHidden={hideRightArrow}>
-        <ArrowForwardIosIcon />
+        <IconButton
+          sx={{
+            color: "white",
+            background: "#D32F2F", // Initial background color
+
+            "&:hover": {
+              background: "#D32F2F", // Background color on hover
+            },
+          }}
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
       </ArrowButton>
     ),
     prevArrow: (
       <ArrowButton direction="left" isHidden={hideLeftArrow}>
-        <ArrowBackIosIcon />
+        <IconButton
+          sx={{
+            color: "white",
+            background: "#D32F2F", // Initial background color
+            "&:hover": {
+              background: "#D32F2F", // Background color on hover
+            },
+          }}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
       </ArrowButton>
     ),
     responsive: [
@@ -106,9 +127,34 @@ function CardSlider() {
   };
 
   return (
-    <Box sx={{ paddingTop: "50px" , paddingBottom:"50px"}}>
-      {" "}
-      {/* Added padding from the top */}
+    <Box sx={{ paddingTop: "50px", paddingBottom: "50px" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: {
+            xs: "1.4rem",
+            sm: "1.5rem",
+            md: "1.7rem",
+            lg: "2rem",
+          },
+          pl: {
+            xs: 2,
+            sm: 4,
+            md: 6,
+            lg: 8,
+          },
+          pb: {
+            xs: 0.8,
+            sm: 1,
+            md: 2,
+            lg: 3,
+          },
+          fontWeight: "bold",
+        }}
+      >
+        Popular restaurants
+      </Typography>
+
       <Box
         sx={{
           width: "90%",
@@ -118,7 +164,7 @@ function CardSlider() {
           position: "relative",
         }}
       >
-        <Slider {...settings}>
+        <Slider {...settings} sx={{ background: "red" }}>
           {cards.map((card, index) => (
             <Box
               key={index}
@@ -147,6 +193,23 @@ function CardSlider() {
                   <Typography variant="body2" color="text.secondary">
                     {card.description}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    fullWidth
+                    sx={{
+                      mt: "5px",
+                      mb: 2,
+                      backgroundColor: "#D32F2F", // Set button background color
+                      color: "white", // Set button text color
+                      "&:hover": {
+                        backgroundColor: "#B71C1C", // Darker shade for hover effect
+                      },
+                    }}
+                  >
+                    Order now
+                  </Button>
                 </CardContent>
               </Card>
             </Box>

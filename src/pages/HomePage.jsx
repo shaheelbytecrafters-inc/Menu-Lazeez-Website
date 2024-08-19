@@ -2,7 +2,7 @@
 import { Box } from '@mui/material';
 import Hero from '../components/Header/Hero';
 import CardSlider from '../components/Slider/CardSlider';
-import Icon from '../components/Slider/Icon';
+import IconComponent from '../components/Slider/IconComponent';
 
 const HomePage = () => {
   return (
@@ -12,7 +12,7 @@ const HomePage = () => {
     >
     <Hero />
     <CardSlider/>
-    <Icon/>
+    <IconComponent/>
     </Box>
   );
 };
