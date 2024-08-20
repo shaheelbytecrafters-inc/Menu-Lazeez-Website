@@ -172,7 +172,7 @@ const Searchbar = ({ setShowModels }) => {
             value={inputs.location}
             name='location'
             fullWidth
-            focused 
+            // focused 
             onChange={handleInputs}
             onFocus={() => handleFieldClick('location')}
             onBlur={()=> handleFieldClick('')}          
