@@ -6,6 +6,61 @@ import ShareIcon from '@mui/icons-material/Share';
 import './Restaurant.css';
 
 const Restruant = () => {
+
+
+  // adfadf
+
+  const settings = {
+    dots: true,
+    lazyLoad: 'ondemand',
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  const [open, setOpen] = useState(false);
+  const sliderRef = useRef(null);
+  useEffect(() => {
+    if (open && sliderRef.current) {
+      sliderRef.current.slickGoTo(0);
+    }
+  }, [open]);
+
+  const [value, setValue] = useState(0);
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => setOpen(false)
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box sx={{ my: '10px' }} >{children}</Box>}
+      </div>
+    );
+  }
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+
   return (
     <Box
       display="flex"
