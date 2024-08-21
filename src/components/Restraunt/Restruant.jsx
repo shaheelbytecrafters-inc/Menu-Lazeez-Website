@@ -46,6 +46,8 @@ const style = {
 
 const Restruant = () => {
 
+  // adfadf
+
   const settings = {
     dots: true,
     lazyLoad: 'ondemand',
