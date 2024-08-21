@@ -27,7 +27,7 @@ const RestaurantOverview = () => {
                                 key={index}
                                 label={cuisine}
                                 variant="outlined"
-                                onClick={console.log('hi')}
+                                // onClick={console.log('hi')}
                                 sx={{
                                     borderRadius: '20px',
                                     fontSize: '14px',

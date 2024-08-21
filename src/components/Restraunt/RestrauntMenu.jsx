@@ -33,3 +33,16 @@ const MenuGrid = () => (
 );
 
 export default MenuGrid;
+
+const menuItems = [
+  {
+    image: 'https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg',
+    title: 'Food Menu',
+    pages: '7 pages',
+  },
+  {
+    image: 'https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg',
+    title: 'Beverages',
+    pages: '5 pages',
+  },
+];
