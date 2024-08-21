@@ -7,7 +7,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 const SmallScreenBox = styled(Box)(({ theme }) => ({
   display: 'block',
   alignItems: 'center',
-  backgroundColor: 'red',
   gap: '20px',
   [theme.breakpoints.up("sm")]: {
     display: 'none',

@@ -34,11 +34,24 @@ const Footer = () => {
 
   return (
     <Box
+    display="flex"
+      flexDirection="column"
+      width="100vw"
+      justifyContent="center"
+      alignItems="center"
+      boxSizing={'border-box'}
+      px={"3px"}
+      bgcolor={'#f8f8f8'}
+    >
+
+    <Box
       sx={{
         pt: "50px",
         px: { xs: "5px", md: "50px" },
         textAlign: "center",
         color: "#666",
+        maxWidth:'1115px',
+        width:'100%'
       }}
     >
       {/* Header with Dropdowns */}
@@ -60,7 +73,7 @@ const Footer = () => {
       >
         {/* Headline */}
         <Typography variant="h4" sx={{ color: "black", fontWeight: "bold" }}>
-          RESTRO
+          Lazeez
         </Typography>
 
         {/* Dropdowns - Stack vertically on mobile */}
@@ -407,8 +420,9 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <Box sx={{ marginTop: "20px", fontSize: "14px", color: "#aaa", paddingBottom:"30px" }}>
-        <Typography>© 2024 Restro. All Rights Reserved.</Typography>
+        <Typography>© 2024 Lazeez. All Rights Reserved.</Typography>
       </Box>
+    </Box>
     </Box>
   );
 };
