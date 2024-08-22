@@ -13,6 +13,7 @@ import {
 import { styled } from "@mui/system";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Link } from "react-router-dom";
 
 // Custom styles for the arrow buttons
 const ArrowButton = styled(Box)(({ direction }) => ({
@@ -61,37 +62,37 @@ function CardSlider() {
   const cards = [
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 1",
       description: "Description for Restaurant 1",
     },
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 2",
       description: "Description for Restaurant 2",
     },
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 3",
       description: "Description for Restaurant 3",
     },
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 4",
       description: "Description for Restaurant 4",
     },
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 5",
       description: "Description for Restaurant 5",
     },
     {
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EbtAMkvjstpwiT8oSwwiPDJXVpC_KAaHdw&s",
+        "https://assets.cntraveller.in/photos/63d8e5103d7229d4cf308f01/16:9/w_1024%2Cc_limit/Prequel-lead.jpg",
       title: "Restaurant 6",
       description: "Description for Restaurant 6",
     },
@@ -175,8 +176,9 @@ function CardSlider() {
       >
         <Slider {...settings}>
           {cards.map((card, index) => (
+            <Link to="/restrauntname" style={{textDecoration:"none"}} key={index}>
             <Box
-              key={index}
+              
               sx={{
                 padding: "0 5px", // Reduced space around each card to ~5px
                 boxSizing: "border-box",
@@ -222,6 +224,7 @@ function CardSlider() {
                 </CardContent>
               </Card>
             </Box>
+            </Link>
           ))}
         </Slider>
       </Box>
