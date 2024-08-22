@@ -25,7 +25,6 @@ const MainSearchBar = () => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          // width: '60%',
           maxWidth: '777px',
           zIndex: 1,
           borderRadius: '12px'
@@ -46,16 +45,7 @@ const MainSearchBar = () => {
           justifyContent: 'center',
         }}
       >
-        {/* <Box 
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        > */}
           {showModels == 'searchValue' ? <SearchbarModel/> : showModels == 'location' ? <LocationModel/> : <></> }
-        {/* </Box> */}
       </Box>
     </Box>
 

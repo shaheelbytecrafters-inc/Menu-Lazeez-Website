@@ -6,39 +6,128 @@ import ShareIcon from '@mui/icons-material/Share';
 import './Restaurant.css';
 
 const Restruant = () => {
+
+
+  // adfadf
+
+  const settings = {
+    dots: true,
+    lazyLoad: 'ondemand',
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  const [open, setOpen] = useState(false);
+  const sliderRef = useRef(null);
+  useEffect(() => {
+    if (open && sliderRef.current) {
+      sliderRef.current.slickGoTo(0);
+    }
+  }, [open]);
+
+  const [value, setValue] = useState(0);
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => setOpen(false)
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box sx={{ my: '10px' }} >{children}</Box>}
+      </div>
+    );
+  }
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+
   return (
-    <Box display="flex" flexDirection="column" width="100vw" height="100vh">
+    <Box
+      display="flex"
+      flexDirection="column"
+      width="100vw"
+      justifyContent="center"
+      alignItems="center"
+      boxSizing={'border-box'}
+      px={"3px"}
+
+    >
+      {console.log('a')}
       <Box
-        sx={{
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          px: { xs: '0px', sm: '10px', md: '50px', lg: '90px' },
-          flexWrap: 'wrap',
-        }}
+        maxWidth={'1115px'}
+        width={'100%'}
       >
         {/* Header */}
         <Box
           display="flex"
-          boxSizing="border-box"
           flexDirection="row"
           height="7vh"
-          bgcolor="white"
           alignItems="center"
           justifyContent="space-between"
-          sx={{
-            p: { xs: '0', sm: '5', md: '20px', lg: '40px' },
-          }}
+          p={'3px'}
+          borderRadius={'12px'}
         >
-          <Typography variant="h6">Restro-web</Typography>
-          <MainSearchBar />
-          <Box>User</Box>
+          <Typography variant="h5" flex={2} fontWeight={'bold'}>Restro-web</Typography>
+          <Box display={{ xs: 'none', sm: 'flex' }} flex={6}>
+            <MainSearchBar />
+          </Box>
+          <Box flex={1} display={'flex'} justifyContent={'flex-end'}>User</Box>
+        </Box>
+
+        <Divider />
+
+        {/* smallScreenSearchBar */}
+        <Box
+          display={{ xs: 'flex', sm: 'none' }}
+          py={'10px'}
+          position={'sticky'}
+          top={0}
+          zIndex={10}
+        >
+          <TextField
+            placeholder='Search for the restaurant or a dish'
+            variant='outlined'
+            name='searchValue'
+            fullWidth
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: "10px",
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         </Box>
 
         {/* Main Section */}
         <Box display="flex" flexDirection="column" height="93vh">
 
           {/* Gallery */}
-          <Box className="restroGallery" sx={{width:"auto",height:"60vh"}}>
+          <Box className="restroGallery" sx={{ width: "auto", }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
             {itemData.map((item, index) => (
               <Box key={index} id={`box-${index + 1}`} className="box">
                 <img src={item.img} alt={item.title} />
@@ -48,47 +137,110 @@ const Restruant = () => {
 
           <Box display="flex" justifyContent="space-between" mt={2}>
             <Box flex={1}>
-              <Typography variant="h6" color="black">
+              <Typography variant="h4" color="black">
                 Biryani Blues
               </Typography>
               <Typography>Biryani, Hydrabadi, Mughlai</Typography>
+              <Typography>DLF Avenue, Saket, New Delhi</Typography>
+              <Typography>Opens - 9:30 - 10:00</Typography>
+
               <Box display="flex" gap={1} mt={1}>
                 <Button
                   variant="outlined"
                   size="small"
-                  startIcon={<DirectionIcon />}
-                  sx={{ backgroundColor: 'transparent', color: 'red' }}
+                  startIcon={<DirectionIcon sx={{ color: 'red' }} />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                    color: 'black',
+                    borderColor: 'lightgray'
+                  }}
                 >
                   Direction
                 </Button>
                 <Button
                   variant="outlined"
-                  color="primary"
                   size="small"
-                  startIcon={<BookmarkIcon />}
-                  sx={{ backgroundColor: 'transparent' }}
+                  startIcon={<BookmarkIcon sx={{ color: 'red' }} />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                    color: 'black',
+                    borderColor: 'lightgray'
+                  }}
                 >
                   Bookmark
                 </Button>
                 <Button
                   variant="outlined"
                   size="small"
-                  startIcon={<ShareIcon />}
-                  sx={{ backgroundColor: 'transparent', color: 'red' }}
+                  startIcon={<ShareIcon sx={{ color: 'red' }} />}
+                  sx={{
+                    backgroundColor: 'transparent',
+                    color: 'black',
+                    borderColor: 'lightgray'
+                  }}
                 >
                   Share
                 </Button>
               </Box>
+
             </Box>
-            <Box flex={1} position="relative">
-              <Box position="absolute" top="0" right="0">
-                <Button sx={{ color: 'blue' }}>2849 ratings</Button>
-                <Button>
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="h6">3.5k</Typography>
-                    <Typography variant="body2">Delivery Ratings</Typography>
-                  </Box>
-                </Button>
+            <Box display="flex" gap={2}>
+              <RatingBox rating="4.4" count="935" label="Dining Ratings" />
+              <RatingBox rating="4.2" count="1,671" label="Delivery Ratings" />
+            </Box>
+          </Box>
+
+          {/* Bottom Section */}
+
+          {/* SmallScreenContentSection  */}
+          <Box display={{ xs: 'flex', sm: 'none' }}>
+            <Box boxSizing={'border-box'}>
+              <Box sx={{ marginTop: '20px' }} boxSizing={'border-box'}>
+                {data.map((item, index) => (
+                  <CustomCard
+                    key={index}
+                    icon={item.icon}
+                    title={item.title}
+                    offer={item.offer}
+                    bgColor={item.bgColor}
+                  />
+                ))}
+              </Box>
+
+              <Box boxSizing={'border-box'}>
+                <Box marginTop={"7px"} padding={'3px'} display={'flex'} justifyContent={'space-between'}>
+                  <Typography
+                    variant='h6'
+                  >
+                    Menu
+                  </Typography>
+                  <Typography>
+                    View all menus
+                  </Typography>
+
+                </Box>
+                <Grid container spacing={1} justifyContent="center" alignItems={'center'}>
+                  {menuItems.map((item, index) => (
+                    <Grid item key={index}>
+                      <MenuCard image={item.image} title={item.title} pages={item.pages} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+
+              {/* CostumerReview  */}
+              <Box mx={'5px'} my={'10px'}>
+                <Typography variant='h6'>Reviews</Typography>
+                <RestaurantReviewUserCard />
+              </Box>
+
+              {/* RestaurantsRecommendtaion  */}
+              <Box mx={'5px'}>
+                <Typography variant='h6' sx={{ marginBottom: '10px' }}>Recommended Restraunts</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '9px' }} >
+                  <RestaurantCard />
+                  <RestaurantCard />
+                </Box>
               </Box>
             </Box>
           </Box>
