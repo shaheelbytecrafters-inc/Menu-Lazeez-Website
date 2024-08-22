@@ -58,6 +58,7 @@ const FlexCard = styled(Card)(({ theme }) => ({
   margin: '1px',
   padding: '5px',
   cursor: 'pointer',
+  
 }));
 
 const CardImage = styled(CardMedia)({
@@ -76,15 +77,18 @@ const ContentBox = styled(CardContent)({
 function SearchItem() {
   return (
     <Box
-      sx={{  flexDirection: "column", height: "400px",  overflow: 'auto'}}>
+      sx={{ flexDirection: "column", height: "400px", overflow: 'auto' }}>
       {foods.map((food) => (
-        <FlexCard key={food.id}>
+        <FlexCard key={food.id}
+        >
           <CardImage
             component="img"
             image={food.image}
             alt={food.name}
+            onClick={console.log("clicked")}
           />
-          <ContentBox>
+          <ContentBox
+          >
             <Typography gutterBottom variant="h6" component="div">
               {food.name}
             </Typography>

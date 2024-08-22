@@ -8,9 +8,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DeliverPage from "../Delivery/DeliveryPage";
 import LiquorIcon from "@mui/icons-material/Liquor";
-import { Icon } from "@iconify/react";
-import forkAndKnifeWithPlate from "@iconify-icons/fluent-emoji-flat/fork-and-knife-with-plate";
-import notoMotorScooter from "@iconify-icons/noto/motor-scooter";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,7 +65,7 @@ export default function RestaurantMainTab() {
         position="static"
         sx={{
           bgcolor: "#fff",
-          boxShadow:"none"
+          boxShadow: "none"
           // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -109,15 +106,13 @@ export default function RestaurantMainTab() {
           }}
         >
           <Tab
-            icon={
-              <Icon icon={forkAndKnifeWithPlate} style={{ fontSize: "24px" }} />
-            }
+            icon={<LiquorIcon style={{ fontSize: "24px" }} />}
             label="Dining"
             {...a11yProps(0)}
           />
 
           <Tab
-            icon={<Icon icon={notoMotorScooter} style={{ fontSize: "24px" }} />}
+            icon={<LiquorIcon style={{ fontSize: "24px" }} />}
             label="Delivery"
             {...a11yProps(1)}
           />
