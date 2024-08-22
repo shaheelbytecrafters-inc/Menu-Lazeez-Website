@@ -68,6 +68,8 @@ export default function RestaurantMainTab() {
         sx={{
           bgcolor: "#fff",
           boxShadow: "none",
+
+
         }}
       >
         <Tabs
