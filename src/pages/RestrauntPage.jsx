@@ -5,6 +5,8 @@ const RestrauntPage = () => {
   return (
     <Box width={'auto'} height={'full'}>
       <Restruant />
+      
+
     </Box>
   );
 }

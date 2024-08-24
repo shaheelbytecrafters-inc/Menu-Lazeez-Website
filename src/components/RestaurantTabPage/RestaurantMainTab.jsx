@@ -10,7 +10,6 @@ import DeliverPage from "../Delivery/DeliveryPage";
 import LiquorIcon from "@mui/icons-material/Liquor";
 import FlatwareIcon from "@mui/icons-material/Flatware";
 import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
-import DinningComponent from "../Dinning/DinningComponent";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,7 +25,7 @@ function TabPanel(props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "100%", // Ensure full height for the panel
+        height: "100%",
       }}
     >
       {value === index && (
@@ -69,8 +68,9 @@ export default function RestaurantMainTab() {
         sx={{
           bgcolor: "#fff",
           boxShadow: "none",
-
-
+          marginInline: {
+            lg: "5rem",
+          },
         }}
       >
         <Tabs
@@ -87,7 +87,7 @@ export default function RestaurantMainTab() {
           }}
           sx={{
             "& .MuiTab-root": {
-              color: "gray",
+              color: "black",
               "&.Mui-selected": {
                 color: "#D32F2F", // Red color for selected tab
               },
@@ -95,41 +95,92 @@ export default function RestaurantMainTab() {
                 color: "#D32F2F", // Red color on hover
               },
               display: "flex",
-              alignItems: "center", // Align items vertically in the center
-              justifyContent: "center", // Center items horizontally
-              flexDirection: "row", // Ensure icon and label are in the same row
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
               minHeight: "auto",
-              padding: "20px 30px", // Adjust padding as needed
-              fontSize: "1rem",
+              padding: isSmallScreen ? "10px 15px" : "20px 30px", // Adjust padding for small screens
+              fontSize: isSmallScreen ? "1rem" : "1.5rem", // Adjust font size for small screens
               fontWeight: "bold",
-              textTransform: "none", // Prevent uppercase transformation
+              textTransform: "none",
             },
             "& .MuiTab-iconWrapper": {
-              marginRight: "8px", // Space between icon and label
+              marginRight: "8px",
+              fontSize: isSmallScreen ? "20px" : "30px", // Adjust icon size for small screens
             },
           }}
         >
           <Tab
-            icon={<FlatwareIcon style={{ fontSize: "24px" }} />}
+            icon={
+              <Box
+                sx={{
+                  padding: isSmallScreen ? "0.5rem" : "0.9rem", // Adjust padding for small screens
+                  borderRadius: "50%",
+                  backgroundColor: value === 0 ? "#bdf2f0" : "#fff",
+                  transition: "background-color 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "#bdf2f0",
+                  },
+                }}
+              >
+                <FlatwareIcon
+                  style={{ fontSize: isSmallScreen ? "20px" : "30px" }}
+                />
+              </Box>
+            }
             label="Dining"
             {...a11yProps(0)}
           />
 
           <Tab
-            icon={<TwoWheelerIcon style={{ fontSize: "24px" }} />}
+            icon={
+              <Box
+                sx={{
+                  padding: isSmallScreen ? "0.5rem" : "0.9rem", // Adjust padding for small screens
+                  borderRadius: "50%",
+                  backgroundColor: value === 1 ? "#f7cd59" : "#fff",
+                  transition: "background-color 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "#f7cd59",
+                  },
+                }}
+              >
+                <TwoWheelerIcon
+                  style={{ fontSize: isSmallScreen ? "20px" : "30px" }}
+                />
+              </Box>
+            }
             label="Delivery"
             {...a11yProps(1)}
           />
 
           <Tab
-            icon={<LiquorIcon style={{ fontSize: "24px" }} />}
+            icon={
+              <Box
+                sx={{
+                  padding: isSmallScreen ? "0.5rem" : "0.9rem", // Adjust padding for small screens
+                  borderRadius: "50%",
+                  backgroundColor: value === 2 ? "#bdf2f0" : "#fff",
+                  transition: "background-color 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "#bdf2f0",
+                  },
+                }}
+              >
+                <LiquorIcon
+                  style={{ fontSize: isSmallScreen ? "20px" : "30px" }}
+                />
+              </Box>
+            }
             label="Nightlife"
             {...a11yProps(2)}
           />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction} sx={{ width: "100%" }}>
-        <DinningComponent/>
+      <TabPanel value={value} index={0} dir={theme.direction}>
+        <Typography variant="h1" component="h1">
+          Dining Out
+        </Typography>
       </TabPanel>
       <TabPanel
         value={value}
