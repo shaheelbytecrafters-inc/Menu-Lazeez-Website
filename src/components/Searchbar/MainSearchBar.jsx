@@ -15,23 +15,16 @@ const MainSearchBar = () => {
   const [showModels, setShowModels] = useState('')
   return (
     <Box
-      width="100%"
-      height="100%"
-      position="relative"
+      sx={{
+        width: '100%',
+        height: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
     >
-      <SearchBox
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          maxWidth: '777px',
-          zIndex: 1,
-          borderRadius: '12px'
-        }}
-      >
         <Searchbar setShowModels={setShowModels} />
-      </SearchBox>
       <Box
         sx={{
           position: 'absolute',

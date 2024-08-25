@@ -77,7 +77,9 @@ const ContentBox = styled(CardContent)({
 function SearchItem() {
   return (
     <Box
-      sx={{ flexDirection: "column", height: "400px", overflow: 'auto' }}>
+    zIndex={100}
+    marginTop={{ xs: '108px',sm:'87px'}}
+      sx={{ flexDirection: "column", height: "400px", overflow: 'auto', bgcolor: 'white' }}>
       {foods.map((food) => (
         <FlexCard key={food.id}
         >
