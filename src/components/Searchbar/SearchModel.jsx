@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Box, Card, CardContent, CardMedia, Typography, styled } from '@mui/material';
-
+import { Link, useNavigate } from 'react-router-dom';
 // Sample foods array
 const foods = [
   {
@@ -73,16 +74,23 @@ const ContentBox = styled(CardContent)({
   flexDirection: 'column',
   justifyContent: 'center',
 });
+function SearchItem({setShowModels}) {
+  const navigate = useNavigate();
 
-function SearchItem() {
+  const handleClick = () => {
+    // setShowModels("searchValue")
+    console.log("Navigating to food details for id:");
+    navigate(`/foodDetails`);
+  };
+
   return (
     <Box
     zIndex={100}
     marginTop={{ xs: '108px',sm:'87px'}}
       sx={{ flexDirection: "column", height: "400px", overflow: 'auto', bgcolor: 'white' }}>
       {foods.map((food) => (
-        <FlexCard key={food.id}
-        >
+        <Link  to={"/foodDetails"} style={{textDecoration:"none"}} key={food.id}>
+        <FlexCard >
           <CardImage
             component="img"
             image={food.image}
@@ -99,9 +107,9 @@ function SearchItem() {
             </Typography>
           </ContentBox>
         </FlexCard>
+          </Link>
       ))}
     </Box>
   );
 }
-
 export default SearchItem;
