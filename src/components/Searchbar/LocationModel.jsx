@@ -42,7 +42,7 @@ const ContentBox = styled(CardContent)({
 function LocationModel() {
   return (
     <Box flexDirection="column"
-    sx={{ display: 'flex', alignItems: 'center', justifyContent: "flex-end", backgroundColor: 'white', my:{ xs:'33px', sm:'0px' ,lg:'0px'}, marginTop: {xs:'108px', sm: "88px", lg: '88px'}}}>
+    sx={{display: 'flex', alignItems: 'center', justifyContent: "flex-end", backgroundColor: 'green', my:{ xs:'33px', sm:'0px' ,lg:'0px'}}}>
       {foods.map((food) => (
         <FlexCard key={food.id}>
           <CardImage
