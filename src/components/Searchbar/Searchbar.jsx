@@ -20,8 +20,10 @@ const LargeScreenBox = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   [theme.breakpoints.up("sm")]: {
     display: 'flex',
+    justifyContent: 'center',
   }
 }));
+
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   backgroundColor: 'white',
@@ -29,15 +31,14 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
     "& fieldset": {
       border: "none",
     },
-    "&:hover fieldset": {
-      border: "none",
-    },
-    "&:hover": {
-      borderWidth: '0px',
-    },
+  },
+  "& .MuiInputBase-input::placeholder": {
+    fontFamily: 'Poppins, sans-serif', 
+    color: 'black',
+    fontWeight: '350',
+    fontSize: '14px',
   },
 }));
-
 
 const Searchbar = ({ setShowModels }) => {
   const [inputs, setInputs] = useState({
@@ -97,17 +98,20 @@ const Searchbar = ({ setShowModels }) => {
   return (
     <Box
       sx={{
-        width: 'auto',
+        width: '100%',
+        maxWidth: '777px',
         height: 'auto',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'center', 
         alignItems: 'center',
         flexDirection: 'column',
+        mx: '10px'
       }}
     >
+
       <SmallScreenBox width={'95%'}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column', gap: 1 }}>
-          <TextField
+          <CustomTextField
             placeholder='Enter location or use GPS'
             variant='outlined'
             value={inputs.location}
@@ -115,14 +119,14 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('location')}
-            // onBlur={() => handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
             }}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
+              startAdornment: (
+                <InputAdornment position="start">
                   <Button
                     onClick={handleGpsClick}
                     sx={{
@@ -130,13 +134,13 @@ const Searchbar = ({ setShowModels }) => {
                       padding: 0
                     }}
                   >
-                    <LocationOnIcon />
+                    <LocationOnIcon sx={{color: 'red'}}/>
                   </Button>
                 </InputAdornment>
               ),
             }}
           />
-          <TextField
+          <CustomTextField
             placeholder='Search for the restaurant or a dish'
             variant='outlined'
             value={inputs.searchValue}
@@ -144,12 +148,80 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('searchValue')}
-            // onBlur={() => handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
               marginLeft: '10px',
               marginRight: '10px'
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{color: 'gray'}}/>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+      </SmallScreenBox>
+
+      <LargeScreenBox>
+        <Box
+          sx={{ flex: 1 }}
+        >
+          <CustomTextField
+            placeholder='Enter location or use GPS'
+            variant='outlined'
+            value={inputs.location}
+            name='location'
+            fullWidth
+            onChange={handleInputs}
+            onFocus={() => handleFieldClick('location')}
+            onBlur={() => handleFieldClick('')}
+
+            sx={{
+              backgroundColor: 'white',
+              borderWidth: '0px',
+              borderTopLeftRadius: '12px',
+              borderBottomLeftRadius: '12px',
+              ":hover": { borderWidth: '0px' }
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Button
+                    onClick={handleGpsClick}
+                    sx={{
+                      minWidth: 'auto',
+                      padding: 0
+                    }}
+                  >
+                    <LocationOnIcon sx={{color: 'red'}}/>
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+
+        <Box
+          sx={{ flex: 2 }}>
+          <CustomTextField
+            placeholder='Search for the restaurant or a dish'
+            variant='outlined'
+            value={inputs.searchValue}
+            name='searchValue'
+            fullWidth
+            onChange={handleInputs}
+            onFocus={() => handleFieldClick('searchValue')}
+            onBlur={() => handleFieldClick('')}
+            sx={{
+              backgroundColor: 'white',
+              borderWidth: '0px',
+              borderTopRightRadius: '12px',
+              borderBottomRightRadius: '12px',
+              ":hover": { borderWidth: '0px' }
             }}
             InputProps={{
               startAdornment: (
@@ -160,78 +232,9 @@ const Searchbar = ({ setShowModels }) => {
             }}
           />
         </Box>
-      </SmallScreenBox>
-
-      <LargeScreenBox>
-          <Box           
-            sx={{flex: 1}}
-          >
-          <CustomTextField
-            placeholder='Enter location or use GPS'
-            variant='outlined'
-            value={inputs.location}
-            name='location'
-            fullWidth
-            // focused 
-            onChange={handleInputs}
-            onFocus={() => handleFieldClick('location')}
-            // onBlur={()=> handleFieldClick('')}          
-
-            sx={{
-              backgroundColor: 'white',
-              borderWidth: '0px',
-              borderTopLeftRadius: '12px',
-              borderBottomLeftRadius: '12px',
-              ":hover":{borderWidth: '0px'}
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button
-                    onClick={handleGpsClick}
-                    sx={{
-                      minWidth: 'auto',
-                      padding: 0
-                    }}
-                  >
-                    <LocationOnIcon />
-                  </Button>
-                </InputAdornment>
-              ),
-            }}
-          />
-          </Box>
-
-          <Box
-            sx={{flex: 2}}>
-          <CustomTextField
-            placeholder='Search for the restaurant or a dish'
-            variant='outlined'
-            value={inputs.searchValue}
-            name='searchValue'
-            fullWidth
-            onChange={handleInputs}
-            onFocus={() => handleFieldClick('searchValue')}
-            // onBlur={()=> handleFieldClick('')}
-            sx={{
-              backgroundColor: 'white',
-              borderWidth: '0px',             
-              borderTopRightRadius: '12px',
-              borderBottomRightRadius: '12px',
-              ":hover":{borderWidth: '0px'}
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />          
-          </Box>
       </LargeScreenBox>
 
-{/* <TextField
+      {/* <TextField
       variant="outlined"
       sx={{
         '& .MuiOutlinedInput-root': {

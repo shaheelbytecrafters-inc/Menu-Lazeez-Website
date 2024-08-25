@@ -23,8 +23,9 @@
     "react-router-dom": "^6.26.0",
     "react-slick": "^0.30.2",
     "react-world-flags": "^1.6.0",
-
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "typeface-poppins": "^1.1.13",
+    "typeface-roboto": "^1.1.13"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

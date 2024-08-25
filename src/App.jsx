@@ -7,7 +7,7 @@ import RestaurantMenuTab from './components/RestaurantTabPage/RestaurantMainTab'
 function App() {
 
   return (
-    
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -16,7 +16,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-  
+    </>
   );
 }
 
