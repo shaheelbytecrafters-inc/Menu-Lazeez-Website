@@ -134,7 +134,7 @@ export default function RestaurantMainTab() {
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
         <Typography variant="h1" component="h1">
-          DeliverPage
+          Deliver Page
         </Typography>
       </TabPanel>
 
