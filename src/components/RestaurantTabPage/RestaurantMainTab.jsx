@@ -140,7 +140,7 @@ export default function RestaurantMainTab() {
 
       <TabPanel value={value} index={2} dir={theme.direction}>
         <Typography variant="h1" component="h1">
-          Nightlife
+          NightLife
         </Typography>
       </TabPanel>
     </Box>
