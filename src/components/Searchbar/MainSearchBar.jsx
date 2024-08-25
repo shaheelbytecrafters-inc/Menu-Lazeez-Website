@@ -1,30 +1,37 @@
-import React, { useState } from 'react'
-import Searchbar from './Searchbar'
-import SearchbarModel from './SearchModel'
-import { Box, styled } from '@mui/material'
-import LocationModel from './LocationModel'
+  import React, { useState } from 'react'
+  import Searchbar from './Searchbar'
+  import SearchbarModel from './SearchModel'
+  import { Box, styled } from '@mui/material'
+  import LocationModel from './LocationModel'
 
-const SearchBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  [theme.breakpoints.up("sm")]: {
-    width: '60%'
-  }
-}));
+  const SearchBox = styled(Box)(({ theme }) => ({
+    width: '100%',
+    [theme.breakpoints.up("sm")]: {
+      width: '60%'
+    }
+  }));
 
 const MainSearchBar = () => {
   const [showModels, setShowModels] = useState('')
   return (
     <Box
-      sx={{
-        width: '100%',
-        height: 'auto',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
+      width="100%"
+      height="100%"
+      position="relative"
     >
+      <SearchBox
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          maxWidth: '777px',
+          zIndex: 1,
+          borderRadius: '12px'
+        }}
+      >
         <Searchbar setShowModels={setShowModels} />
+      </SearchBox>
       <Box
         sx={{
           position: 'absolute',
@@ -42,7 +49,7 @@ const MainSearchBar = () => {
       </Box>
     </Box>
 
-  )
-}
+    )
+  }
 
-export default MainSearchBar
+  export default MainSearchBar
