@@ -177,19 +177,20 @@ export default function RestaurantMainTab() {
           />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction}>
-        <Typography variant="h1" component="h1">
-          Dining Out
-        </Typography>
-      </TabPanel>
       <TabPanel
         value={value}
-        index={1}
+        index={0}
         dir={theme.direction}
         sx={{ width: "100%" }}
       >
         <DeliverPage />
       </TabPanel>
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <Typography variant="h1" component="h1">
+          DeliverPage
+        </Typography>
+      </TabPanel>
+
       <TabPanel value={value} index={2} dir={theme.direction}>
         <Typography variant="h1" component="h1">
           Nightlife
