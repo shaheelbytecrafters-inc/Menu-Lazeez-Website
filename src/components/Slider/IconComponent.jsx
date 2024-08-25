@@ -1,197 +1,115 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Grid, IconButton } from "@mui/material";
 import { styled } from "@mui/system";
 import {
-  FaLocationDot,
-  FaBell,
-  FaFileInvoiceDollar,
-  FaCircleUser,
-} from "react-icons/fa6";
+  Home as HomeIcon,
+  Search as SearchIcon,
+  Notifications as NotificationsIcon,
+  AccountCircle as AccountCircleIcon,
+} from "@mui/icons-material";
 
 // Custom styles for the footer
 const FooterContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: "#fae6e6", 
+  padding: theme.spacing(4),
   borderTop: `1px solid ${theme.palette.divider}`,
   backgroundImage:
     'url("https://www.transparenttextures.com/patterns/smoke.png")',
   backgroundSize: "cover",
-  backgroundBlendMode: "overlay",
-  padding: theme.spacing(4),
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
 }));
 
-const IconWrapper = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+const IconWrapper = styled(Box)(() => ({
   textAlign: "center",
-  padding: theme.spacing(2),
 }));
 
 const Description = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
   fontWeight: "bold",
-  fontSize: "1.2rem",
+  fontSize: "1.2rem", 
 }));
 
-const iconData = [
-  {
-    icon: (
-      <FaLocationDot
-        fontSize="5rem"
-        color="#f0ae46"
-        filter="drop-shadow(6px 5px 10px #f0ae46)"
-      />
-    ),
-    title: "Select location",
-    description: "Choose the location where your food will be delivered",
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: "#D32F2F", 
+  color: theme.palette.common.white, 
+  borderRadius: "50%",
+  padding: theme.spacing(2), 
+  boxShadow: "0px 4px 10px rgba(9, 7, 7, 0.8)",
+  "&:hover": {
+    backgroundColor: "#B71C1C", 
   },
-  {
-    icon: (
-      <FaBell
-        fontSize="5rem"
-        color="#f0ae46"
-        filter="drop-shadow(6px 5px 10px #f0ae46)"
-      />
-    ),
-    title: "Choose order",
-    description: "Check over hundreds of menus to pick your favorite food",
-  },
-  {
-    icon: (
-      <FaFileInvoiceDollar
-        fontSize="5rem"
-        color="#f0ae46"
-        filter="drop-shadow(6px 5px 10px #f0ae46)"
-      />
-    ),
-    title: "Pay advanced",
-    description:
-      "It's quick, safe, and simple. Select several methods of payment",
-  },
-  {
-    icon: (
-      <FaCircleUser
-        fontSize="5rem"
-        color="#f0ae46"
-        filter="drop-shadow(6px 5px 10px #f0ae46)"
-      />
-    ),
-    title: "Enjoy meals",
-    description: "Food is made and delivered directly to your home",
-  },
-];
+}));
 
 function IconComponent() {
   return (
-    <Box
-      // backgroundColor="#FFFBF7"
-      sx={{
-        marginInline: {
-          xs: "1rem",
-          sm: "2rem",
-          md: "3rem",
-          lg: "6rem",
-        },
-      }}
-    >
-      <FooterContainer>
-        <Typography
-          sx={{
-            fontSize: {
-              xs: "1.3rem",
-              sm: "1.4rem",
-              md: "1.5rem",
-              lg: "1.7rem",
-            },
-            pl: {
-              xs: 2,
-              sm: 4,
-              md: 6,
-              lg: 8,
-            },
-            fontWeight: "900",
-            textAlign: "center",
-            color: "#fc8803",
-            marginBottom: {
-              xs: "1rem",
-              sm: "1.5rem",
-              md: "2rem",
-              lg: "2.5rem",
-            },
-          }}
-        >
-          How Does it work
-        </Typography>
+    <FooterContainer>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: {
+            xs: "1.3rem", // Smaller font size on extra-small screens
+            sm: "1.4rem", // Medium font size on small screens
+            md: "1.5rem", // Larger font size on medium screens
+            lg: "2rem", // Default size on large screens and above
+          },
+          pl: {
+            xs: 2, // Padding-left: 2 (16px) on extra-small screens
+            sm: 4, // Padding-left: 4 (32px) on small screens
+            md: 6, // Padding-left: 6 (48px) on medium screens
+            lg: 8, // Padding-left: 8 (64px) on large screens and above
+          },
+          fontWeight: "bold", // Apply bold font weight
+          textAlign: "center",
+        }}
+      >
+        How It works
+      </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: {
-              xs: "column", // Column layout on extra-small screens
-              sm: "row", // Row layout on small screens and above
-            },
-            flexWrap: "wrap", // Allow items to wrap in row layout
-            justifyContent: "center",
-            gap: "1rem", // Adjust spacing between items
-          }}
-        >
-          {iconData.map((item, index) => (
-            <Box
-              key={index}
-              sx={{
-                flex: "1 1 100%", // Full width on extra-small screens
-                maxWidth: "25rem", // Maximum width for each item
-                textAlign: "center",
-                marginBottom: {
-                  xs: "2rem", // Margin at the bottom for column layout
-                  sm: 0, // No margin for row layout
-                },
-                // Additional responsiveness based on screen size
-                "@media (min-width: 600px)": {
-                  flex: "1 1 48%", // Approximately half width on small screens
-                },
-                "@media (min-width: 900px)": {
-                  flex: "1 1 22%", // Approximately one-fourth width on medium screens
-                },
-              }}
-            >
-              <IconWrapper>
-                {item.icon}
-                <Description
-                  sx={{
-                    marginTop: "1.4rem",
-                    fontSize: {
-                      xs: "0.9rem",
-                      sm: "0.9rem",
-                      md: "1rem",
-                      lg: "1rem",
-                    },
-                    marginBottom: "0.8rem",
-                  }}
-                >
-                  {item.title}
-                </Description>
-                <Typography
-                  variant="body2"
-                  color="gray"
-                  sx={{
-                    fontSize: {
-                      xs: "0.8rem",
-                      sm: "0.9rem",
-                      md: "1rem",
-                      lg: "0.8rem",
-                    },
-                  }}
-                >
-                  {item.description}
-                </Typography>
-              </IconWrapper>
-            </Box>
-          ))}
-        </Box>
-      </FooterContainer>
-    </Box>
+      <Grid container spacing={4} justifyContent="center" mt={2}>
+        <Grid item xs={12} sm={6} md={3}>
+          <IconWrapper>
+            <StyledIconButton>
+              <HomeIcon fontSize="large" />
+            </StyledIconButton>
+            <Description variant="body2">Home</Description>
+            <Typography variant="body2">
+              Description: We are at home page
+            </Typography>
+          </IconWrapper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <IconWrapper>
+            <StyledIconButton>
+              <SearchIcon fontSize="large" />
+            </StyledIconButton>
+            <Description variant="body2">Search</Description>
+            <Typography variant="body2">
+              Description: We are at home page
+            </Typography>
+          </IconWrapper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <IconWrapper>
+            <StyledIconButton>
+              <NotificationsIcon fontSize="large" />
+            </StyledIconButton>
+            <Description variant="body2">Notifications</Description>
+            <Typography variant="body2">
+              Description: We are at home page
+            </Typography>
+          </IconWrapper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <IconWrapper>
+            <StyledIconButton>
+              <AccountCircleIcon fontSize="large" />
+            </StyledIconButton>
+            <Description variant="body2">Profile</Description>
+            <Typography variant="body2">
+              Description: We are at home page
+            </Typography>
+          </IconWrapper>
+        </Grid>
+      </Grid>
+    </FooterContainer>
   );
 }
 

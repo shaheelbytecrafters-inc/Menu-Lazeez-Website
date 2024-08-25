@@ -1,127 +1,70 @@
-import { Box, Typography } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
+import Card from "@mui/material/Card";
+// import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+// import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+// import { red } from "@mui/material/colors";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import {IconButton} from "@mui/icons-material"
+import { Box } from "@mui/material";
+// import data from "./dummyCardData"; // Import your dummy data
 
 export default function RestaurantCard({ restaurant }) {
-  // Ensure location is an array or convert to array if it's a string
-  const locationArray = Array.isArray(restaurant.location)
-    ? restaurant.location
-    : restaurant.location
-    ? restaurant.location.split(",") // Split string by commas if it's a string
-    : [];
-
-  // Join locations with commas and add ellipses for overflow
-  const locationText = locationArray.join(", ") || "Location not available";
-
   return (
-    <Box
-      sx={{
-        borderRadius: "0.7rem",
-        overflow: "hidden",
-        maxWidth: "300px", // Increased the max width of the card
-        width: "100%",
-        backgroundColor: "#fff",
-        transition: "box-shadow 0.3s ease",
-        position: "relative",
-        padding: "10px",
-        "&:hover": {
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Subtle shadow on hover
-        },
-      }}
-    >
-      <Box
-        component="img"
-        src={restaurant.image}
-        alt={restaurant.name}
+    <Box>
+      <Card
+        key={restaurant.id}
         sx={{
-          display: "block",
-          width: "100%",
-          height: "240px", // Increased the height of the image
-          objectFit: "cover",
-          borderRadius: "0.7rem",
-          marginBottom:"1rem"
-        }}
-      />
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: shadow for better visual
+          transition: "background-color 0.3s ease, box-shadow 0.3s ease", // Smooth transition
+          borderRadius:"0.7rem",
+          "&:hover": {
+              transform: "scale(1.05)",
+            backgroundColor: "#f0f0f0", // Change background color on hover
+            boxShadow: "0px 6px 10px rgba(0, 4, 6, 0.2)", // Change shadow on hover
 
-      <Box
-        sx={{
-          backgroundColor: "#fff",
+          },
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "8px",
-
-          }}
-        >
-          <Typography
-            sx={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0" }}
-          >
-            {`${restaurant.name}`}
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center", // Ensures content is vertically centered
-              backgroundColor: "green",
-              borderRadius: "4px",
-              color: "white",
-              height:"1rem",
-              marginTop:"5px",
-              padding:"2px"
-            }}
-          >
-            <Typography
-              fontSize="0.8rem"
-              fontWeight="bold"
-              sx={{ lineHeight: "1" }}
-            >
-              {restaurant.rating}
+        {/* <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+              {restaurant.name[0]}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={restaurant.name}
+          subheader={restaurant.cuisine}
+        /> */}
+        <CardMedia
+          component="img"
+          height="194"
+          image={restaurant.image}
+          alt={restaurant.name}
+        />
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="body2" color="text.secondary">
+              {`₹${restaurant.price_for_two} for two`}
             </Typography>
-            <StarIcon
-              sx={{
-                fontSize: "0.7rem",
-                marginLeft: "2px", // Adds minimal space between the rating and the star icon
-              }}
-            />
+            <Typography variant="body2" color="text.secondary">
+              {restaurant.rating} stars
+            </Typography>
           </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "8px",
-          }}
-        >
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              width: "55%",
-            }}
-          >
-            {locationText}
-          </Typography>
 
           <Typography variant="body2" color="text.secondary">
-            ₹{restaurant.price_for_two} for two
+            {restaurant.location}
           </Typography>
-        </Box>
-
-        <Typography
-          fontSize="0.8rem"
-          color="text.secondary"
-          textAlign={"end"}
-          fontWeight="bold"
-        >
-          {`${restaurant.delivery_time}`}
-        </Typography>
-      </Box>
+          <Typography variant="body2" color="text.secondary">
+            {`Delivery time: ${restaurant.delivery_time}`}
+          </Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

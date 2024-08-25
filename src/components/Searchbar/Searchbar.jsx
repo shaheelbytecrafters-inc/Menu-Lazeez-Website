@@ -119,7 +119,7 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('location')}
-            // onBlur={() => handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -148,7 +148,7 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('searchValue')}
-            // onBlur={() => handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderRadius: "10px",
@@ -178,7 +178,7 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('location')}
-            onBlur={()=> handleFieldClick('')}          
+            onBlur={() => handleFieldClick('')}
 
             sx={{
               backgroundColor: 'white',
@@ -215,7 +215,7 @@ const Searchbar = ({ setShowModels }) => {
             fullWidth
             onChange={handleInputs}
             onFocus={() => handleFieldClick('searchValue')}
-            onBlur={()=> handleFieldClick('')}
+            onBlur={() => handleFieldClick('')}
             sx={{
               backgroundColor: 'white',
               borderWidth: '0px',
