@@ -139,23 +139,23 @@ function Variety() {
     <Box
       sx={{
         paddingTop: "50px",
-        paddingBottom: "50px",
         paddingInline: "20px",
       }}
     >
       <Typography
         variant="h4"
+        // bgcolor={"red"}
         sx={{
           marginBottom: "20px",
           fontWeight: "bold",
-          fontSize: { xs: "1rem", md: "1.3rem" }, // Responsive font size
+          fontSize: { xs: "1.3rem", md: "1.5rem" }, // Responsive font size
           textAlign: "left", // Ensures the text stays aligned to the left
           paddingLeft: { xs: "10px", md: "20px" }, // Adds some padding to the left for better spacing
           "@media (min-width: 800px) and (max-width: 1280px)": {
-            marginLeft: "120px", // Custom marginLeft for screens between 800px and 1280px
+            marginLeft: "30px", // Custom marginLeft for screens between 800px and 1280px
           },
           "@media (min-width: 820px) and (max-width: 1180px)": {
-            marginLeft: "35px", // Custom marginLeft for screens between 800px and 1280px
+            marginLeft: "10px", // Custom marginLeft for screens between 800px and 1280px
           },
         }}
       >

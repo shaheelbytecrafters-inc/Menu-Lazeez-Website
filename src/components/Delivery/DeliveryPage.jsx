@@ -9,6 +9,7 @@ const DeliverPage = () => {
   return (
     <Box>
       <Box
+      // backgroundColor="red"
       sx={{
         paddingInline:{
           lg:"3rem",
