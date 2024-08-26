@@ -10,6 +10,7 @@ import DeliverPage from "../Delivery/DeliveryPage";
 import LiquorIcon from "@mui/icons-material/Liquor";
 import FlatwareIcon from "@mui/icons-material/Flatware";
 import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
+import DinningComponent from "../Dinning/DinningComponent";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -183,11 +184,12 @@ export default function RestaurantMainTab() {
         dir={theme.direction}
         sx={{ width: "100%" }}
       >
-        <DeliverPage />
+        <DinningComponent/>
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
         <Typography variant="h1" component="h1">
-          Deliver Page
+          {/* Deliver Page */}
+          <DeliverPage />
         </Typography>
       </TabPanel>
 

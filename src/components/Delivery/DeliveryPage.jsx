@@ -1,24 +1,24 @@
 import RestaurantCard from "../../card/RestaurantCard";
 import data from "../../card/dummyCardData";
 import { Box } from "@mui/material";
-import HoverFilterButton from "./HoverFilterButton";
+import Variety from "./Variety";
+import Logo from "./Logo";
+// import HoverFilterButton from "./HoverFilterButton";
 
 const DeliverPage = () => {
   return (
     <Box>
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "left",
-          marginLeft: {
-            xs: "1rem",
-            sm: "3rem",
-            md: "5rem",
-            lg: "6rem",
-          },
-        }}
+      sx={{
+        paddingInline:{
+          lg:"3rem",
+          xl:"2rem",
+
+        }
+      }}
       >
-        <HoverFilterButton />
+        <Variety/>
+        <Logo/>
       </Box>
 
       {/* Container for the Restaurant Cards */}
