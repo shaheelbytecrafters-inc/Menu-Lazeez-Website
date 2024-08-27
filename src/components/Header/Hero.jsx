@@ -17,7 +17,7 @@ const Hero = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        maxHeight: '573px'
+        maxHeight: '573px',
       }}
     >
       <Box
@@ -67,7 +67,7 @@ const Hero = () => {
               fontSize: { xs: 25, sm: 35 },
               fontWeight: '300'
             }}
-          >Discover the best food & drinks in Delhi NCR</Typography>          
+          >Discover the best food & drinks in Delhi NCR</Typography>
           <MainSearchBar />
         </Box>
       </Box>

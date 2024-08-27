@@ -16,7 +16,7 @@ const SmallScreenBox = styled(Box)(({ theme }) => ({
 const LargeScreenBox = styled(Box)(({ theme }) => ({
   display: 'none',
   alignItems: 'center',
-  width: '100%',
+  // width: '100%',
   justifyContent: 'center',
   [theme.breakpoints.up("sm")]: {
     display: 'flex',
@@ -166,9 +166,9 @@ const Searchbar = ({ setShowModels }) => {
         </Box>
       </SmallScreenBox>
 
-      <LargeScreenBox>
+      <LargeScreenBox width={'95%'}>
         <Box
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, width: '100%' }}
         >
           <CustomTextField
             placeholder='Enter location or use GPS'

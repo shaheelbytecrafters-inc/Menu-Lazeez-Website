@@ -6,7 +6,7 @@ const RestaurantPhotos = () => {
     return (
         <Box>
             <Typography variant="h4" component="h2">Biryani Blues Photos</Typography>
-            <Box mx={'5px'} my={'10px'}>
+            <Box my={'10px'}>
                 <Box display={'flex'} gap={'1px'}>
                     {foodImages.map((img, index)=>(
                         <img src={img} alt="food Image" key={index}/>

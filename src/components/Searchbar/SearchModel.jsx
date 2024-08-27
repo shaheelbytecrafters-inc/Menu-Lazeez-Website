@@ -87,7 +87,6 @@ function SearchItem() {
             component="img"
             image={food.image}
             alt={food.name}
-            onClick={console.log("clicked")}
           />
           <ContentBox
           >

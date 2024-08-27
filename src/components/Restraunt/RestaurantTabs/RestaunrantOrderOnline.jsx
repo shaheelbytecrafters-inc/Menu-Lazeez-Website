@@ -10,7 +10,7 @@ const RestaunrantOrderOnline = () => {
   };
 
   return (
-    <Box display={{ xs: 'none', sm: 'flex' }} gap={3} mx="10px">
+    <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
       <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px', borderRight: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" orientation="vertical">
@@ -22,7 +22,7 @@ const RestaunrantOrderOnline = () => {
             <Tab label="Rice & Noodles" {...a11yProps(5)} sx={{ textTransform: 'none' }} />
           </Tabs>
         </Box>
-        <Box sx={{ width: '100%', mx: '10px'}}>
+        <Box sx={{ width: '100%'}}>
           <CustomTabPanel value={value} index={0}>
             Today Exclusive
           </CustomTabPanel>

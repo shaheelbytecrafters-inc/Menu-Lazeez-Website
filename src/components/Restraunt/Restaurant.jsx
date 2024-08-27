@@ -89,7 +89,7 @@ const ArrowButton = styled(Box)(({ direction }) => ({
 }));
 
 
-const Restruant = () => {
+const Restaurant = () => {
 
   // const settings = {
   //   dots: true,
@@ -189,7 +189,6 @@ const Restruant = () => {
       justifyContent="center"
       alignItems="center"
       boxSizing={'border-box'}
-      px={"3px"}
 
     >
       <Box
@@ -203,10 +202,17 @@ const Restruant = () => {
           height="7vh"
           alignItems="center"
           justifyContent="space-between"
-          p={'3px'}
-          borderRadius={'12px'}
+          bgcolor={'red'}
         >
-          <Typography variant="h5" flex={2} fontWeight={'bold'}>Restro-web</Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: 25, sm: 35 },
+              fontFamily: 'poppins, sans-serif',
+              color: 'white',
+              fontStyle: 'italic',
+              fontWeight: '800',
+            }}
+          >Lazeez</Typography>
           <Box display={{ xs: 'none', sm: 'flex' }} flex={6}>
             <MainSearchBar />
           </Box>
@@ -243,9 +249,9 @@ const Restruant = () => {
         </Box>
 
         {/* Main Section */}
-        <Box display="flex" flexDirection="column" 
-        // height="93vh" 
-        py={'10px'}>
+        <Box display="flex" flexDirection="column"
+          // height="93vh" 
+          py={'10px'}>
 
           {/* Gallery */}
           <Box className="restroGallery" sx={{ width: "auto", }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
@@ -285,36 +291,36 @@ const Restruant = () => {
                 alignItems: 'center'
                 // objectFit: 'cover'
               }}> */}
-                {/* <img src='https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg' alt="Selected Image" width={'50%'} height={'50%'} /> */}
+              {/* <img src='https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg' alt="Selected Image" width={'50%'} height={'50%'} /> */}
 
 
-                <Box sx={{ bgcolor: 'yellow', width: '500px', height: '600px' }} >
-                  <Slider ref={sliderRef} {...settings}>
-                    {imageData.map((imgsrc) => (
-                      <Box
-                        key={imgsrc.id}
-                        bgcolor={'green'}
-                        sx={{
-                          width: '100vw',
-                          height: '100vh',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          overflow: 'visible',
-                          position: 'relative'
-                        }}
-                      >
-                        <Box>
-                          <img
-                            src={imgsrc.image}
-                            alt={'error in img rendering'}
-                            width={'50%'}
-                            height={"50%"}
-                          />
-                        </Box>
+              <Box sx={{ bgcolor: 'yellow', width: '500px', height: '600px' }} >
+                <Slider ref={sliderRef} {...settings}>
+                  {imageData.map((imgsrc) => (
+                    <Box
+                      key={imgsrc.id}
+                      bgcolor={'green'}
+                      sx={{
+                        width: '100vw',
+                        height: '100vh',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'visible',
+                        position: 'relative'
+                      }}
+                    >
+                      <Box>
+                        <img
+                          src={imgsrc.image}
+                          alt={'error in img rendering'}
+                          width={'50%'}
+                          height={"50%"}
+                        />
                       </Box>
-                    ))}
-                  </Slider>
+                    </Box>
+                  ))}
+                </Slider>
                 {/* </Box> */}
 
               </Box>
@@ -436,9 +442,8 @@ const Restruant = () => {
           </Box>
 
           {/* LargeScreenContentSection  */}
-          <Box display={{ xs: 'none', sm: 'flex' }}>
-            <Box>
-              <Box display={{ xs: 'none', sm: 'flex' }} gap={3} mx="10px">
+          <Box display={{ xs: 'none', sm: 'flex',}}>
+              <Box display={{ xs: 'none', sm: 'flex'}} gap={3}>
                 <Box sx={{ width: '100%' }}>
                   <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -471,7 +476,6 @@ const Restruant = () => {
                   </CustomTabPanel>
                 </Box>
               </Box>
-            </Box>
           </Box>
         </Box>
       </Box>
@@ -479,7 +483,7 @@ const Restruant = () => {
   );
 };
 
-export default Restruant;
+export default Restaurant;
 
 const itemData = [
   {
