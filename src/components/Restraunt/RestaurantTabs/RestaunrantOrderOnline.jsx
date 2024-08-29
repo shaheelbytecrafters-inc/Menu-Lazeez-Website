@@ -10,19 +10,19 @@ const RestaunrantOrderOnline = () => {
   };
 
   return (
-    <Box display={{ xs: 'none', sm: 'flex' }} gap={3} mx="10px">
+    <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
       <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px', borderRight: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" orientation="vertical">
-            <Tab label="Today'Exclusive Dishes(3)" {...a11yProps(0)} sx={{ textTransform: 'none' }} />
-            <Tab label="Meal for One" {...a11yProps(1)} sx={{ textTransform: 'none' }} />
-            <Tab label="Dimusm" {...a11yProps(2)} sx={{ textTransform: 'none' }} />
-            <Tab label="Ramen" {...a11yProps(3)} sx={{ textTransform: 'none' }} />
-            <Tab label="Baos" {...a11yProps(4)} sx={{ textTransform: 'none' }} />
-            <Tab label="Rice & Noodles" {...a11yProps(5)} sx={{ textTransform: 'none' }} />
+            <Tab label="Today'Exclusive Dishes(3)" {...a11yProps(0)} sx={{ textTransform: 'none', alignItems: 'flex-start', paddingRight: '45px' }} />
+            <Tab label="Meal for One" {...a11yProps(1)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
+            <Tab label="Dimusm" {...a11yProps(2)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
+            <Tab label="Ramen" {...a11yProps(3)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
+            <Tab label="Baos" {...a11yProps(4)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
+            <Tab label="Rice & Noodles" {...a11yProps(5)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
           </Tabs>
         </Box>
-        <Box sx={{ width: '100%', mx: '10px'}}>
+        <Box sx={{ width: '100%', mx: '12px'}}>
           <CustomTabPanel value={value} index={0}>
             Today Exclusive
           </CustomTabPanel>

@@ -49,14 +49,14 @@ const RestaurantOverview = () => {
                         Ramen Noodle, Sushi Platter, Dimsum, Prawns
                     </Typography>
                 </Box>
-                <Box mx={'5px'}>
+                <Box>
                     <Typography variant='h6' sx={{ marginBottom: '10px' }}>Recommended Restraunts</Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '9px' }} >
                         <RestaurantCard />
                         <RestaurantCard />
                     </Box>
                 </Box>
-                <Box mx={'5px'} my={'10px'}>
+                <Box my={'10px'}>
                 <Typography variant='h6'>Reviews</Typography>
                 <RestaurantReviewUserCard />
                 <RestaurantReviewUserCard />
