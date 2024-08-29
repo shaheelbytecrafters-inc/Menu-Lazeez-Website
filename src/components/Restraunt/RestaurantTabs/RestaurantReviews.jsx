@@ -6,7 +6,7 @@ const RestaurantReviews = () => {
     return (
         <Box>
             <Typography variant="h4" component="h2">Biryani Blues Reviews</Typography>
-            <Box mx={'5px'} my={'10px'}>
+            <Box my={'10px'}>
                 <Typography variant='h6'>Reviews</Typography>
                 <Box display={'flex'} flexDirection={'column'} gap={'4px'}>
                     <RestaurantReviewUserCard />

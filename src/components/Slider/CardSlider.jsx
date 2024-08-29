@@ -204,7 +204,7 @@
           <Slider {...settings}>
             {cards.map((card, index) => (
               <Box
-                onClick={() => navigate("/restrauntname")}
+                onClick={() => navigate("/restaurantname")}
                 key={index}
                 sx={{
                   padding: "0 5px", // Reduced space around each card to ~5px

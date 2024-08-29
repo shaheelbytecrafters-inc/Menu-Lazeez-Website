@@ -1,7 +1,8 @@
-
 import { Box } from '@mui/material';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
+
+
 const RestrauntGallerySlider = ({images}) => {
   const sliderStyle = {
     height: '400px',

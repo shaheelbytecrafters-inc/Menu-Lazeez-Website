@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import RestaurantReviewUserCard from '../RestaurantReviewuserCard'
 
@@ -6,7 +6,40 @@ const RestaurantPhotos = () => {
     return (
         <Box>
             <Typography variant="h4" component="h2">Biryani Blues Photos</Typography>
-            <Box mx={'5px'} my={'10px'}>
+            <Box my={'10px'}>
+                <Box my={'10px'} display= 'flex' gap={'5px'}>
+                    <Button
+                    variant="contained" 
+                    sx={{ 
+                      backgroundColor: 'red', 
+                      color: '#fff',              
+                      borderRadius: '8px',        
+                      '&:hover': {
+                        backgroundColor: '#E74453' 
+                      },
+                    }}
+                    >All</Button>
+                    <Button
+                    variant="contained" 
+                    sx={{ 
+                      color: '#fff',              
+                      borderRadius: '8px',        
+                      '&:hover': {
+                        backgroundColor: '#E74453' 
+                      },
+                    }}
+                    >Food</Button>
+                    <Button
+                    variant="contained" 
+                    sx={{ 
+                      color: '#fff',              
+                      borderRadius: '8px',        
+                      '&:hover': {
+                        backgroundColor: '#E74453' 
+                      },
+                    }}
+                    >Ambience</Button>
+                </Box>
                 <Box display={'flex'} gap={'1px'}>
                     {foodImages.map((img, index)=>(
                         <img src={img} alt="food Image" key={index}/>

@@ -27,35 +27,29 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import RestaurantBooking from './RestaurantTabs/RestaurantBooking';
 import RestaurantMenu from './RestaurantTabs/RestaurantMenuTab';
 
-// const SlickModal = styled(Modal)(({ theme }) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// }));
+const ArrowButton = styled(Box)(({ direction }) => ({
+  position: "absolute",
+  top: "50%",
+  transform: "translateY(-50%)",
+  cursor: "pointer",
+  zIndex: 1,
+  marginLeft: '100px',
+  marginRight: '100px',
+  [direction]: direction === "left" ? "-50px" : "-50px", // Adjust this value to position the button
+}));
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: "50vw",
-  height: "50vh",
-  // bgcolor: 'red',
-  bgcolor: '#605E5E',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
+// Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <ArrowButton direction="left" onClick={onClick}>
     <IconButton
       sx={{
         color: "white",
-        background: "#D32F2F", // Initial background color
+        fontWeight: "bold",
+        background: "#f0ae46", // Initial background color
         "&:hover": {
-          background: "#B71C1C", // Darker background color on hover
+          background: "#f0ae46", // Darker background color on hover
         },
+        boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
       }}
     >
       <ArrowBackIosIcon />
@@ -68,10 +62,11 @@ const NextArrow = ({ onClick }) => (
     <IconButton
       sx={{
         color: "white",
-        background: "#D32F2F", // Initial background color
+        background: "#f0ae46", // Initial background color
         "&:hover": {
-          background: "#B71C1C", // Darker background color on hover
+          background: "#f0ae46", // Darker background color on hover
         },
+        boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
       }}
     >
       <ArrowForwardIosIcon />
@@ -79,26 +74,80 @@ const NextArrow = ({ onClick }) => (
   </ArrowButton>
 );
 
-const ArrowButton = styled(Box)(({ direction }) => ({
-  position: "absolute",
-  top: "50%",
-  transform: "translateY(-50%)",
-  cursor: "pointer",
-  zIndex: 1,
-  [direction]: direction === "left" ? "-10px" : "-10px", // Adjust this value to position the button
-}));
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: "80vw",
+  height: "80vh",
+  border: '0px solid #000',
+  p: 4,
+
+};
 
 
-const Restruant = () => {
+const Restaurant = () => {
+  const cards = [
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      title: "Cheese Burger",
+      description: "Burger Arena",
+      price: "$3.35",
+    },
+  ];
 
-  // const settings = {
-  //   dots: true,
-  //   lazyLoad: 'ondemand',
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  // };
+
 
 
   const settings = {
@@ -107,12 +156,10 @@ const Restruant = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    centerMode: false, // Ensure consistent spacing
-    centerPadding: "0", // Ensure no additional padding is added in the center mode
+    centerMode: false,
+    centerPadding: "0",
     responsive: [
       {
         breakpoint: 1024,
@@ -124,7 +171,7 @@ const Restruant = () => {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -137,8 +184,22 @@ const Restruant = () => {
       },
     ],
   };
+
+  const settingsForSmallScreenCarousel = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  centerMode: false,
+  centerPadding: "0",
+};
+
   const [open, setOpen] = useState(false);
   const sliderRef = useRef(null);
+
   useEffect(() => {
     if (open && sliderRef.current) {
       sliderRef.current.slickGoTo(0);
@@ -189,7 +250,6 @@ const Restruant = () => {
       justifyContent="center"
       alignItems="center"
       boxSizing={'border-box'}
-      px={"3px"}
 
     >
       <Box
@@ -203,10 +263,17 @@ const Restruant = () => {
           height="7vh"
           alignItems="center"
           justifyContent="space-between"
-          p={'3px'}
-          borderRadius={'12px'}
+          bgcolor={'red'}
         >
-          <Typography variant="h5" flex={2} fontWeight={'bold'}>Restro-web</Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: 25, sm: 35 },
+              fontFamily: 'poppins, sans-serif',
+              color: 'white',
+              fontStyle: 'italic',
+              fontWeight: '800',
+            }}
+          >Lazeez</Typography>
           <Box display={{ xs: 'none', sm: 'flex' }} flex={6}>
             <MainSearchBar />
           </Box>
@@ -243,84 +310,111 @@ const Restruant = () => {
         </Box>
 
         {/* Main Section */}
-        <Box display="flex" flexDirection="column" 
-        // height="93vh" 
-        py={'10px'}>
+        <Box display="flex" flexDirection="column">
 
           {/* Gallery */}
-          <Box className="restroGallery" sx={{ width: "auto", }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
-            {itemData.map((item, index) => (
-              <Box key={index} id={`box-${index + 1}`} className="box">
-                <img src={item.img} alt={item.title} />
-              </Box>
-            ))}
+
+          <Box sx={{ display: { xs: "block", sm: 'none'} }} >
+                <Slider {...settingsForSmallScreenCarousel}>
+                  {cards.map((card, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        boxSizing: "border-box",
+                        height: '27vh',
+                        maxHeight: '430px'
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          height: "100%",
+                          maxHeight: '250px',
+                          backgroundImage: `url(${card.image})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          borderRadius: "0.5rem",
+                          marginBottom: "0.4rem",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Slider>
           </Box>
 
-          {/* SlikeModal */}
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-
-          >
-            <Box sx={{ ...style, position: 'relative', overflow: 'visible' }}>
-              {/* <Button
-                onClick={handleClose}
-                sx={{
-                  position: 'absolute',
-                  top: '37px',
-                  right: '50px',
-                  zIndex: 10,
-                  color: 'white'
-                }}
-              >
-                Close
-              </Button> */}
-              {/* <Box sx={{
-                width: '50vw',
-                height: '50vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-                // objectFit: 'cover'
-              }}> */}
-                {/* <img src='https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg' alt="Selected Image" width={'50%'} height={'50%'} /> */}
 
 
-                <Box sx={{ bgcolor: 'yellow', width: '500px', height: '600px' }} >
-                  <Slider ref={sliderRef} {...settings}>
-                    {imageData.map((imgsrc) => (
-                      <Box
-                        key={imgsrc.id}
-                        bgcolor={'green'}
-                        sx={{
-                          width: '100vw',
-                          height: '100vh',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          overflow: 'visible',
-                          position: 'relative'
-                        }}
-                      >
-                        <Box>
-                          <img
-                            src={imgsrc.image}
-                            alt={'error in img rendering'}
-                            width={'50%'}
-                            height={"50%"}
+          <Box sx={{ display: { xs: "none", sm: 'block' } }}>
+            <Box className="restroGallery" sx={{ width: "auto" }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
+              {itemData.map((item, index) => (
+                <Box key={index} id={`box-${index + 1}`} className="box">
+                  <img src={item.img} alt={item.title} />
+                </Box>
+              ))}
+            </Box>
+
+            {/* SlikeModal */}
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              sx={{ bgcolor: 'gray' }}
+
+            >
+              <Box sx={{ ...style, }} position={'relative'}>
+                <Button
+                  onClick={handleClose}
+                  sx={{
+                    position: 'absolute',
+                    top: '0px',
+                    right: '0px',
+                    zIndex: 10,
+                    color: 'white'
+                  }}
+                >
+                  <CloseIcon sx={{ fontSize: '40px' }} />
+                </Button>
+                <Box sx={{ ...style, overflow: 'visible', display: "flex", alignItems: 'center' }}>
+                  {/* SLIDER  */}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: "900px",
+                      margin: "0 auto",
+                      maxHeight: "800px"
+                    }}
+                  >
+                    <Slider {...settings}>
+                      {cards.map((card, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            padding: "0 5px",
+                            boxSizing: "border-box",
+                            height: '70vh'
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              height: "100%",
+                              backgroundImage: `url(${card.image})`,
+                             
+                              backgroundSize: "cover",
+                              objectFit:"contain",
+                              backgroundPosition: "center",
+                              borderRadius: "0.5rem",
+                              marginBottom: "0.4rem",
+                            }}
                           />
                         </Box>
-                      </Box>
-                    ))}
-                  </Slider>
-                {/* </Box> */}
-
+                      ))}
+                    </Slider>
+                  </Box>
+                  {/* <Box>Hello</Box> */}
+                </Box>
               </Box>
-
-            </Box>
-          </Modal>
+            </Modal>
+          </Box>
 
 
 
@@ -436,40 +530,38 @@ const Restruant = () => {
           </Box>
 
           {/* LargeScreenContentSection  */}
-          <Box display={{ xs: 'none', sm: 'flex' }}>
-            <Box>
-              <Box display={{ xs: 'none', sm: 'flex' }} gap={3} mx="10px">
-                <Box sx={{ width: '100%' }}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                      <Tab label="Overview" {...a11yProps(0)} sx={{ textTransform: 'none' }} />
-                      <Tab label="Order Online" {...a11yProps(1)} sx={{ textTransform: 'none' }} />
-                      <Tab label="Reviews" {...a11yProps(2)} sx={{ textTransform: 'none' }} />
-                      <Tab label="Photos" {...a11yProps(3)} sx={{ textTransform: 'none' }} />
-                      <Tab label="Menu" {...a11yProps(4)} sx={{ textTransform: 'none' }} />
-                      <Tab label="Book a Table" {...a11yProps(5)} sx={{ textTransform: 'none' }} />
-                    </Tabs>
+          <Box display={{ xs: 'none', sm: 'flex', }}>
+            <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
+              <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Overview" {...a11yProps(0)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Order Online" {...a11yProps(1)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Reviews" {...a11yProps(2)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Photos" {...a11yProps(3)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Menu" {...a11yProps(4)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Book a Table" {...a11yProps(5)} sx={{ textTransform: 'none' }} />
+                  </Tabs>
 
-                  </Box>
-                  <CustomTabPanel value={value} index={0}>
-                    <RestaurantOverview />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={1}>
-                    <RestaunrantOrderOnline />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={2}>
-                    <RestaurantReviews />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={3}>
-                    <RestaurantPhotos />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={4}>
-                    <RestaurantMenu />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={5}>
-                    <RestaurantBooking />
-                  </CustomTabPanel>
                 </Box>
+                <CustomTabPanel value={value} index={0}>
+                  <RestaurantOverview />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                  <RestaunrantOrderOnline />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                  <RestaurantReviews />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={3}>
+                  <RestaurantPhotos />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={4}>
+                  <RestaurantMenu />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={5}>
+                  <RestaurantBooking />
+                </CustomTabPanel>
               </Box>
             </Box>
           </Box>
@@ -479,7 +571,7 @@ const Restruant = () => {
   );
 };
 
-export default Restruant;
+export default Restaurant;
 
 const itemData = [
   {
