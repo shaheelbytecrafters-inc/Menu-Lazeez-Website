@@ -8,6 +8,7 @@
   import { useNavigate } from "react-router-dom";
   // import LocationOnIcon from "@mui/icons-material/LocationOn";
   import FmdGoodIcon from "@mui/icons-material/FmdGood";
+  
 
   // Custom styles for the arrow buttons
   const ArrowButton = styled(Box)(({ direction }) => ({
@@ -153,6 +154,10 @@
         },
       ],
     };
+    const handleRedirect=()=>{
+      navigate("/restaurantname");
+      console.log("Hello")
+    }
 
     return (
       <Box
@@ -160,7 +165,9 @@
           paddingTop: "50px",
           paddingBottom: "50px",
           paddingInline: "50px",
+          cursor: "pointer",
           // backgroundColor:"red"
+          // zIndex:1
         }}
       >
         <Typography
@@ -187,6 +194,7 @@
             // fontWeight: "bold",
             textAlign: "center",
             marginBottom: "1rem",
+            // zIndex: -5,
           }}
         >
           Popular restaurants
@@ -198,13 +206,15 @@
             maxWidth: "900px",
             margin: "0 auto",
             position: "relative",
-            // backgroundColor:"red"
+            cursor: "pointer",
+            zIndex:"-1"
+          
           }}
         >
           <Slider {...settings}>
             {cards.map((card, index) => (
               <Box
-                onClick={() => navigate("/restaurantname")}
+                onClick={() => handleRedirect()}
                 key={index}
                 sx={{
                   padding: "0 5px", // Reduced space around each card to ~5px
@@ -271,6 +281,7 @@
                       color="text.primary"
                       fontWeight="bolder"
                       sx={{ margin: "0", lineHeight: "1" }} // Adjust line height for the price }} // Ensure no margin
+                      
                     >
                       {card.price}
                     </Typography>

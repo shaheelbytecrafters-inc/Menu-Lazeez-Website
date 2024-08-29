@@ -20,10 +20,12 @@ import {
   YouTube,
   Apple,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const [optionOne, setOptionOne] = React.useState("");
   const [optionTwo, setOptionTwo] = React.useState("");
+  const navigate = useNavigate();
 
   const handleOptionOneChange = (event) => {
     setOptionOne(event.target.value);
@@ -32,7 +34,11 @@ const Footer = () => {
   const handleOptionTwoChange = (event) => {
     setOptionTwo(event.target.value);
   };
-
+  const handleRedirect =(index)=>{
+   if (index==0){
+    navigate("/partner")
+   }
+  }
   return (
     <Box
       display="flex"
@@ -356,6 +362,7 @@ const Footer = () => {
                       component="li"
                       key={index}
                       sx={{ marginBottom: "10px", fontWeight: "300" }}
+                      onClick={()=>handleRedirect(index)}
                     >
                       {item}
                     </Box>
