@@ -1,56 +1,32 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import StarIcon from '@mui/icons-material/Star';
 import { Box, Chip } from '@mui/material';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
-export default function RecipeReviewCard() {
-
+export default function ReviewCard() {
   return (
-    <Card sx={{ width: '100%' }}>
+    <Card sx={{ width: '100%', my: '3px', boxShadow: 'none', borderBottom: '1px solid lightgray'}}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            A
-          </Avatar>
+          <Avatar src="/path/to/avatar.jpg" aria-label="user-avatar" />
         }
-        action={
-          <IconButton aria-label="settings">
-            Follow
-          </IconButton>
-        }
-        title="Aryan"
-        subheader="0 reviews 1 Followers"
+        title="Aryan Agarwal"
+        subheader="0 reviews • 16 Followers"
+        sx={{ paddingBottom: '0' }} 
       />
       <CardContent>
-        <Box display={'flex'} marginBottom={'5px'}>
-      <Chip
+        <Box display={'flex'} alignItems="center" marginBottom={'5px'}>
+          <Chip
             icon={<StarIcon sx={{ color: 'white', fontSize: '1rem' }} />}
-            label="4.4"
+            label="5"
             sx={{
               backgroundColor: '#4caf50',
               color: 'white',
@@ -63,13 +39,49 @@ export default function RecipeReviewCard() {
               paddingRight: '4px',
             }}
           />
-          <Typography variant="body2" color="textSecondary" sx={{ marginRight: '8px' }}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              marginRight: '8px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 350,
+              color: '#666',
+            }}
+          >
             DINING
           </Typography>
-          </Box>
-        <Typography variant="body2" color="text.secondary">
-          first time here the food was pretty nice and the dessert (coconut & jaggery pudding) really blew me away. it has to be my favourite pan Asian place in towen because everything on their meny is basolutely delicious from the dumsums to suchi to the drunken noodless!!
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ fontFamily: 'Poppins, sans-serif', color: '#666' }}
+          >
+            3 hours ago
+          </Typography>
+        </Box>
+        <Typography variant="body2" color="text.secondary" fontFamily={'Poppins, sans-serif'}>
+          Mohan served very well! Tasty food
         </Typography>
+        <Box display={'flex'} alignItems="center" marginTop={'10px'}>
+          <IconButton aria-label="helpful" sx={{ padding: '5px' }}>
+            <ThumbUpAltOutlinedIcon sx={{ fontSize: '18px' }} />
+          </IconButton>
+          <Typography variant="body2" sx={{ marginRight: '16px', fontFamily: 'Poppins, sans-serif' }}>
+            Helpful
+          </Typography>
+          <IconButton aria-label="comment" sx={{ padding: '5px' }}>
+            <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: '18px' }} />
+          </IconButton>
+          <Typography variant="body2" sx={{ marginRight: '16px', fontFamily: 'Poppins, sans-serif' }}>
+            Comment
+          </Typography>
+          <IconButton aria-label="share" sx={{ padding: '5px' }}>
+            <ShareOutlinedIcon sx={{ fontSize: '18px' }} />
+          </IconButton>
+          <Typography variant="body2" sx={{ fontFamily: 'Poppins, sans-serif' }}>
+            Share
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

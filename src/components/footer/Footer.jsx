@@ -20,12 +20,10 @@ import {
   YouTube,
   Apple,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const [optionOne, setOptionOne] = React.useState("");
   const [optionTwo, setOptionTwo] = React.useState("");
-  const navigate = useNavigate();
 
   const handleOptionOneChange = (event) => {
     setOptionOne(event.target.value);
@@ -34,11 +32,7 @@ const Footer = () => {
   const handleOptionTwoChange = (event) => {
     setOptionTwo(event.target.value);
   };
-  const handleRedirect =(index)=>{
-   if (index==0){
-    navigate("/partner")
-   }
-  }
+
   return (
     <Box
       display="flex"
@@ -362,7 +356,6 @@ const Footer = () => {
                       component="li"
                       key={index}
                       sx={{ marginBottom: "10px", fontWeight: "300" }}
-                      onClick={()=>handleRedirect(index)}
                     >
                       {item}
                     </Box>
@@ -471,14 +464,14 @@ const Footer = () => {
                 }}
               >
                 <Button
-                  startIcon={<Apple />} // Adds an icon to the left
+                  startIcon={<Apple style={{ fontSize: "1.7rem" }} />} // Adds an icon to the left
                   sx={{
                     marginTop: "7px",
                     backgroundColor: "#213a4e", // Black background like App Store
                     color: "#fff", // White text color
                     px: "10px", // Control padding for the button
                     py: "10px",
-                    padding: "20px",
+                    paddingBlock: "18px",
                     height: "20px",
                     textTransform: "none", // Prevents uppercase transformation
                     borderRadius: "5px", // Rounded corners
@@ -500,6 +493,9 @@ const Footer = () => {
                         color: "#fff",
                         lineHeight: "1",
                         fontWeight: "100",
+                        "@media (min-width: 344px) and (max-width: 882px)": {
+                          fontSize: "7px",
+                        },
                       }}
                     >
                       Download on the
@@ -510,6 +506,9 @@ const Footer = () => {
                         color: "#fff",
                         fontWeight: "500",
                         lineHeight: "1",
+                        "@media (min-width: 344px) and (max-width: 882px)": {
+                          fontSize: "11px",
+                        },
                       }}
                     >
                       App Store
@@ -519,14 +518,16 @@ const Footer = () => {
 
                 <Button
                   variant="contained"
-                  startIcon={<IoLogoGooglePlaystore />} // Optional: Android icon for Google Play button
+                  startIcon={
+                    <IoLogoGooglePlaystore style={{ fontSize: "1.6rem" }} />
+                  } // Optional: Android icon for Google Play button
                   sx={{
                     backgroundColor: "#213a4e", // Google Play green color
                     mt: { xs: "7px", md: "16px" },
                     color: "#fff", // White text color
-                    px: "5px",
-                    py: "10px",
-                    padding: "10px",
+                    px: "8px",
+                    py: "12px",
+                    paddingBlock: "8px",
                     textTransform: "none", // Keeps text case as it is
                     borderRadius: "5px", // Rounded corners
                     fontWeight: "500", // Bold text
@@ -538,6 +539,10 @@ const Footer = () => {
                       xs: "50px", // Apply 17px left margin on extra small screens
                       sm: "0px", // No left margin on small screens and above
                     },
+                    "@media (min-width: 360px) and (max-width: 740px)": {
+                      padding: "5.3px",
+                      marginLeft: "3px",
+                    },
                   }}
                 >
                   <Box>
@@ -548,6 +553,9 @@ const Footer = () => {
                         lineHeight: "1",
                         fontWeight: "100",
                         textAlign: "left",
+                        "@media (min-width: 344px) and (max-width: 882px)": {
+                          fontSize: "6px",
+                        },
                       }}
                     >
                       GET IT ON
@@ -558,6 +566,9 @@ const Footer = () => {
                         color: "#fff",
                         fontWeight: "500",
                         lineHeight: "1",
+                        "@media (min-width: 344px) and (max-width: 882px)": {
+                          fontSize: "10px",
+                        },
                       }}
                     >
                       Google Play

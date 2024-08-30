@@ -96,6 +96,7 @@ const ContentBox = styled(CardContent)({
 
 function SearchItem() {
   const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -110,7 +111,7 @@ function SearchItem() {
         borderRadius: "10px",
       }}
     >
-      {foods.map((food,index) => (
+      {foods.map((food, index) => (
         <Stack
           direction={"row"}
           spacing={2}
@@ -131,6 +132,7 @@ function SearchItem() {
             cursor: "pointer",
           }}
           key={index}
+          onClick={() => navigate("/foodDetails")}
         >
           <Box sx={{ width: "20%", height: "108px", pl: "15px" }}>
             <img

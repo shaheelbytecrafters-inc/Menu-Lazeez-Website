@@ -1,5 +1,6 @@
 
 import AccordionPartner from "./AccordionPartner";
+import JourneyPartner from "./JourneyPartner";
 import LazeezPartner from "./LazeezPartner";
 import PartnerCard from "./PartnerCard";
 import PartnerHomePage from "./PartnerHomePage";
@@ -14,6 +15,7 @@ const PartnerPage = () => {
       <PartnerCard/>
       <PartnerSlider /> 
       <SignUpPartner />
+      <JourneyPartner/>
       <AccordionPartner />
     </>
   );

@@ -26,6 +26,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import RestaurantBooking from './RestaurantTabs/RestaurantBooking';
 import RestaurantMenu from './RestaurantTabs/RestaurantMenuTab';
+import BreadcrumbNavigation from './BreadcrumbNavigation'
 
 const ArrowButton = styled(Box)(({ direction }) => ({
   position: "absolute",
@@ -33,8 +34,6 @@ const ArrowButton = styled(Box)(({ direction }) => ({
   transform: "translateY(-50%)",
   cursor: "pointer",
   zIndex: 1,
-  marginLeft: '100px',
-  marginRight: '100px',
   [direction]: direction === "left" ? "-50px" : "-50px", // Adjust this value to position the button
 }));
 
@@ -50,6 +49,7 @@ const PrevArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
+        mx: { sm: '0px', xs: '100px' }
       }}
     >
       <ArrowBackIosIcon />
@@ -67,6 +67,7 @@ const NextArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
+        mx: { xs: '100px', sm: '0px' }
       }}
     >
       <ArrowForwardIosIcon />
@@ -147,8 +148,16 @@ const Restaurant = () => {
     },
   ];
 
-
-
+  const tabStyles = {
+    textTransform: 'none',
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: '17px',
+    color: 'gray',
+    fontWeight: '350',
+    '&.Mui-selected': {
+      color: 'red',
+    },
+  };
 
   const settings = {
     dots: false,
@@ -186,16 +195,16 @@ const Restaurant = () => {
   };
 
   const settingsForSmallScreenCarousel = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-  centerMode: false,
-  centerPadding: "0",
-};
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    centerMode: false,
+    centerPadding: "0",
+  };
 
   const [open, setOpen] = useState(false);
   const sliderRef = useRef(null);
@@ -250,7 +259,6 @@ const Restaurant = () => {
       justifyContent="center"
       alignItems="center"
       boxSizing={'border-box'}
-
     >
       <Box
         maxWidth={'1115px'}
@@ -263,24 +271,28 @@ const Restaurant = () => {
           height="7vh"
           alignItems="center"
           justifyContent="space-between"
-          bgcolor={'red'}
         >
           <Typography
             sx={{
               fontSize: { xs: 25, sm: 35 },
               fontFamily: 'poppins, sans-serif',
-              color: 'white',
+              color: 'black',
               fontStyle: 'italic',
               fontWeight: '800',
+              fontSize: '30px',
+              marginRight: {sm:"10px", md: '0px'}
             }}
           >Lazeez</Typography>
-          <Box display={{ xs: 'none', sm: 'flex' }} flex={6}>
+          <Box display={{ xs: 'none', sm: 'block' }} sx={{ borderRadius: '10px',  boxShadow:'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;', maxWidth: '700px', flex: '2' }}>
             <MainSearchBar />
           </Box>
-          <Box flex={1} display={'flex'} justifyContent={'flex-end'}>User</Box>
+          <Box display={'flex'} justifyContent={'flex-end'} marginRight={'5px'} >
+            <Button sx={{fontFamily: 'poppins, sans-serif', fontWeight: '300', color: 'gray'}}>Login</Button>
+            <Button sx={{fontFamily: 'poppins, sans-serif', fontWeight: '300', color: 'gray'}}>Sign up</Button>
+          </Box>
         </Box>
 
-        <Divider />
+        <Divider sx={{}}/>
 
         {/* smallScreenSearchBar */}
         <Box
@@ -296,8 +308,14 @@ const Restaurant = () => {
             name='searchValue'
             fullWidth
             sx={{
-              backgroundColor: 'white',
-              borderRadius: "10px",
+              bgcolor: 'white',
+              border: '1px solid gray',
+              borderRadius: "30px",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "none",
+                },
+              }
             }}
             InputProps={{
               startAdornment: (
@@ -305,130 +323,134 @@ const Restaurant = () => {
                   <SearchIcon />
                 </InputAdornment>
               ),
+              sx: {
+                '& input::placeholder': {
+                  fontFamily: 'Poppins, sans-srif',
+                  fontSize: '14px'
+                },
+              },
             }}
           />
         </Box>
 
-        {/* Main Section */}
-        <Box display="flex" flexDirection="column">
 
-          {/* Gallery */}
+        <BreadcrumbNavigation />
 
-          <Box sx={{ display: { xs: "block", sm: 'none'} }} >
-                <Slider {...settingsForSmallScreenCarousel}>
-                  {cards.map((card, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        boxSizing: "border-box",
-                        height: '27vh',
-                        maxHeight: '430px'
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          height: "100%",
-                          maxHeight: '250px',
-                          backgroundImage: `url(${card.image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          borderRadius: "0.5rem",
-                          marginBottom: "0.4rem",
-                        }}
-                      />
-                    </Box>
-                  ))}
-                </Slider>
+        {/* Gallery */}
+
+        <Box sx={{ display: { xs: "block", sm: 'none' } }} >
+          <Slider {...settingsForSmallScreenCarousel}>
+            {cards.map((card, index) => (
+              <Box
+                key={index}
+                sx={{
+                  boxSizing: "border-box",
+                  height: '27vh',
+                  maxHeight: '430px'
+                }}
+              >
+                <Box
+                  sx={{
+                    height: "100%",
+                    maxHeight: '250px',
+                    backgroundImage: `url(${card.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    borderRadius: "0.5rem",
+                    marginBottom: "0.4rem",
+                  }}
+                />
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+
+        <Box sx={{ display: { xs: "none", sm: 'block' } }}>
+          <Box className="restroGallery" sx={{ width: "auto" }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
+            {itemData.map((item, index) => (
+              <Box key={index} id={`box-${index + 1}`} className="box">
+                <img src={item.img} alt={item.title} />
+              </Box>
+            ))}
           </Box>
 
+          {/* SlikeModal */}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{ bgcolor: 'red' }}
 
-
-          <Box sx={{ display: { xs: "none", sm: 'block' } }}>
-            <Box className="restroGallery" sx={{ width: "auto" }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
-              {itemData.map((item, index) => (
-                <Box key={index} id={`box-${index + 1}`} className="box">
-                  <img src={item.img} alt={item.title} />
-                </Box>
-              ))}
-            </Box>
-
-            {/* SlikeModal */}
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              sx={{ bgcolor: 'gray' }}
-
-            >
-              <Box sx={{ ...style, }} position={'relative'}>
-                <Button
-                  onClick={handleClose}
+          >
+            <Box sx={{ ...style, }} position={'relative'}>
+              <Button
+                onClick={handleClose}
+                sx={{
+                  position: 'absolute',
+                  top: '0px',
+                  right: '0px',
+                  zIndex: 10,
+                  color: 'white'
+                }}
+              >
+                <CloseIcon sx={{ fontSize: '40px' }} />
+              </Button>
+              <Box sx={{ ...style, overflow: 'visible', display: "flex", alignItems: 'center' }}>
+                {/* SLIDER  */}
+                <Box
                   sx={{
-                    position: 'absolute',
-                    top: '0px',
-                    right: '0px',
-                    zIndex: 10,
-                    color: 'white'
+                    width: "100%",
+                    maxWidth: "900px",
+                    margin: "0 auto",
+                    maxHeight: "800px"
                   }}
                 >
-                  <CloseIcon sx={{ fontSize: '40px' }} />
-                </Button>
-                <Box sx={{ ...style, overflow: 'visible', display: "flex", alignItems: 'center' }}>
-                  {/* SLIDER  */}
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: "900px",
-                      margin: "0 auto",
-                      maxHeight: "800px"
-                    }}
-                  >
-                    <Slider {...settings}>
-                      {cards.map((card, index) => (
+                  <Slider {...settings}>
+                    {cards.map((card, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          padding: "0 5px",
+                          boxSizing: "border-box",
+                          height: '70vh'
+                        }}
+                      >
                         <Box
-                          key={index}
                           sx={{
-                            padding: "0 5px",
-                            boxSizing: "border-box",
-                            height: '70vh'
+                            height: "100%",
+                            backgroundImage: `url(${card.image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            borderRadius: "0.5rem",
+                            marginBottom: "0.4rem",
                           }}
-                        >
-                          <Box
-                            sx={{
-                              height: "100%",
-                              backgroundImage: `url(${card.image})`,
-                             
-                              backgroundSize: "cover",
-                              objectFit:"contain",
-                              backgroundPosition: "center",
-                              borderRadius: "0.5rem",
-                              marginBottom: "0.4rem",
-                            }}
-                          />
-                        </Box>
-                      ))}
-                    </Slider>
-                  </Box>
-                  {/* <Box>Hello</Box> */}
+                        />
+                      </Box>
+                    ))}
+                  </Slider>
                 </Box>
+                {/* <Box>Hello</Box> */}
               </Box>
-            </Modal>
-          </Box>
+            </Box>
+          </Modal>
+        </Box>
 
-
-
+        {/* Main Section */}
+        <Box display="flex" flexDirection="column" boxSizing={'border-box'} >
           {/*  Info */}
-          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} my={'10px'}>
+          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} >
             <Box flex={1}>
-              <Typography variant="h4" color="black">
+              <Typography color="#1d1d1d" fontFamily={'poppins, sans-serif'} fontWeight={'500'} sx={
+                { fontSize: { xs: '23px', sm: '36px' }, my: { xs: '11px', sm: '3px' } }
+              }>
                 Biryani Blues
               </Typography>
-              <Typography>Biryani, Hydrabadi, Mughlai</Typography>
-              <Typography>DLF Avenue, Saket, New Delhi</Typography>
-              <Typography>Opens - 9:30 - 10:00</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} color={'#747474'} sx={{ fontWeight: 500 }}>Biryani, Hydrabadi, Mughlai</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} color={'#828282'}>DLF Avenue, Saket, New Delhi</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} color={'#747474'}>Opens - 9:30 - 10:00</Typography>
 
-              <Box display="flex" gap={1} mt={1}>
+              <Box display="flex" gap={1} my={1}>
                 <Button
                   variant="outlined"
                   size="small"
@@ -436,7 +458,16 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray'
+                    borderColor: 'lightgray',
+                    p: '5px',
+                    px: '10px',
+                    textTransform: 'none',
+                    fontFamily: 'poppins, sans-serif',
+                    fontWeight: '300',
+                    fontSize: '14px',
+                    '&:hover': {
+                      border: '1px solid gray'
+                    }
                   }}
                 >
                   Direction
@@ -448,7 +479,16 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray'
+                    borderColor: 'lightgray',
+                    px: '10px',
+                    p: '5px',
+                    textTransform: 'none',
+                    fontFamily: 'poppins, sans-serif',
+                    fontWeight: '300',
+                    fontSize: '14px',
+                    '&:hover': {
+                      border: '1px solid gray'
+                    }
                   }}
                 >
                   Bookmark
@@ -460,7 +500,16 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray'
+                    borderColor: 'lightgray',
+                    px: '10px',
+                    p: '5px',
+                    fontFamily: 'poppins, sans-serif',
+                    textTransform: 'none',
+                    fontSize: '14px',
+                    fontWeight: '300',
+                    '&:hover': {
+                      border: '1px solid gray'
+                    }
                   }}
                 >
                   Share
@@ -530,17 +579,17 @@ const Restaurant = () => {
           </Box>
 
           {/* LargeScreenContentSection  */}
-          <Box display={{ xs: 'none', sm: 'flex', }}>
+          <Box display={{ xs: 'none', sm: 'flex', }} >
             <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
               <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Overview" {...a11yProps(0)} sx={{ textTransform: 'none' }} />
-                    <Tab label="Order Online" {...a11yProps(1)} sx={{ textTransform: 'none' }} />
-                    <Tab label="Reviews" {...a11yProps(2)} sx={{ textTransform: 'none' }} />
-                    <Tab label="Photos" {...a11yProps(3)} sx={{ textTransform: 'none' }} />
-                    <Tab label="Menu" {...a11yProps(4)} sx={{ textTransform: 'none' }} />
-                    <Tab label="Book a Table" {...a11yProps(5)} sx={{ textTransform: 'none' }} />
+                    <Tab label="Overview" {...a11yProps(0)} sx={tabStyles} />
+                    <Tab label="Order Online" {...a11yProps(1)} sx={tabStyles} />
+                    <Tab label="Reviews" {...a11yProps(2)} sx={tabStyles} />
+                    <Tab label="Photos" {...a11yProps(3)} sx={tabStyles} />
+                    <Tab label="Menu" {...a11yProps(4)} sx={tabStyles} />
+                    <Tab label="Book a Table" {...a11yProps(5)} sx={tabStyles} />
                   </Tabs>
 
                 </Box>
@@ -599,14 +648,15 @@ const RatingBox = ({ rating, count, label }) => (
       alignItems="center"
       justifyContent="center"
       sx={{
-        backgroundColor: 'green',
+        backgroundColor: '#248045',
         color: 'white',
         padding: '0 6px',
         borderRadius: '4px',
         height: '24px',
+        marginTop: '5px'
       }}
     >
-      <Typography variant="body2" component="span" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography variant="body2" component="span" sx={{ display: 'flex', alignItems: 'center', }}>
         {rating}
         <StarIcon sx={{ fontSize: 16, ml: 0.5 }} />
       </Typography>

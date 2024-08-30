@@ -32,7 +32,6 @@ function CardWork() {
       sx={{
         width: "100%",
         position: "relative",
-        width: "100%",
         backgroundImage: `url(
           "https://b.zmtcdn.com/merchant-onboarding/f57794be6408563354c463c702ab45b91600672364.png"
         )`,

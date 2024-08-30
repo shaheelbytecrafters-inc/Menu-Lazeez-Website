@@ -8,8 +8,8 @@ const RestaurantOverview = () => {
     return (
         <>
             <Box>
-                <Typography variant="h6" component="h2">About this place</Typography>
-                <Typography variant="h6" component="h2">Menu</Typography>
+                <Typography sx={{fontSize: '26px', fontFamily: 'poppins'}}>About this place</Typography>
+                <Typography fontSize={'20px'} fontFamily={'poppins, sans-serif'} sx={{my: {sm: '10px'}}}>Menu</Typography>
                 <Box display={'flex'} gap={3}>
                     {menuItems.map((item, index) => (
                         <Grid item key={index}>
