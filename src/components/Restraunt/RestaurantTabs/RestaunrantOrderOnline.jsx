@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs } from '@mui/material'
 import React, { useState } from 'react'
+import RestaunrantOrderOnlineCard from './RestaurantOrderOnlineCard'
 
 const RestaunrantOrderOnline = () => {
 
@@ -24,22 +25,22 @@ const RestaunrantOrderOnline = () => {
         </Box>
         <Box sx={{ width: '100%', mx: '12px'}}>
           <CustomTabPanel value={value} index={0}>
-            Today Exclusive
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Meal for one
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            Dimusm
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
-            Ramen
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={4}>
-            Baos
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={5}>
-            Rice and Noodles
+            <RestaunrantOrderOnlineCard/>
           </CustomTabPanel>
         </Box>
       </Box>

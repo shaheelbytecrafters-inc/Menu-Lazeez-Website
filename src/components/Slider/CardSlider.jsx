@@ -27,11 +27,11 @@
         sx={{
           color: "white",
           fontWeight: "bold",
-          background: "#f0ae46", // Initial background color
+          background: "#FF3430", // Initial background color
           "&:hover": {
-            background: "#f0ae46", // Darker background color on hover
+            background: "#FF3430", // Darker background color on hover
           },
-          boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
+          boxShadow: "0px 4px 10px #FF3430", // Add shadow to the icon
         }}
       >
         <ArrowBackIosIcon />
@@ -44,11 +44,11 @@
       <IconButton
         sx={{
           color: "white",
-          background: "#f0ae46", // Initial background color
+          background: "#FF3430", // Initial background color
           "&:hover": {
-            background: "#f0ae46", // Darker background color on hover
+            background: "#FF3430", // Darker background color on hover
           },
-          boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
+          boxShadow: "0px 4px 10px #FF3430", // Add shadow to the icon
         }}
       >
         <ArrowForwardIosIcon />
@@ -207,8 +207,7 @@
             margin: "0 auto",
             position: "relative",
             cursor: "pointer",
-            zIndex:"-1"
-          
+            zIndex: "1",
           }}
         >
           <Slider {...settings}>
@@ -263,7 +262,7 @@
                       sx={{
                         margin: "0",
                         paddingBlock: "0.5rem",
-                        color: "#f0ae46",
+                        color: "#FF3430",
                         lineHeight: "1",
                       }} // Ensure no margin and minimal padding
                     >
@@ -281,7 +280,6 @@
                       color="text.primary"
                       fontWeight="bolder"
                       sx={{ margin: "0", lineHeight: "1" }} // Adjust line height for the price }} // Ensure no margin
-                      
                     >
                       {card.price}
                     </Typography>
