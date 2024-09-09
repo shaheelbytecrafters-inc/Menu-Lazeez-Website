@@ -116,14 +116,14 @@ function LazeezPartner() {
           fontSize: {
             xs: "12px",
             sm: "14px",
-            md: "16px", 
-            lg: "20px", 
+            md: "16px",
+            lg: "20px",
           },
           marginInline: {
-            xs: "1rem", 
-            sm: "2rem", 
-            md: "3rem", 
-            lg: "7rem", 
+            xs: "1rem",
+            sm: "2rem",
+            md: "3rem",
+            lg: "7rem",
             xl: "5rem",
           },
           textAlign: "center",
@@ -162,12 +162,12 @@ function LazeezPartner() {
               >
                 <CardContent
                   sx={{
-                    display: "flex", 
-                    alignItems: "center", 
-                    padding: "10px", 
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "10px",
                   }}
                 >
-                  <CardMedia
+                  {/* <CardMedia
                     component="img"
                     image={card.image}
                     alt={card.title}
@@ -176,13 +176,13 @@ function LazeezPartner() {
                       height: "30px", 
                       marginInline: "20px", 
                     }}
-                  />
+                  /> */}
                   <Box>
                     <Typography
-                      fontSize="24px"
-                      fontWeight="540"
+                      fontSize="26px"
+                      fontWeight="600"
                       component="div"
-                      sx={{ margin: "0", color: "#0366D6" }} 
+                      sx={{ margin: "0", color: "#fe0604" }}
                     >
                       {card.title}
                     </Typography>
@@ -196,7 +196,7 @@ function LazeezPartner() {
                         margin: "0",
                         paddingBlock: "0.5rem",
                         lineHeight: "1",
-                      }} 
+                      }}
                     >
                       {card.description}
                     </Typography>

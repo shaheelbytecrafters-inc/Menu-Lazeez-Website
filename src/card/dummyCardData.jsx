@@ -1,9 +1,10 @@
+
+import food from '../../src/assets/images/food.jpeg'
 const data = [
   {
     id: 1,
     name: "Royal Restaurant",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     rating: 3.9,
     cuisine: ["North Indian", "Chinese", "Sichuan"],
     price_for_two: 450,
@@ -14,8 +15,7 @@ const data = [
   {
     id: 2,
     name: "Biryani Blues",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     rating: 4.4,
     cuisine: ["Biryani", "Hyderabadi", "Mughlai"],
     price_for_two: 450,
@@ -26,8 +26,7 @@ const data = [
   {
     id: 3,
     name: "Kabab King Restaurant",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     rating: 3.6,
     cuisine: ["North Indian", "Chinese"],
     price_for_two: 450,
@@ -38,8 +37,7 @@ const data = [
   {
     id: 4,
     name: "Spicy Delight",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["Indian", "Chinese"],
     rating: 4.5,
     price_for_two: 500,
@@ -49,8 +47,7 @@ const data = [
   {
     id: 5,
     name: "Pasta Paradise",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["Italian"],
     rating: 4.2,
     price_for_two: 700,
@@ -60,8 +57,7 @@ const data = [
   {
     id: 6,
     name: "Burger Hub",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["American"],
     rating: 4.0,
     price_for_two: 300,
@@ -71,8 +67,7 @@ const data = [
   {
     id: 7,
     name: "Sushi Express",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["Japanese"],
     rating: 4.7,
     price_for_two: 900,
@@ -82,8 +77,7 @@ const data = [
   {
     id: 8,
     name: "Vegan Bites",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["Vegan", "Healthy"],
     rating: 4.3,
     price_for_two: 600,
@@ -93,8 +87,7 @@ const data = [
   {
     id: 9,
     name: "Taco Fiesta",
-    image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    image:food,
     cuisine: ["Mexican"],
     rating: 4.6,
     price_for_two: 450,

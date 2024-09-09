@@ -1,8 +1,7 @@
-
 import { Box, Button, Typography } from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-const JourneyPartner = () => {
+const NightLifeBanner = () => {
   return (
     <Box sx={{ marginBottom: "2rem" }}>
       <Box
@@ -12,10 +11,10 @@ const JourneyPartner = () => {
             xs: "1rem",
             sm: "2rem",
             md: "3rem",
-            lg: "7rem",
+            lg: "5rem",
             xl: "5rem",
           },
-          backgroundImage: `url(https://www.zomato.com/partner-with-us/static/media/StartJourney.7cfaaf0a.jpg)`,
+          backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkUvhi-mYdaquhn2WlKlHKiP6VEQQ0izxhKg&s)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: "10px",
@@ -38,25 +37,25 @@ const JourneyPartner = () => {
               marginBottom: { xs: "0.5rem", sm: "1rem" },
             }}
           >
-            Start your journey with Zomato
+            Get up to
           </Typography>
           <Typography
             sx={{
-              fontSize: { xs: "14px", sm: "16px", md: "18", lg: "20" },
+              fontSize: { xs: "14px", sm: "16px", md: "30px", lg: "45px" },
               lineHeight: { xs: "22px", sm: "30px", md: "50px" },
               marginBottom: { xs: "0.5rem", sm: "1rem" },
             }}
           >
-            Create your restaurant page and register for online ordering
+            50% off on your online order
           </Typography>
           <Button
             variant="contained"
-            endIcon={<ArrowRightIcon style={{ fontSize: "1.6rem" }} />} 
+            endIcon={<ArrowRightIcon style={{ fontSize: "1.6rem" }} />}
             sx={{
               backgroundColor: "#0366D6",
-              fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.2rem" }, 
+              fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.2rem" },
               textTransform: "none",
-              minWidth: { xs: "100px", sm: "120px", md: "140px" ,lg:"160px"}, 
+              minWidth: { xs: "100px", sm: "120px", md: "140px", lg: "160px" },
             }}
           >
             Start now
@@ -67,4 +66,4 @@ const JourneyPartner = () => {
   );
 };
 
-export default JourneyPartner;
+export default NightLifeBanner;

@@ -46,7 +46,7 @@ const HoverFilterButton = () => {
           alignItems: "center",
           mt: 2,
           mb: "3px",
-          zIndex: 1300,
+          // zIndex: 1300,
           bgcolor: "white",
           color: "black",
         }}
@@ -222,7 +222,7 @@ const HoverFilterButton = () => {
         <Box
           sx={{
             padding: "0.8rem", // Decreased padding
-            backgroundColor: "#D32F2F",
+            backgroundColor: "#fe0604",
             textAlign: "center",
             fontSize: "0.9rem", // Decreased font size
             fontWeight: "bold",

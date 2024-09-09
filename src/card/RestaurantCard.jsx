@@ -1,32 +1,36 @@
 import { Box, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useNavigate } from "react-router-dom";
 
 export default function RestaurantCard({ restaurant }) {
-  // Ensure location is an array or convert to array if it's a string
+  const navigate=useNavigate()
   const locationArray = Array.isArray(restaurant.location)
     ? restaurant.location
     : restaurant.location
-    ? restaurant.location.split(",") // Split string by commas if it's a string
+    ? restaurant.location.split(",")
     : [];
 
-  // Join locations with commas and add ellipses for overflow
   const locationText = locationArray.join(", ") || "Location not available";
+
 
   return (
     <Box
       sx={{
-        borderRadius: "0.7rem",
+        borderRadius: "0.5rem",
         overflow: "hidden",
-        maxWidth: "300px", // Increased the max width of the card
-        width: "100%",
-        backgroundColor: "#fff",
+        width: "95%", // Ensures the card takes full width of the grid column
         transition: "box-shadow 0.3s ease",
-        position: "relative",
-        padding: "10px",
+        boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
         "&:hover": {
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Subtle shadow on hover
+          boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
         },
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
       }}
+      onClick={() => navigate("/restaurantname")}
     >
       <Box
         component="img"
@@ -35,91 +39,76 @@ export default function RestaurantCard({ restaurant }) {
         sx={{
           display: "block",
           width: "100%",
-          height: "240px", // Increased the height of the image
+          height: "200px",
           objectFit: "cover",
-          borderRadius: "0.7rem",
-          marginBottom:"1rem"
+          borderRadius: "7px",
+          marginBottom: "1rem",
         }}
       />
 
-      <Box
-        sx={{
-          backgroundColor: "#fff",
-        }}
-      >
+      <Box sx={{ width: "100%" }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "8px",
-
+            alignItems: "center",
+            marginBottom: "0.5rem",
           }}
         >
           <Typography
-            sx={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0" }}
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "600",
+            }}
           >
-            {`${restaurant.name}`}
+            {restaurant.name}
           </Typography>
           <Box
             sx={{
               display: "flex",
-              alignItems: "center", // Ensures content is vertically centered
+              alignItems: "center",
               backgroundColor: "green",
               borderRadius: "4px",
               color: "white",
-              height:"1rem",
-              marginTop:"5px",
-              padding:"2px"
+              height: "1rem",
+              padding: "2px",
             }}
           >
-            <Typography
-              fontSize="0.8rem"
-              fontWeight="bold"
-              sx={{ lineHeight: "1" }}
-            >
+            <Typography fontSize="0.7rem" fontWeight="bold">
               {restaurant.rating}
             </Typography>
             <StarIcon
               sx={{
-                fontSize: "0.7rem",
-                marginLeft: "2px", // Adds minimal space between the rating and the star icon
+                fontSize: "0.6rem",
+                marginLeft: "2px",
               }}
             />
           </Box>
         </Box>
 
-        <Box
+        <Typography
+          variant="body2"
+          color="text.secondary"
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "8px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
           }}
         >
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              width: "55%",
-            }}
-          >
-            {locationText}
-          </Typography>
+          {locationText}
+        </Typography>
 
-          <Typography variant="body2" color="text.secondary">
-            ₹{restaurant.price_for_two} for two
-          </Typography>
-        </Box>
+        <Typography variant="body2" color="text.secondary">
+          ₹{restaurant.price_for_two} for two
+        </Typography>
 
         <Typography
-          fontSize="0.8rem"
+          fontSize="0.7rem"
           color="text.secondary"
-          textAlign={"end"}
+          textAlign={"left"}
           fontWeight="bold"
         >
-          {`${restaurant.delivery_time}`}
+          {restaurant.delivery_time}
         </Typography>
       </Box>
     </Box>

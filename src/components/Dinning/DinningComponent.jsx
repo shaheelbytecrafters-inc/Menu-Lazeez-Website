@@ -1,61 +1,64 @@
-// import React from "react";
-import { Box } from "@mui/material";
-import data from "../../card/dummyCardData";
+import { Box, Button, Typography } from "@mui/material";
 import RestaurantCard from "../../card/RestaurantCard";
+import data from "../../card/dummyCardData";
 import HoverFilterButton from "../Delivery/HoverFilterButton";
 
 const DinningComponent = () => {
   return (
-    <>
-      <Box>
+    <Box>
+      <Box
+      sx={{
+        marginLeft: {
+            xs: "1rem",
+            sm: "3rem",
+            md: "4rem",
+            lg: "4rem",
+          },
+          marginBottom:"2rem"
+      }}
+      >
+        
+        <HoverFilterButton />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Box
           sx={{
+            width: "100%",
             display: "flex",
-            justifyContent: "left",
-            marginLeft: {
-              xs: "1rem",
-              sm: "3rem",
-              md: "5rem",
-              lg: "6rem",
-            },
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          {/* <Logo/> */}
-          <HoverFilterButton />
-        </Box>
-        <Box
-          sx={{
-            display: "flex", // Flex container
-            flexWrap: "wrap", // Allows wrapping of cards onto multiple lines
-            justifyContent: "center", // Centers cards horizontally
-            gap: "16px", // Gap between cards
-            padding: "16px",
-          }}
-        >
-          {data.map((restaurant) => (
-            <Box
-              key={restaurant.id}
-              sx={{
-                flex: "1 1 calc(25% - 32px)", // Default to 4 cards per row
-                maxWidth: "345px", // Optional: set a maximum width for each card
-                boxSizing: "border-box",
-                "@media (max-width: 1024px)": {
-                  flex: "1 1 calc(33.33% - 32px)", // 3 cards per row on medium screens
-                },
-                "@media (max-width: 768px)": {
-                  flex: "1 1 calc(50% - 32px)", // 2 cards per row on small screens
-                },
-                "@media (max-width: 480px)": {
-                  flex: "1 1 calc(100% - 32px)", // 1 card per row on very small screens
-                },
-              }}
-            >
-              <RestaurantCard restaurant={restaurant} />
-            </Box>
-          ))}
+          <Box
+            sx={{
+              display: "grid",
+              gap: "3rem",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(3,1fr)",
+              },
+              width: "90%",
+              justifyItems: "center",
+            }}
+          >
+            {data.map((restaurant) => (
+              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+            ))}
+          </Box>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 

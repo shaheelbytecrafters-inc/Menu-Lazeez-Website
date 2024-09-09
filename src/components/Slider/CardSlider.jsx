@@ -1,296 +1,222 @@
-  import Slider from "react-slick";
-  import "slick-carousel/slick/slick.css";
-  import "slick-carousel/slick/slick-theme.css";
-  import { Box, Card, CardContent, Typography, IconButton } from "@mui/material";
-  import { styled } from "@mui/system";
-  import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-  import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-  import { useNavigate } from "react-router-dom";
-  // import LocationOnIcon from "@mui/icons-material/LocationOn";
-  import FmdGoodIcon from "@mui/icons-material/FmdGood";
-  
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Box, Card, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import res from "../../../src/assets/images/res.jpeg";
 
-  // Custom styles for the arrow buttons
-  const ArrowButton = styled(Box)(({ direction }) => ({
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    cursor: "pointer",
-    zIndex: 1,
-    [direction]: direction === "left" ? "-50px" : "-50px", // Adjust this value to position the button
-  }));
+// Remove custom arrow components
+// const ArrowButton = styled(Box)(({ direction }) => ({
+//   position: "absolute",
+//   top: "50%",
+//   transform: "translateY(-50%)",
+//   cursor: "pointer",
+//   zIndex: 1,
+//   [direction]: "-40px",
+// }));
 
-  // Custom Arrow Components
-  const PrevArrow = ({ onClick }) => (
-    <ArrowButton direction="left" onClick={onClick}>
-      <IconButton
-        sx={{
-          color: "white",
-          fontWeight: "bold",
-          background: "#FF3430", // Initial background color
-          "&:hover": {
-            background: "#FF3430", // Darker background color on hover
-          },
-          boxShadow: "0px 4px 10px #FF3430", // Add shadow to the icon
-        }}
-      >
-        <ArrowBackIosIcon />
-      </IconButton>
-    </ArrowButton>
-  );
+// const PrevArrow = ({ onClick }) => (
+//   <ArrowButton direction="left" onClick={onClick}>
+//     <IconButton
+//       sx={{
+//         color: "white",
+//         fontWeight: "bold",
+//         background: "black",
+//         "&:hover": {
+//           background: "black",
+//         },
+//         boxShadow: "0px 4px 10px black",
+//       }}
+//     >
+//       <ArrowBackIosIcon />
+//     </IconButton>
+//   </ArrowButton>
+// );
 
-  const NextArrow = ({ onClick }) => (
-    <ArrowButton direction="right" onClick={onClick}>
-      <IconButton
-        sx={{
-          color: "white",
-          background: "#FF3430", // Initial background color
-          "&:hover": {
-            background: "#FF3430", // Darker background color on hover
-          },
-          boxShadow: "0px 4px 10px #FF3430", // Add shadow to the icon
-        }}
-      >
-        <ArrowForwardIosIcon />
-      </IconButton>
-    </ArrowButton>
-  );
+// const NextArrow = ({ onClick }) => (
+//   <ArrowButton direction="right" onClick={onClick}>
+//     <IconButton
+//       sx={{
+//         color: "white",
+//         background: "black",
+//         "&:hover": {
+//           background: "black",
+//         },
+//         boxShadow: "0px 4px 10px black",
+//       }}
+//     >
+//       <ArrowForwardIosIcon />
+//     </IconButton>
+//   </ArrowButton>
+// );
 
-  function CardSlider() {
-    const cards = [
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      {
-        image:
-          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-        title: "Cheese Burger",
-        description: "Burger Arena",
-        price: "$3.35",
-      },
-      // Add more cards as needed
-    ];
+function CardSlider() {
+  const cards = [
+    {
+      name: "The Gourmet Kitchen",
+      image: res,
+    },
+    {
+      name: "Sushi World",
+      image: res,
+    },
+    {
+      name: "Pasta Palace",
+      image: res,
+    },
+    {
+      name: "Bistro Delight",
+      image: res,
+    },
+    {
+      name: "Urban Bites",
+      image: res,
+    },
+  ];
 
-    const navigate = useNavigate();
-    const settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 5,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 3000,
-      nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />,
-      centerMode: false, // Ensure consistent spacing
-      centerPadding: "0", // Ensure no additional padding is added in the center mode
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-          },
+  const navigate = useNavigate();
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    // Remove arrow buttons from settings
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
         },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1,
-          },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
         },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
-      ],
-    };
-    const handleRedirect=()=>{
-      navigate("/restaurantname");
-      console.log("Hello")
-    }
+      },
+    ],
+  };
 
-    return (
+  const handleRedirect = () => {
+    navigate("/restaurantname");
+  };
+
+  return (
+    <Box
+      sx={{
+        paddingTop: "1rem",
+        paddingBottom: "50px",
+        paddingInline: "50px",
+        cursor: "pointer",
+        color: "black",
+      }}
+    >
       <Box
         sx={{
-          paddingTop: "50px",
-          paddingBottom: "50px",
-          paddingInline: "50px",
+          width: "100%",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          position: "relative",
           cursor: "pointer",
-          // backgroundColor:"red"
-          // zIndex:1
+          // bgcolor:"red"
         }}
       >
         <Typography
-          // variant="h6"
-          // fontSize="0rem"
-          fontWeight="800"
+          fontWeight="bold"
           sx={{
             fontSize: {
               xs: "1.4rem",
               sm: "1.5rem",
               md: "1.7rem",
-              lg: "1.6rem",
+              lg: "2rem",
             },
-            pl: {
-              xs: 2,
-              lg: 8,
-            },
+            // pl: {
+            //   xs: 2,
+            //   lg: 8,
+            // },
             pb: {
               xs: 0.8,
               sm: 1,
               md: 2,
               lg: 3,
             },
-            // fontWeight: "bold",
-            textAlign: "center",
+            // textAlign: "center",
             marginBottom: "1rem",
-            // zIndex: -5,
+            // bgcolor:"red"
           }}
         >
-          Popular restaurants
+          Foodie Favorites restaurants
         </Typography>
-
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: "900px",
-            margin: "0 auto",
-            position: "relative",
-            cursor: "pointer",
-            zIndex: "1",
-          }}
-        >
-          <Slider {...settings}>
-            {cards.map((card, index) => (
-              <Box
-                onClick={() => handleRedirect()}
-                key={index}
+        <Slider {...settings}>
+          {cards.map((card, index) => (
+            <Box
+              onClick={handleRedirect}
+              key={index}
+              sx={{
+                padding: "0 5px",
+                boxSizing: "border-box",
+              }}
+            >
+              <Card
                 sx={{
-                  padding: "0 5px", // Reduced space around each card to ~5px
-                  boxSizing: "border-box",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  width: "100%",
                 }}
               >
-                <Card
+                <Box
                   sx={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    width: "100%", // Full width for responsiveness
-                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px", // Corrected box shadow syntax
-                    // box-shadow: ;
-
-                    // padding:"5px"
+                    height: "320px",
+                    backgroundImage: `url(${card.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    position: "relative",
                   }}
                 >
+                  {/* Text overlay at the bottom */}
                   <Box
                     sx={{
-                      height: "150px",
-                      backgroundImage: `url(${card.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      borderRadius: "0.5rem",
-                      marginBottom: "0.4rem",
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      padding: "0", // Remove padding around the content
+                      position: "absolute",
+                      bottom: 0,
+                      width: "100%",
+                      background: "rgba(0, 0, 0, 0.6)", // Slightly dark background for better text visibility
+                      padding: "8px 12px",
                     }}
                   >
                     <Typography
-                      fontSize="0.9rem"
-                      fontWeight="bold"
-                      component="div"
-                      sx={{ margin: "0" }} // Ensure no margin and minimal padding
-                    >
-                      {card.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      display="flex"
-                      alignItems="center"
+                      variant="subtitle1"
                       sx={{
-                        margin: "0",
-                        paddingBlock: "0.5rem",
-                        color: "#FF3430",
-                        lineHeight: "1",
-                      }} // Ensure no margin and minimal padding
+                        color: "white",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                      }}
                     >
-                      <FmdGoodIcon
-                        sx={{
-                          fontSize: "14px",
-                          marginRight: "4px",
-                          lineHeight: "1",
-                        }}
-                      />
-                      {card.description}
+                      {card.name}
                     </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.primary"
-                      fontWeight="bolder"
-                      sx={{ margin: "0", lineHeight: "1" }} // Adjust line height for the price }} // Ensure no margin
-                    >
-                      {card.price}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            ))}
-          </Slider>
-        </Box>
+                  </Box>
+                </Box>
+              </Card>
+            </Box>
+          ))}
+        </Slider>
       </Box>
-    );
-  }
+    </Box>
+  );
+}
 
-  export default CardSlider;
+export default CardSlider;

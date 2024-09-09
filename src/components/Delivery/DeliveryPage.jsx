@@ -1,67 +1,74 @@
 import RestaurantCard from "../../card/RestaurantCard";
 import data from "../../card/dummyCardData";
 import { Box } from "@mui/material";
-import Variety from "./Variety";
-import Logo from "./Logo";
+// import Variety from "./Variety";
+// import Logo from "./Logo";
 // import HoverFilterButton from "./HoverFilterButton";
+import MyLogo from "./MyLogo";
+import VarietySlider from "./VarietySlider"
 
 const DeliverPage = () => {
   return (
-    <Box>
+    <Box
+    sx={{
+      width:"100vw"
+    }}>
       <Box
-      // backgroundColor="red"
-      sx={{
-        paddingInline:{
-          lg:"3rem",
-          xl:"2rem",
-
-        }
-      }}
+        // backgroundColor="red"
+        sx={{
+          marginInline: {
+            lg: "3rem",
+            xl: "2rem",
+          },
+        }}
       >
-        <Variety/>
-        <Logo/>
+        {/* <Variety />  */}
+        {/* <Logo />*/}
+        <MyLogo/>
+        <VarietySlider/>
+      
       </Box>
 
       {/* Container for the Restaurant Cards */}
-      <Box display="flex" justifyContent="center">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Box
           sx={{
+            width: "100%",
             display: "flex",
-            flexWrap: "wrap",
             justifyContent: "center",
-            gap: {
-              xs: "1rem",
-              sm: "1.5rem",
-              md: "2rem",
-              lg: "3rem",
-            },
-            width: "95%",
-            boxSizing: "border-box",
-            paddingBlock: "1.5rem",
+            alignItems: "center",
           }}
         >
-          {/* Render Restaurant Cards */}
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
+              display: "grid",
               gap: "3rem",
-              "@media (max-width: 1024px)": {
-                flex: "1 1 calc(50% - 4rem)", // 2 cards per row on medium screens
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(3,1fr)",
               },
-              "@media (max-width: 768px)": {
-                flex: "1 1 calc(100% - 4rem)", // 1 card per row on small screens
-              },
+              width: "90%",
+              justifyItems: "center",
             }}
           >
             {data.map((restaurant) => (
-              <RestaurantCard restaurant={restaurant} key={restaurant.id} />
+              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
             ))}
           </Box>
         </Box>
       </Box>
     </Box>
+    // </Box>
   );
 };
 
