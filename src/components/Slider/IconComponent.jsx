@@ -39,8 +39,8 @@ const iconData = [
     icon: (
       <FaLocationDot
         fontSize="5rem"
-        color="#FF3430"
-        filter="drop-shadow(6px 5px 10px #FF3430)"
+        color="#f0ae46"
+        filter="drop-shadow(6px 5px 10px #f0ae46)"
       />
     ),
     title: "Select location",
@@ -50,8 +50,8 @@ const iconData = [
     icon: (
       <FaBell
         fontSize="5rem"
-        color="#FF3430"
-        filter="drop-shadow(6px 5px 10px #FF3430)"
+        color="#f0ae46"
+        filter="drop-shadow(6px 5px 10px #f0ae46)"
       />
     ),
     title: "Choose order",
@@ -61,8 +61,8 @@ const iconData = [
     icon: (
       <FaFileInvoiceDollar
         fontSize="5rem"
-        color="#FF3430"
-        filter="drop-shadow(6px 5px 10px #FF3430)"
+        color="#f0ae46"
+        filter="drop-shadow(6px 5px 10px #f0ae46)"
       />
     ),
     title: "Pay advanced",
@@ -73,8 +73,8 @@ const iconData = [
     icon: (
       <FaCircleUser
         fontSize="5rem"
-        color="#FF3430"
-        filter="drop-shadow(6px 5px 10px #FF3430)"
+        color="#f0ae46"
+        filter="drop-shadow(6px 5px 10px #f0ae46)"
       />
     ),
     title: "Enjoy meals",
@@ -112,7 +112,7 @@ function IconComponent() {
             },
             fontWeight: "900",
             textAlign: "center",
-            color: "#FF3430",
+            color: "#fc8803",
             marginBottom: {
               xs: "1rem",
               sm: "1.5rem",

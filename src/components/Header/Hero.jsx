@@ -1,83 +1,77 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-import Navbar from "./Navbar";
-import MainSearchBar from "../Searchbar/MainSearchBar";
+import NavBarHero from "../../../src/assets/images/Home.jpg";
 
 const Hero = () => {
   return (
     <Box
+      
       sx={{
-        backgroundImage: "url(/HeroImg.jpeg)",
+        width: "100vw", 
+        minHeight: "100vh", 
+        display: "flex",
+        flexDirection: "column",
+        backgroundImage: `url(${NavBarHero})`,
+        backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        width: "100vw",
-        height: "70vh",
-        position: "relative",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        maxHeight: "543px",
+        margin: 0,
+        padding: 0,
       }}
     >
       <Box
         sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          marginTop: 1,
-          // bgcolor:"red"
+          flex: 1,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "0 5%",
         }}
       >
-        <Navbar />
-      </Box>
-      <Box width="100%" height="100%" position="relative">
+        {/* Left Content */}
         <Box
           sx={{
-            position: "absolute",
-            flexDirection: "column",
             display: "flex",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            width: "100%",
+            alignItems: "flex-start",
+            textAlign: "left",
             gap: "10px",
-            // bgcolor: "red"
+            flex: 1,
           }}
         >
           <Typography
             sx={{
               fontSize: { xs: 40, sm: 70 },
-              fontFamily: "poppins, sans-serif",
-              color: "white",
+              fontFamily: "Poppins, sans-serif",
+              color: "black",
               fontStyle: "italic",
               fontWeight: "900",
             }}
           >
-            Lazeez
+            MenuLazeez
           </Typography>
           <Typography
             sx={{
-              fontFamily: "poppins, sans-serif",
-              color: "white",
+              fontFamily: "Poppins, sans-serif",
+              color: "black",
               fontSize: { xs: 25, sm: 35 },
-              fontWeight: "300",
+              fontWeight: "500",
             }}
           >
-            Discover the best food & drinks in Delhi NCR
+            Bringing the Best Bites to Your Doorstep.
           </Typography>
-          <Box
-            sx={{
-              width: "100%",
-              // bgcolor:"green"
-            }}
-          >
-            <MainSearchBar />
-          </Box>
+        </Box>
+
+        {/* Right Circular Image */}
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
         </Box>
       </Box>
     </Box>

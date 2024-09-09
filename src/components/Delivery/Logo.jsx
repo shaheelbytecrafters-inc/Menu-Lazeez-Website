@@ -225,6 +225,7 @@ function Logo() {
               >
                 Cake
               </Typography>
+              
             </Box>
           ))}
         </Slider>

@@ -6,61 +6,84 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import StarIcon from '@mui/icons-material/Star';
-import { Box, Chip } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 export default function ReviewCard() {
   return (
-    <Card sx={{ width: '100%', my: '3px', boxShadow: 'none', borderBottom: '1px solid lightgray'}}>
+    <Card sx={{ width: '100%', my: '3px', boxShadow: 'none', borderBottom: '1px solid lightgray' }}>
+      <Box display={'flex'} justifyContent={'space-between'}>
       <CardHeader
         avatar={
           <Avatar src="/path/to/avatar.jpg" aria-label="user-avatar" />
         }
         title="Aryan Agarwal"
         subheader="0 reviews • 16 Followers"
-        sx={{ paddingBottom: '0' }} 
+        sx={{
+          paddingBottom: '0',
+          '& .MuiCardHeader-title': {
+            fontSize: '17px',
+            fontWeight: 400,
+            fontFamily: 'poppins, sans-serif'
+          },
+          '& .MuiCardHeader-subheader': {
+            fontSize: '12px',
+            color: 'gray',
+            fontFamily: 'poppins, sans-serif',
+            fontWeight: '300'
+          },
+        }}
       />
+      <Button sx={{color: 'red', fontFamily: 'poppins, sans-serif', border: '1px solid pink', fontSize: '12px'}}>Follow</Button>
+      </Box>
       <CardContent>
         <Box display={'flex'} alignItems="center" marginBottom={'5px'}>
-          <Chip
-            icon={<StarIcon sx={{ color: 'white', fontSize: '1rem' }} />}
-            label="5"
+        <Chip
+            label={<span style={{ order: 1, fontFamily: 'poppins, sans-serif', fontWeight: '500'}}>4.7</span>}
+            icon={<StarIcon sx={{
+              color: 'white', fontSize: '13px', order: 2}} />}
             sx={{
               backgroundColor: '#4caf50',
               color: 'white',
-              fontWeight: 'bold',
-              marginRight: '8px',
-              height: '24px',
+              marginRight: '6px',
+              height: '20px',
+              width: '50px',
               borderRadius: '5px',
-              fontSize: '14px',
-              paddingLeft: '4px',
-              paddingRight: '4px',
+              fontSize: '12px',
+              bgcolor: 'green',
+              '& .MuiChip-label': {
+                px: '0px'
+              },           
+              '& .MuiChip-icon' : {
+                color : 'white'
+
+              }
             }}
           />
           <Typography
-            variant="body2"
-            color="textSecondary"
             sx={{
               marginRight: '8px',
               fontFamily: 'Poppins, sans-serif',
               fontWeight: 350,
-              color: '#666',
+              color: 'black',
+              fontSize: "13px"
             }}
           >
             DINING
           </Typography>
           <Typography
-            variant="body2"
-            color="textSecondary"
-            sx={{ fontFamily: 'Poppins, sans-serif', color: '#666' }}
+            sx={{ fontFamily: 'Poppins, sans-serif', color: '#666', fontSize: '13px' }}
           >
             3 hours ago
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary" fontFamily={'Poppins, sans-serif'}>
           Mohan served very well! Tasty food
+        </Typography>
+        <Typography fontFamily={'Poppins, sans-serif'} my={'6px'} color={'gray'} fontSize={'13px'} fontWeight={'200'}>
+         0 votes for helpful, 1 Comment
         </Typography>
         <Box display={'flex'} alignItems="center" marginTop={'10px'}>
           <IconButton aria-label="helpful" sx={{ padding: '5px' }}>

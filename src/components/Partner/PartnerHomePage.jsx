@@ -54,7 +54,7 @@ const PartnerHomePage = () => {
         }}
       >
         {/* Navbar containing Lazeez and Avatar */}
-        <Box
+        {/* <Box
           sx={{
             backgroundColor: {
               xs: "white",
@@ -82,9 +82,9 @@ const PartnerHomePage = () => {
               },
               marginBottom: "5px",
             }}
-          >
-            {/* Lazeez branding */}
-            <Stack>
+          > */}
+        {/* Lazeez branding */}
+        {/* <Stack>
               <Typography
                 variant="h5"
                 component="h1"
@@ -126,10 +126,10 @@ const PartnerHomePage = () => {
               >
                 for Business
               </Typography>
-            </Stack>
+            </Stack> */}
 
-            {/* Avatar and Advertisement Button */}
-            <Stack direction="row" alignItems="center" spacing={2}>
+        {/* Avatar and Advertisement Button */}
+        {/* <Stack direction="row" alignItems="center" spacing={2}>
               <Button
                 variant="text"
                 sx={{
@@ -180,11 +180,11 @@ const PartnerHomePage = () => {
                 </Typography>
                 <hr></hr>
               </Stack>
-            </Stack>
-          </Stack>
+            </Stack> */}
+        {/* </Stack>  */}
 
-          {/* Hamburger icon for smaller screens */}
-          <Box
+        {/* Hamburger icon for smaller screens */}
+        {/* <Box
             sx={{
               position: "absolute",
               top: "1rem",
@@ -224,9 +224,9 @@ const PartnerHomePage = () => {
               role="presentation"
               onClick={toggleDrawer(false)}
               onKeyDown={toggleDrawer(false)}
-            >
-              {/* Close button inside the drawer */}
-              <IconButton
+            > */}
+        {/* Close button inside the drawer */}
+        {/* <IconButton
                 color="inherit"
                 onClick={toggleDrawer(false)}
                 sx={{
@@ -247,8 +247,8 @@ const PartnerHomePage = () => {
                 </ListItem>
               </List>
             </Box>
-          </Drawer>
-          <Box
+          </Drawer> */}
+        {/* <Box
             sx={{
               display: { xs: "flex", sm: "none" }, 
               alignItems: "center",
@@ -259,7 +259,7 @@ const PartnerHomePage = () => {
             }}
           >
             {/* Phone Icon with Light Blue Background */}
-            <Box
+        {/* <Box
               sx={{
                 backgroundColor: "#E3F2FD", 
                 borderRadius: "50%",
@@ -278,10 +278,10 @@ const PartnerHomePage = () => {
                   },
                 }}
               />
-            </Box>
+            </Box> */}
 
-            {/* Phone Text */}
-            <Typography
+        {/* Phone Text */}
+        {/* <Typography
               sx={{
                 color: "black",
                 fontSize: {
@@ -294,9 +294,9 @@ const PartnerHomePage = () => {
             >
               Need help? Contact{" "}
               <span style={{ color: "#2196F3" }}>+91 97-38-38-38-38</span>
-            </Typography>
-          </Box>
-        </Box>
+            </Typography> */}
+        {/* </Box>
+        </Box>  */}
 
         {/* Main content */}
         <Box
@@ -306,6 +306,7 @@ const PartnerHomePage = () => {
               xs: "center",
               sm: "left",
               md: "left",
+              paddingTop: "1rem",
             },
           }}
         >
@@ -356,7 +357,7 @@ const PartnerHomePage = () => {
                 xl: "1rem",
               },
               marginBottom: {
-                xs: "2rem", 
+                xs: "2rem",
                 sm: "2rem",
                 md: "2rem",
                 lg: "1rem",
@@ -379,7 +380,7 @@ const PartnerHomePage = () => {
           </Typography>
 
           {/* Buttons */}
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", sm: "row" }, 
@@ -393,25 +394,26 @@ const PartnerHomePage = () => {
                 xs: "1rem",
               },
             }}
+          > */}
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: "#fe0604",
+              color: "white",
+              textTransform: "none",
+              fontSize: { xs: "0.8rem", sm: "1rem" },
+              padding: { xs: "0.7rem", sm: "0.7rem" },
+              ":hover": {
+                backgroundColor: "#fe0604",
+                opacity: 1,
+              },
+              width: "50%",
+            }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                backgroundColor: "#2196F3",
-                color: "white",
-                textTransform: "none",
-                fontSize: { xs: "0.8rem", sm: "1rem" },
-                padding: { xs: "0.7rem", sm: "0.7rem" },
-                ":hover": {
-                  backgroundColor: "#2196F3", 
-                  opacity: 1,
-                },
-              }}
-            >
-              Register your restaurant
-            </Button>
-            <Button
+            Register your restaurant
+          </Button>
+          {/* <Button
               variant="outlined"
               sx={{
                 borderColor: "white",
@@ -429,8 +431,8 @@ const PartnerHomePage = () => {
               }}
             >
               View your existing restaurant
-            </Button>
-          </Box>
+            </Button> */}
+          {/* </Box> */}
           <Typography
             lineHeight="2.4rem"
             fontSize="14px"
@@ -462,11 +464,7 @@ const PartnerHomePage = () => {
           borderRadius: "6px",
         }}
       >
-        <Typography
-          marginBottom="1rem"
-          fontSize="30px"
-          fontWeight="500"
-        >
+        <Typography marginBottom="1rem" fontSize="30px" fontWeight="500">
           Get started with online ordering
         </Typography>
         <Typography

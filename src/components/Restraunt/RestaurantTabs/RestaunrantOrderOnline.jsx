@@ -10,17 +10,35 @@ const RestaunrantOrderOnline = () => {
     setValue(newValue);
   };
 
+  
+
+
+  const tabStyles = {
+    textTransform: 'none',
+    alignItems: 'flex-start', 
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: '17px',
+    color: 'gray',
+    fontWeight: '300',
+    justifyContent: 'flex-start',
+    textAlign: 'left', 
+    '&.Mui-selected': {
+      color: 'red',
+      fontWeight: '400',
+    },
+  };
+
   return (
     <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
-      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', tabStyles }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px', borderRight: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" orientation="vertical">
-            <Tab label="Today'Exclusive Dishes(3)" {...a11yProps(0)} sx={{ textTransform: 'none', alignItems: 'flex-start', paddingRight: '45px' }} />
-            <Tab label="Meal for One" {...a11yProps(1)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
-            <Tab label="Dimusm" {...a11yProps(2)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
-            <Tab label="Ramen" {...a11yProps(3)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
-            <Tab label="Baos" {...a11yProps(4)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
-            <Tab label="Rice & Noodles" {...a11yProps(5)} sx={{ textTransform: 'none', alignItems: 'flex-start' }} />
+            <Tab label="Today'Exclusive Dishes(3)" {...a11yProps(0)} sx={tabStyles }/>
+            <Tab label="Meal for One" {...a11yProps(1)} sx={ tabStyles } />
+            <Tab label="Dimusm" {...a11yProps(2)} sx={ tabStyles } />
+            <Tab label="Ramen" {...a11yProps(3)} sx={ tabStyles } />
+            <Tab label="Baos" {...a11yProps(4)} sx={ tabStyles } />
+            <Tab label="Rice & Noodles" {...a11yProps(5)} sx={ tabStyles } />
           </Tabs>
         </Box>
         <Box sx={{ width: '100%', mx: '12px'}}>

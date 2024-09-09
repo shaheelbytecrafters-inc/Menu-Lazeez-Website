@@ -4,13 +4,12 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DirectionIcon from '@mui/icons-material/Directions';
 import ShareIcon from '@mui/icons-material/Share';
 import './Restaurant.css';
-import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useEffect, useRef, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import React, { Component } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -26,7 +25,10 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import RestaurantBooking from './RestaurantTabs/RestaurantBooking';
 import RestaurantMenu from './RestaurantTabs/RestaurantMenuTab';
-import BreadcrumbNavigation from './BreadcrumbNavigation'
+import BreadcrumbNavigation from './BreadcrumbNavigation';
+import PersonIcon from '@mui/icons-material/Person';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SmallScreenSearchBar from './SmallScreenSearchBar';
 
 const ArrowButton = styled(Box)(({ direction }) => ({
   position: "absolute",
@@ -49,7 +51,8 @@ const PrevArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
-        mx: { sm: '0px', xs: '100px' }
+        marginRight: { sm: '0px', xs: '100px' },
+        marginLeft: { sm: '0px', xs: '100px' }
       }}
     >
       <ArrowBackIosIcon />
@@ -67,7 +70,8 @@ const NextArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
-        mx: { xs: '100px', sm: '0px' }
+        marginLeft: { xs: '100px', sm: '0px' },
+        marginRight: { xs: '100px', sm: '0px' }
       }}
     >
       <ArrowForwardIosIcon />
@@ -153,7 +157,7 @@ const Restaurant = () => {
     fontFamily: 'Poppins, sans-serif',
     fontSize: '17px',
     color: 'gray',
-    fontWeight: '350',
+    fontWeight: '400',
     '&.Mui-selected': {
       color: 'red',
     },
@@ -255,86 +259,23 @@ const Restaurant = () => {
     <Box
       display="flex"
       flexDirection="column"
-      width="100vw"
+      width={'100vw'}
       justifyContent="center"
       alignItems="center"
       boxSizing={'border-box'}
+      sx={{ overflowX: 'hidden' }}
     >
       <Box
         maxWidth={'1115px'}
         width={'100%'}
       >
         {/* Header */}
-        <Box
-          display="flex"
-          flexDirection="row"
-          height="7vh"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography
-            sx={{
-              fontSize: { xs: 25, sm: 35 },
-              fontFamily: 'poppins, sans-serif',
-              color: 'black',
-              fontStyle: 'italic',
-              fontWeight: '800',
-              fontSize: '30px',
-              marginRight: {sm:"10px", md: '0px'}
-            }}
-          >Lazeez</Typography>
-          <Box display={{ xs: 'none', sm: 'block' }} sx={{ borderRadius: '10px',  boxShadow:'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;', maxWidth: '700px', flex: '2' }}>
-            <MainSearchBar />
-          </Box>
-          <Box display={'flex'} justifyContent={'flex-end'} marginRight={'5px'} >
-            <Button sx={{fontFamily: 'poppins, sans-serif', fontWeight: '300', color: 'gray'}}>Login</Button>
-            <Button sx={{fontFamily: 'poppins, sans-serif', fontWeight: '300', color: 'gray'}}>Sign up</Button>
-          </Box>
-        </Box>
+        
 
-        <Divider sx={{}}/>
+        <Divider />
 
         {/* smallScreenSearchBar */}
-        <Box
-          display={{ xs: 'flex', sm: 'none' }}
-          py={'10px'}
-          position={'sticky'}
-          top={0}
-          zIndex={10}
-        >
-          <TextField
-            placeholder='Search for the restaurant or a dish'
-            variant='outlined'
-            name='searchValue'
-            fullWidth
-            sx={{
-              bgcolor: 'white',
-              border: '1px solid gray',
-              borderRadius: "30px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  border: "none",
-                },
-              }
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              sx: {
-                '& input::placeholder': {
-                  fontFamily: 'Poppins, sans-srif',
-                  fontSize: '14px'
-                },
-              },
-            }}
-          />
-        </Box>
 
-
-        <BreadcrumbNavigation />
 
         {/* Gallery */}
 
@@ -346,7 +287,7 @@ const Restaurant = () => {
                 sx={{
                   boxSizing: "border-box",
                   height: '27vh',
-                  maxHeight: '430px'
+                  maxHeight: '414px'
                 }}
               >
                 <Box
@@ -430,7 +371,6 @@ const Restaurant = () => {
                     ))}
                   </Slider>
                 </Box>
-                {/* <Box>Hello</Box> */}
               </Box>
             </Box>
           </Modal>
@@ -439,16 +379,16 @@ const Restaurant = () => {
         {/* Main Section */}
         <Box display="flex" flexDirection="column" boxSizing={'border-box'} >
           {/*  Info */}
-          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} >
+          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} sx={{ mx: { xs: '7px', md: '0px' } }} >
             <Box flex={1}>
               <Typography color="#1d1d1d" fontFamily={'poppins, sans-serif'} fontWeight={'500'} sx={
                 { fontSize: { xs: '23px', sm: '36px' }, my: { xs: '11px', sm: '3px' } }
               }>
                 Biryani Blues
               </Typography>
-              <Typography fontFamily={'poppins, sans-serif'} color={'#747474'} sx={{ fontWeight: 500 }}>Biryani, Hydrabadi, Mughlai</Typography>
-              <Typography fontFamily={'poppins, sans-serif'} color={'#828282'}>DLF Avenue, Saket, New Delhi</Typography>
-              <Typography fontFamily={'poppins, sans-serif'} color={'#747474'}>Opens - 9:30 - 10:00</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} sx={{ fontWeight: 350, color: 'gray' }}>Biryani, Hydrabadi, Mughlai</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} sx={{ fontWeight: 250 }} color={'gray'}>DLF Avenue, Saket, New Delhi</Typography>
+              <Typography fontFamily={'poppins, sans-serif'} fontWeight={250} color={'gray'} fontSize={'14px'}>Opens - 9:30 - 10:00</Typography>
 
               <Box display="flex" gap={1} my={1}>
                 <Button
@@ -458,7 +398,7 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray',
+                    borderColor: 'gray',
                     p: '5px',
                     px: '10px',
                     textTransform: 'none',
@@ -479,7 +419,7 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray',
+                    borderColor: 'gray',
                     px: '10px',
                     p: '5px',
                     textTransform: 'none',
@@ -500,7 +440,7 @@ const Restaurant = () => {
                   sx={{
                     backgroundColor: 'transparent',
                     color: 'black',
-                    borderColor: 'lightgray',
+                    borderColor: 'gray',
                     px: '10px',
                     p: '5px',
                     fontFamily: 'poppins, sans-serif',
@@ -526,61 +466,59 @@ const Restaurant = () => {
           {/* Bottom Section */}
 
           {/* SmallScreenContentSection  */}
-          <Box display={{ xs: 'flex', sm: 'none' }}>
+          <Box sx={{ marginTop: '20px', display: { xs: 'block', sm: 'none' } }} >
+            {data.map((item, index) => (
+              <CustomCard
+                key={index}
+                icon={item.icon}
+                title={item.title}
+                offer={item.offer}
+                bgColor={item.bgColor}
+              />
+            ))}
+          </Box>
+
+          <Box display={{ xs: 'block', sm: 'none' }} sx={{ m: { xs: '7px', md: '0px' } }}>
             <Box boxSizing={'border-box'}>
-              <Box sx={{ marginTop: '20px' }} boxSizing={'border-box'}>
-                {data.map((item, index) => (
-                  <CustomCard
-                    key={index}
-                    icon={item.icon}
-                    title={item.title}
-                    offer={item.offer}
-                    bgColor={item.bgColor}
-                  />
+              <Box marginTop={"7px"} display={'flex'} justifyContent={'space-between'} marginRight={'10px'} sx={{ alignItems: 'center' }}>
+                <Typography
+                  variant='h6'
+                >
+                  Menu
+                </Typography>
+                <Typography sx={{ fontFamily: 'poppins, sans-serif', fontWeight: '300', fontSize: '12px' }}>
+                  View all menus
+                </Typography>
+
+              </Box>
+              <Grid container spacing={1}>
+                {menuItems.map((item, index) => (
+                  <Grid item key={index}>
+                    <MenuCard image={item.image} title={item.title} pages={item.pages} />
+                  </Grid>
                 ))}
-              </Box>
+              </Grid>
+            </Box>
 
-              <Box boxSizing={'border-box'}>
-                <Box marginTop={"7px"} padding={'3px'} display={'flex'} justifyContent={'space-between'}>
-                  <Typography
-                    variant='h6'
-                  >
-                    Menu
-                  </Typography>
-                  <Typography>
-                    View all menus
-                  </Typography>
+            {/* CostumerReview  */}
+            <Box>
+              <Typography variant='h6'>Reviews</Typography>
+              <RestaurantReviewUserCard />
+            </Box>
 
-                </Box>
-                <Grid container spacing={1} justifyContent="center" alignItems={'center'}>
-                  {menuItems.map((item, index) => (
-                    <Grid item key={index}>
-                      <MenuCard image={item.image} title={item.title} pages={item.pages} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-
-              {/* CostumerReview  */}
-              <Box mx={'5px'} my={'10px'}>
-                <Typography variant='h6'>Reviews</Typography>
-                <RestaurantReviewUserCard />
-              </Box>
-
-              {/* RestaurantsRecommendtaion  */}
-              <Box mx={'5px'}>
-                <Typography variant='h6' sx={{ marginBottom: '10px' }}>Recommended Restraunts</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '9px' }} >
-                  <RestaurantCard />
-                  <RestaurantCard />
-                </Box>
+            {/* RestaurantsRecommendtaion  */}
+            <Box mx={'5px'}>
+              <Typography variant='h6' sx={{ marginBottom: '10px' }}>Recommended Restraunts</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '9px' }} >
+                <RestaurantCard img="https://wallpapercave.com/wp/wp1874173.jpg" />
+                <RestaurantCard img={'https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?cs=srgb&dl=chairs-coffee-shop-drinking-glasses-67468.jpg&fm=jpg'} />
               </Box>
             </Box>
           </Box>
 
           {/* LargeScreenContentSection  */}
           <Box display={{ xs: 'none', sm: 'flex', }} >
-            <Box display={{ xs: 'none', sm: 'flex' }} gap={3}>
+            <Box display={{ xs: 'none', sm: 'flex',}} flexDirection={'column'} gap={3}>
               <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -612,6 +550,19 @@ const Restaurant = () => {
                   <RestaurantBooking />
                 </CustomTabPanel>
               </Box>
+
+              <Box>
+                <Typography sx={{ fontFamily: 'poppins, sans-serif', fontSize: '16px', letterSpacing: "1.5px" }}>RELATED TO BIRYNI BLUES, SAKET</Typography>
+                <Typography sx={{ fontFamily: 'poppins, sans-serif', fontSize: '14px', color: 'gray', my: '5px' }}>Restaurants in DLF Avenue, Saket, Restaurants in New Delhi, New Delhi Restaurants, Saket restaurants, Best Saket restaurants, South Delhi restaurants, Casual Dining in Delhi NCR, Casual Dining near me, Casual Dining in South Delhi, Casual Dining in Saket, in Delhi NCR, near me, in South Delhi, in Saket, You Mee Menu, Order food online in Saket, Order food online in Delhi NCR, Order food online in South Delhi, New Year Parties in Delhi NCR, Christmas' Special in Delhi NCR
+                </Typography>
+
+                <Typography fontFamily={'poppins, sans-serif'} fontSize={'16px'} letterSpacing={'1.5px'}>RESTAURANT AROUND SAKET</Typography>
+                <Typography sx={{ fontFamily: 'poppins, sans-serif', fontSize: '14px', color: 'gray', my: '5px' }}>Malviya Nagar restaurants, Geetanjali Enclave restaurants, Sainik Farms restaurants, Khanpur restaurants
+                </Typography>
+
+                <Typography fontFamily={'poppins, sans-serif'} fontSize='16px' letterSpacing={'1.5px'}>TOP STORES</Typography>
+                <Typography sx={{ fontFamily: 'poppins, sans-serif', fontSize: '14px', color: 'gray', my: '5px', marginBottom: '9px' }}>Greater Kailash 2 (GK2), Nehru Place, DLF Phase 3, Sector 66, Sushant Lok, Paras Tierea, DLF Cyber City, NIT, Sector 68</Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -641,35 +592,36 @@ const itemData = [
   },
 ];
 
-const RatingBox = ({ rating, count, label }) => (
-  <Box display="flex" gap={0.5}>
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      sx={{
-        backgroundColor: '#248045',
-        color: 'white',
-        padding: '0 6px',
-        borderRadius: '4px',
-        height: '24px',
-        marginTop: '5px'
-      }}
-    >
-      <Typography variant="body2" component="span" sx={{ display: 'flex', alignItems: 'center', }}>
-        {rating}
-        <StarIcon sx={{ fontSize: 16, ml: 0.5 }} />
-      </Typography>
-    </Box>
-    <Box ml={1}>
-      <Typography variant="body2">{count}</Typography>
-      <Typography
-        variant="caption"
-        color="textSecondary"
-        sx={{ display: 'block', lineHeight: '1' }}
+export const RatingBox = ({ rating, count, label }) => (
+  <Box>
+    <Box display="flex" gap={0.5}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          backgroundColor: 'green',
+          color: 'white',
+          padding: '0 4px',
+          borderRadius: { xs: '4px', sm: '7px' },
+          height: { xs: '19px', sm: '29px' },
+          width: { xs: '35px', sm: '45px' },
+          marginTop: '5px'
+        }}
       >
-        {label}
-      </Typography>
+        <Typography sx={{ display: 'flex', alignItems: 'center', fontFamily: 'poppins, sans-serif', fontWeight: '500', fontSize: { xs: '13px', sm: '16px' } }}>
+          {rating}
+          <StarIcon sx={{ fontSize: { xs: 14, sm: 16 }, ml: 0.5 }} />
+        </Typography>
+      </Box>
+      <Box mx={"2px"} display={'flex'} sx={{ flexDirection: { xs: 'row', sm: 'column' }, alignItems: 'center', justifyContent: 'center', textAlign: "center", marginTop: { xs: '5px', sm: '0px' } }}>
+        <Typography sx={{ fontFamily: 'poppins, sans-serif', fontSize: '14px', fontWeight: "500", mx: '3px' }}>{count}</Typography>
+        <Typography
+          sx={{ fontFamily: 'poppins', fontWeight: '300', fontSize: '11px' }}
+        >
+          {label}
+        </Typography>
+      </Box>
     </Box>
   </Box>
 );
@@ -740,15 +692,10 @@ const data = [
 
 const menuItems = [
   {
-    image: 'https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg',
+    image: 'https://psd.zone/wp-content/uploads/2021/01/A4-Size-Restaurant-Food-Menu-PSD-Template-preview-908x1024.jpg',
     title: 'Food Menu',
-    pages: '7 pages',
-  },
-  {
-    image: 'https://cdn.geckoandfly.com/wp-content/uploads/2019/06/menu-template-restaurant-cafe-templates-30.jpg',
-    title: 'Beverages',
-    pages: '5 pages',
-  },
+    pages: '1 pages',
+  }
 ];
 
 const cards = [

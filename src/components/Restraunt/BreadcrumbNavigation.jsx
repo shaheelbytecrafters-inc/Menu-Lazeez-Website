@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 
 const BreadcrumbLink = styled(Link)(({ theme }) => ({
   fontSize: '12px',
-  color: 'black',
+  color: 'gray',
   textDecoration: 'none',
   fontFamily: 'Poppins, sans-serif',
   '&:hover': {
@@ -16,7 +16,7 @@ const BreadcrumbLink = styled(Link)(({ theme }) => ({
 
 const BreadcrumbCurrent = styled(Typography)(({ theme }) => ({
   fontSize: '12px',
-  color: '#9e9e9e',
+  color: 'lightgray',
 }));
 
 function BreadcrumbNavigation() {
