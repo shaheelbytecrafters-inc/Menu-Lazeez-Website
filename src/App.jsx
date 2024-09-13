@@ -4,14 +4,13 @@ import RestaurantPage from "./pages/RestaurantPage";
 import Footer from "./components/footer/Footer";
 import PartnerPage from "./components/Partner/PartnerPage";
 import Navbar from "./components/Header/Navbar";
-import ButtonTab from "./components/RestaurantTabPage/ButtonTab";
-import AddToCartPage from "../src/components/Cart/AddToCartPage";
 import FoodCartApp from "./components/Cart/FoodCartApp";
 import ShoppingCart from "./components/Cart/ShoppingCart";
-import Searchbar from "./components/Searchbar/Searchbar";
 import SearchInput from "./components/SearchInput/SearchInput";
 import { Box } from "@mui/material";
-// import RestaurantMainTab from "./components/RestaurantTabPage/RestaurantMainTab";
+import RestaurantBookTableSmallScreen from "./components/Restraunt/RestaurantPages/RestaurantBookTableSmallScreen";
+import RestaurantOrderOnlineSmallScreen from "./components/Restraunt/RestaurantPages/RestaurantOrderOnlineSmallScreen";
+import MainNightLife from "./components/NightLifePage/MainNightLife";
 
 function AppContent() {
   const location = useLocation();
@@ -22,14 +21,21 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurantname" element={<RestaurantPage />} />
-        <Route path="/foodDetails" element={<ButtonTab />} />
+        <Route path="/foodDetails" element={<MainNightLife />} />
 
         <Route path="/foodCartApp" element={<FoodCartApp />} />
 
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/searchBar" element={<SearchInput />} />
-        {/* <Route path="/shoppingCart" element={<ShoppingCart/>}/> */}
+        <Route
+          path="/RestaurantBookTableSmallScreen"
+          element={<RestaurantBookTableSmallScreen />}
+        />
+        <Route
+          path="/RestaurantOrderOnlineSmallScreen"
+          element={<RestaurantOrderOnlineSmallScreen />}
+        />
       </Routes>
     </div>
   );
@@ -49,6 +55,7 @@ function App() {
           }}
         >
           <Navbar />
+          
         </Box>
         <AppContent />
         <Footer />

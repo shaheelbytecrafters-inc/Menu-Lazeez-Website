@@ -3,8 +3,9 @@ import { Box, Grid, Typography, Button } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
-export const  CustomCard = ({ icon, title, offer, bgColor }) => (
+export const  CustomCard = ({ icon, title, offer, bgColor, onClick }) => (
   <Box
+    onClick={onClick}
     sx={{
       display: 'flex',
       alignItems: 'center',

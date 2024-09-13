@@ -18,7 +18,7 @@ const RestaurantBookTableSmallScreen = () => {
         transform: "translateY(-50%)",
         cursor: "pointer",
         zIndex: 1,
-        [direction]: direction === "left" ? "-50px" : "-50px", // Adjust this value to position the button
+        [direction]: direction === "left" ? "-50px" : "-50px", 
     }));
 
     // Custom Arrow Components
@@ -28,11 +28,11 @@ const RestaurantBookTableSmallScreen = () => {
                 sx={{
                     color: "white",
                     fontWeight: "bold",
-                    background: "#f0ae46", // Initial background color
+                    background: "#f0ae46", 
                     "&:hover": {
-                        background: "#f0ae46", // Darker background color on hover
+                        background: "#f0ae46", 
                     },
-                    boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
+                    boxShadow: "0px 4px 10px #f0ae46",
                     marginRight: { sm: '0px', xs: '100px' },
                     marginLeft: { sm: '0px', xs: '100px' }
                 }}
@@ -73,29 +73,6 @@ const RestaurantBookTableSmallScreen = () => {
     };
     return (
         <Box sx={{ overflowX: 'hidden' }}>
-            <Box display="flex"
-                flexDirection="row"
-                maxHeight="7vh"
-                height={'50px'}
-                width={'100%'}
-                alignItems="center"
-                justifyContent={'space-between'} mx={'5px'}
-            >
-                <Box sx={{ display: { xs: 'flex', sm: 'none' }, marginRight: "7px" }}>
-                    <ArrowBackIcon />
-                </Box>
-                <Typography
-                    sx={{
-                        fontFamily: 'poppins, sans-serif',
-                        fontWeight: '900',
-                        fontSize: '25px',
-                        marginLeft: "7px"
-                    }}>
-                    Lazeez
-                </Typography>
-                <Button sx={{ display: { xs: 'block', md: 'none' } }}><PersonIcon sx={{ color: 'red', height: '25px' }} />
-                </Button>
-            </Box>
             <Divider />
             <Box sx={{ display: { xs: "block", sm: 'none' } }} >
                 <Slider {...settingsForSmallScreenCarousel}>

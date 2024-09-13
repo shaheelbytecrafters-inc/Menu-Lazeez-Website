@@ -29,6 +29,7 @@ import BreadcrumbNavigation from './BreadcrumbNavigation';
 import PersonIcon from '@mui/icons-material/Person';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SmallScreenSearchBar from './SmallScreenSearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const ArrowButton = styled(Box)(({ direction }) => ({
   position: "absolute",
@@ -93,6 +94,7 @@ const style = {
 
 
 const Restaurant = () => {
+  const navigate = useNavigate();
   const cards = [
     {
       image:
@@ -268,15 +270,8 @@ const Restaurant = () => {
       <Box
         maxWidth={'1115px'}
         width={'100%'}
-      >
-        {/* Header */}
-        
-
+      >     
         <Divider />
-
-        {/* smallScreenSearchBar */}
-
-
         {/* Gallery */}
 
         <Box sx={{ display: { xs: "block", sm: 'none' } }} >
@@ -321,7 +316,7 @@ const Restaurant = () => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            sx={{ bgcolor: 'red' }}
+            sx={{ bgcolor: 'lightgray' }}
 
           >
             <Box sx={{ ...style, }} position={'relative'}>
@@ -377,9 +372,9 @@ const Restaurant = () => {
         </Box>
 
         {/* Main Section */}
-        <Box display="flex" flexDirection="column" boxSizing={'border-box'} >
+        <Box display="flex" flexDirection="column" boxSizing={'border-box'}>
           {/*  Info */}
-          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} sx={{ mx: { xs: '7px', md: '0px' } }} >
+          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} sx={{ mx: { xs: '7px', md: '5px'}}} >
             <Box flex={1}>
               <Typography color="#1d1d1d" fontFamily={'poppins, sans-serif'} fontWeight={'500'} sx={
                 { fontSize: { xs: '23px', sm: '36px' }, my: { xs: '11px', sm: '3px' } }
@@ -474,6 +469,7 @@ const Restaurant = () => {
                 title={item.title}
                 offer={item.offer}
                 bgColor={item.bgColor}
+                onClick={()=>navigate(item.route)}
               />
             ))}
           </Box>
@@ -517,7 +513,7 @@ const Restaurant = () => {
           </Box>
 
           {/* LargeScreenContentSection  */}
-          <Box display={{ xs: 'none', sm: 'flex', }} >
+          <Box display={{ xs: 'none', sm: 'flex', }} sx={{m: {sm: '5px'}}}>
             <Box display={{ xs: 'none', sm: 'flex',}} flexDirection={'column'} gap={3}>
               <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -682,11 +678,13 @@ const data = [
     title: 'Order Online',
     offer: '₹188 OFF',
     bgColor: '#fff3e0',
+    route: '/RestaurantOrderOnlineSmallScreen'
   },
   {
     icon: '🍽️',
     title: 'Book a Table',
     bgColor: '#e3f2fd',
+    route: '/RestaurantBookTableSmallScreen'
   },
 ];
 
@@ -736,3 +734,4 @@ const cards = [
     description: "Description for Restaurant 6",
   },
 ];
+
