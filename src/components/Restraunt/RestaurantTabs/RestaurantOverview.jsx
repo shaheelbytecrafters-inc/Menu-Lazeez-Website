@@ -73,7 +73,7 @@ const RestaurantOverview = () => {
                         <RestaurantCard name="Discovery" address="Sector-13, Dwarka New Delhi" img="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?cs=srgb&dl=chairs-coffee-shop-drinking-glasses-67468.jpg&fm=jpg" />
                     </Box>
                 </Box>
-                <Box my={'10px'} mx={'5px'}>
+                <Box my={'10px'} sx={{marginRight: {sm: '13px'}}}>
                     <Typography variant='h6'>Reviews</Typography>
                     <RestaurantReviewUserCard />
                     <RestaurantReviewUserCard />

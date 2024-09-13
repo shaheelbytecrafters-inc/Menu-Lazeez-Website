@@ -1,119 +1,166 @@
-import { TextField, Button, Typography, Box, Container } from '@mui/material';
-import { useRef, useState, useEffect } from 'react';
+import { Button, Typography, Box, Container } from "@mui/material";
+import { useRef, useState, useEffect } from "react";
+import otp from "../../assets/images/Otp.png"; // Ensure this path matches your project structure
 
 export default function OTPInput() {
-    const Ref1 = useRef(null);
-    const Ref2 = useRef(null);
-    const Ref3 = useRef(null);
-    const Ref4 = useRef(null);
+  // References for input fields
+  const Ref1 = useRef(null);
+  const Ref2 = useRef(null);
+  const Ref3 = useRef(null);
+  const Ref4 = useRef(null);
+  const Ref5 = useRef(null);
+  const Ref6 = useRef(null);
 
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [input4, setInput4] = useState('');
+  // State for each input field
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+  const [input3, setInput3] = useState("");
+  const [input4, setInput4] = useState("");
+  const [input5, setInput5] = useState("");
+  const [input6, setInput6] = useState("");
 
-    const handleKey = (event) => {
-        if (!/\d/.test(event.key)) {
-            event.preventDefault();
-        }
-    };
+  // Only allow numeric input
+  const handleKey = (event) => {
+    if (!/\d/.test(event.key)) {
+      event.preventDefault();
+    }
+  };
 
-    const handleBackspace = (event, setInput, ref, prevRef) => {
-        if (event.key === 'Backspace' && event.target.value === '') {
-            setInput('');
-            if (prevRef) prevRef.current.focus();
-        }
-    };
+  // Handle backspace to focus on the previous input if empty
+  const handleBackspace = (event, setInput, prevRef) => {
+    if (event.key === "Backspace" && event.target.value === "") {
+      setInput("");
+      if (prevRef) prevRef.current.focus();
+    }
+  };
 
-    useEffect(() => {
-        if (input4.length === 1) {
-            Ref4.current.blur();
-        }
-    }, [input4]);
+  useEffect(() => {
+    if (input6.length === 1) {
+      Ref6.current.blur(); // Blur the last input when filled
+    }
+  }, [input6]);
 
-    return (
-        <Container maxWidth="xs" sx={{ backgroundColor: 'white', borderRadius: 4 }}>
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                height={300}
-                padding={5}
-            >
-                <Typography variant="h4" marginTop={3}>
-                    Enter OTP
-                </Typography>
+  return (
+    <Container
+      maxWidth="md"
+      sx={{
+        backgroundColor: "white",
+        borderRadius: 4,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: { xs: "column", md: "row" },
+        gap: 2,
+        // paddingBlock: "2rem",
+        // border: "2px solid black",
+        marginBottom: "5rem",
+        width: { xs: "80%", md: "100%" },
+        padding: "3rem",
+        marginTop: "9rem",
+      }}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ width: { xs: "100%", md: "50%" } }}
+      >
+        <Typography variant="h5" marginTop={3}>
+          Enter OTP
+        </Typography>
 
-                <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                    justifyContent="center"
-                    height={400}
-                    gap={2}
-                >
-                    <input
-                        type="text"
-                        style={{ padding: '10px', width: '30px', height: '30px', textAlign: 'center' }}
-                        value={input1}
-                        ref={Ref1}
-                        onChange={(e) => {
-                            setInput1(e.target.value);
-                            if (e.target.value.length === 1) Ref2.current.focus();
-                        }}
-                        maxLength={1}
-                        onKeyPress={handleKey}
-                        onKeyDown={(e) => handleBackspace(e, setInput1, Ref1, null)}
-                    />
-                    <input
-                        type="text"
-                        style={{ padding: '10px', width: '30px', height: '30px', textAlign: 'center' }}
-                        value={input2}
-                        ref={Ref2}
-                        onChange={(e) => {
-                            setInput2(e.target.value);
-                            if (e.target.value.length === 1) Ref3.current.focus();
-                        }}
-                        maxLength={1}
-                        onKeyPress={handleKey}
-                        onKeyDown={(e) => handleBackspace(e, setInput2, Ref2, Ref1)}
-                    />
-                    <input
-                        type="text"
-                        style={{ padding: '10px', width: '30px', height: '30px', textAlign: 'center' }}
-                        value={input3}
-                        ref={Ref3}
-                        onChange={(e) => {
-                            setInput3(e.target.value);
-                            if (e.target.value.length === 1) Ref4.current.focus();
-                        }}
-                        maxLength={1}
-                        onKeyPress={handleKey}
-                        onKeyDown={(e) => handleBackspace(e, setInput3, Ref3, Ref2)}
-                    />
-                    <input
-                        type="text"
-                        style={{ padding: '10px', width: '30px', height: '30px', textAlign: 'center' }}
-                        value={input4}
-                        ref={Ref4}
-                        onChange={(e) => {
-                            setInput4(e.target.value);
-                        }}
-                        maxLength={1}
-                        onKeyPress={handleKey}
-                        onKeyDown={(e) => handleBackspace(e, setInput4, Ref4, Ref3)}
-                    />
-                </Box>
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={1.5} // Adjust gap for proper spacing
+          marginTop={3}
+        >
+          {/* OTP input fields */}
+          {[input1, input2, input3, input4, input5, input6].map(
+            (value, index) => (
+              <input
+                key={index}
+                type="text"
+                style={{
+                  padding: "12px",
+                  width: "20px", // Adjusted width for visibility
+                  height: "20px", // Adjusted height for visibility
+                  textAlign: "center",
+                  fontSize: "1.2rem", // Larger text for better readability
+                  border: "1px solid #ccc",
+                  borderRadius: "6px",
+                }}
+                value={value}
+                ref={[Ref1, Ref2, Ref3, Ref4, Ref5, Ref6][index]}
+                onChange={(e) => {
+                  [
+                    setInput1,
+                    setInput2,
+                    setInput3,
+                    setInput4,
+                    setInput5,
+                    setInput6,
+                  ][index](e.target.value);
+                  if (e.target.value.length === 1) {
+                    const nextRef = [Ref2, Ref3, Ref4, Ref5, Ref6, null][index];
+                    if (nextRef) nextRef.current.focus();
+                  }
+                }}
+                maxLength={1}
+                onKeyPress={handleKey}
+                onKeyDown={(e) =>
+                  handleBackspace(
+                    e,
+                    [
+                      setInput1,
+                      setInput2,
+                      setInput3,
+                      setInput4,
+                      setInput5,
+                      setInput6,
+                    ][index],
+                    [null, Ref1, Ref2, Ref3, Ref4, Ref5][index]
+                  )
+                }
+              />
+            )
+          )}
+        </Box>
 
-                <Button
-                    variant="contained"
-                    sx={{ color: 'white', backgroundColor: 'red' }}
-                >
-                    Login
-                </Button>
+        <Button
+          variant="contained"
+          sx={{
+            color: "white",
+            backgroundColor: "red",
+            textTransform: "none",
+            marginTop: 3,
+            padding: "0.8rem 2rem", // Larger button with padding adjustments
+            fontSize: "1rem",
+            "&:hover": {
+              backgroundColor: "#fe0604", // Darker red when hovering
+            },
+          }}
+        >
+          Varify OTP
+        </Button>
+      </Box>
 
-            </Box>
-        </Container>
-    );
+      {/* Image section */}
+      <Box
+        component="img"
+        src={otp}
+        alt="OTP Login"
+        sx={{
+          width: "45%",
+          height: "auto",
+          objectFit: "cover",
+          borderRadius: 2,
+          display: { xs: "none", md: "block" },
+        }}
+      />
+    </Container>
+  );
 }

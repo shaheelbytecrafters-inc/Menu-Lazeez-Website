@@ -1,30 +1,45 @@
 import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
-import { Box, styled } from "@mui/system";
-import Modal from "@mui/material/Modal";
+import {  styled } from "@mui/system";
+// import Modal from "@mui/material/Modal";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import AuthForm from "../authComponent/AuthForm";
-import { Drawer, List, ListItem, Stack, Badge, IconButton } from "@mui/material";
+// import AuthForm from "../authComponent/AuthForm";
+import {
+  Drawer,
+  List,
+  ListItem,
+  Stack,
+  Badge,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Modal
+} from "@mui/material";
+// import Modal from "@mui/material/Modal";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate, useLocation } from "react-router-dom";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SignUpIcon from "@mui/icons-material/PersonAdd";
+import Login from "../authComponent/Login";
+// import SignIn from "../authComponent/SignIn";
+import OTPInput from "../authComponent/Otp";
+import SignUp from "../authComponent/SignIn";
 
-const StyledModal = styled(Modal)({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-});
 
 const HamburgerOrClose = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("sm")]: {
     display: "none",
   },
 }));
@@ -32,8 +47,7 @@ const HamburgerOrClose = styled(Box)(({ theme }) => ({
 const NavbarBox = styled(Box)(({ theme }) => ({
   display: "none",
   alignItems: "center",
-   gap:"2rem",
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("sm")]: {
     display: "flex",
   },
 }));
@@ -44,8 +58,7 @@ const SearchBar = styled(Box)(({ theme }) => ({
   backgroundColor: "transparent",
   padding: "0 5px",
   height: "2rem",
-  cursor: "pointer",
-  color: "black",
+  color: "white",
 }));
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -62,6 +75,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [scroll, setScroll] = useState(false);
+  const [isAuth, setIsAuth] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const homePage = location.pathname === "/";
@@ -70,31 +84,29 @@ const Navbar = () => {
     const handleScroll = () => {
       setScroll(window.scrollY > window.innerHeight * 0.2);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [homePage]);
 
-  const handleOpenLogin = () => {
+  const handleAuthComponent = (type) => {
+    setIsAuth(type);
     setOpen(true);
   };
-  
-  const handleCloseLogin = () => {
+
+
+  const handleClose = () => {
     setOpen(false);
   };
-  
+
   const toggleDrawer = (newOpen) => () => {
     setShowDrawer(newOpen);
   };
-  
-  const handleNavigation = (path) => () => {
-  // Scroll to the top smoothly
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Navigate to the specified path
-  navigate(path);
-};
-  
+
+
+
   return (
     <>
       <AppBar
@@ -108,10 +120,8 @@ const Navbar = () => {
           color: "white",
           zIndex: 1600,
           boxShadow: "none",
-          // width:"100vw",
           padding: 0,
           margin: 0,
-          
         }}
       >
         <Toolbar
@@ -121,29 +131,24 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
-          <Stack
-            direction={"row"}
-            width={"100vw"}
-            // maxWidth={"1100px"}
-            height={"72px"}
-          >
+          <Stack direction={"row"} width={"100vw"} height={"72px"}>
             <Box flex={1} display={"flex"} alignItems="center">
               <Typography
                 variant="h6"
                 component="div"
                 onClick={() => navigate("/")}
                 sx={{
-                  fontFamily: "poppins, sans-serif",
+                  fontFamily: "Poppins, sans-serif",
                   fontWeight: "700",
                   color: homePage ? (scroll ? "white" : "black") : "white",
                   fontSize: "2rem",
                   textTransform: "italic",
-                  cursor: "pointer",
                 }}
               >
                 MenuLazeez
               </Typography>
             </Box>
+
             <NavbarBox
               flex={1}
               justifyContent={"flex-end"}
@@ -151,15 +156,10 @@ const Navbar = () => {
               width={"2rem"}
             >
               <SearchBar>
-                <SearchIcon
-                  style={{
-                    color: "#fff",
-                    fontSize: "1.7rem",
-                  }}
-                />
+                <SearchIcon style={{ color: "white", fontSize: "1.7rem" }} />
                 <Typography
                   sx={{
-                    color: "#fff",
+                    color: "white",
                     fontSize: "18px",
                     fontWeight: "500",
                   }}
@@ -169,24 +169,21 @@ const Navbar = () => {
                 </Typography>
               </SearchBar>
               <Typography
-                sx={{ fontSize: "18px", fontWeight: "500",cursor: "pointer" }}
+                sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
                 onClick={() => navigate("/foodDetails")}
               >
                 Restaurant
               </Typography>
               <Box
-                color="inherit"
                 sx={{
                   fontFamily: "Montserrat, sans-serif",
                   fontSize: "18px",
                   fontWeight: "600",
                   color: "white",
-                  textTransform: "none",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
                   gap: "0.5rem",
-                  cursor: "pointer",
                 }}
                 onClick={() => navigate("/cart")}
               >
@@ -195,7 +192,9 @@ const Navbar = () => {
                     <ShoppingCartIcon style={{ color: "white" }} />
                   </StyledBadge>
                 </IconButton>
-                <Typography sx={{ fontSize: "18px", fontWeight: "500" }}>
+                <Typography
+                  sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
+                >
                   Cart
                 </Typography>
               </Box>
@@ -228,6 +227,7 @@ const Navbar = () => {
                     backgroundColor: "white", // Keeps the button white on hover
                   },
                 }}
+                onClick={() => handleAuthComponent("signUp")}
               >
                 Sign up
               </Button>
@@ -237,28 +237,13 @@ const Navbar = () => {
                   borderRadius: "100px",
                   boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
                   color: "black",
-                  cursor: "pointer",
-                  display: "inline-block",
-                  fontFamily:
-                    "CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif",
-                  padding: "5px 15px",
-                  textAlign: "center",
-                  textDecoration: "none",
-                  transition: "all 250ms",
-                  border: 0,
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  userSelect: "none",
-                  WebkitUserSelect: "none",
-                  touchAction: "manipulation",
                   textTransform: "none",
                   "&:hover": {
-                    boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
                     transform: "scale(1.05) rotate(-1deg)",
-                    backgroundColor: "white", // Keeps the button white on hover
+                    backgroundColor: "white",
                   },
                 }}
-                onClick={handleOpenLogin}
+                onClick={() => handleAuthComponent("logIn")}
               >
                 Login
               </Button>
@@ -279,86 +264,109 @@ const Navbar = () => {
             </HamburgerOrClose>
 
             <Drawer
-              anchor="left" // Ensure drawer opens from left
+              anchor="left"
               open={showDrawer}
               onClose={toggleDrawer(false)}
             >
               <Box
                 sx={{
                   width: 250,
-                  padding: "10px", // Add padding for better spacing
                   display: "flex",
                   flexDirection: "column",
-                  gap: "10px", // Add gap between items
+                  marginTop: "4rem",
+                  marginInline: "2rem",
                 }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
               >
                 <List>
-                  <ListItem>
-                    <Button
-                      color="inherit"
-                      fullWidth // Ensures button takes full width of drawer
-                      sx={{
-                        justifyContent: "flex-start", // Align text to left
-                      }}
-                      onClick={() => navigate("/foodDetails")} // Add functionality as needed
-                    >
-                      Restaurant
-                    </Button>
+                  <ListItem
+                    sx={{ borderBottom: "1px solid black" }}
+                    onClick={() => navigate("/addRestaurant")}
+                  >
+                    <ListItemIcon>
+                      <AddBoxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Restaurant" />
                   </ListItem>
-                  <ListItem>
-                    <Button
-                      color="inherit"
-                      fullWidth
-                      sx={{ justifyContent: "flex-start" }}
-                      onClick={() => navigate("/foodDetails")}
-                    >
-                      Add Restaurant
-                    </Button>
+
+                  <ListItem
+                    sx={{ borderBottom: "1px solid black" }}
+                    onClick={() => navigate("/cart")}
+                  >
+                    <ListItemIcon>
+                      <ShoppingCartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Cart" />
                   </ListItem>
-                  <ListItem>
-                    <Button
-                      color="inherit"
-                      fullWidth
-                      sx={{ justifyContent: "flex-start" }}
-                    >
-                      Sign up
-                    </Button>
+
+                  <ListItem
+                    sx={{ borderBottom: "1px solid black" }}
+                    onClick={() => handleAuthComponent("signUp")}
+                  >
+                    <ListItemIcon>
+                      <SignUpIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign up" />
                   </ListItem>
-                  <ListItem>
-                    <Button
-                      color="inherit"
-                      fullWidth
-                      sx={{ justifyContent: "flex-start" }}
-                      onClick={handleOpenLogin}
-                    >
-                      Login
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button
-                      color="inherit"
-                      fullWidth
-                      startIcon={<ShoppingCartIcon />}
-                      sx={{ justifyContent: "flex-start" }}
-                      onClick={() => navigate("/cart")}
-                    >
-                      Cart
-                    </Button>
+
+                  <ListItem
+                    sx={{ borderBottom: "1px solid black" }}
+                    onClick={() => handleAuthComponent("logIn")}
+                  >
+                    <ListItemIcon>
+                      <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Login" />
                   </ListItem>
                 </List>
+
+                <Box sx={{ marginTop: "auto" }}>
+                  <ListItem
+                    sx={{ border: "1px solid black", marginTop: "100%" }}
+                    onClick={() => {
+                      /* handleLogout */
+                    }}
+                  >
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </Box>
               </Box>
             </Drawer>
           </Stack>
         </Toolbar>
       </AppBar>
 
-      <StyledModal open={open} onClose={handleCloseLogin}>
-        <Box sx={{ width: { xs: "90%", sm: "50%" } }}>
-          <AuthForm />
+      {/* <Modal open={open} onClose={handleCloseLogin}>
+         
+        {isAuth == "logIn" ? (
+          <Login setIsAuth={setIsAuth} />
+        ) : isAuth == "signUp" ? (
+          <SignUp setIsAuth={setIsAuth} />
+        ) : (
+          <OTPInput />
+        )}
+      </Modal> */}
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box>
+          {isAuth == "logIn" ? (
+            <Login setIsAuth={setIsAuth} />
+          ) : isAuth == "signUp" ? (
+            <SignUp setIsAuth={setIsAuth} />
+          ) : (
+            <OTPInput />
+          )}
         </Box>
-      </StyledModal>
+      </Modal>
     </>
   );
 };
