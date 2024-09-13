@@ -10,6 +10,7 @@ import FoodCartApp from "./components/Cart/FoodCartApp";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import Searchbar from "./components/Searchbar/Searchbar";
 import SearchInput from "./components/SearchInput/SearchInput";
+import { Box } from "@mui/material";
 // import RestaurantMainTab from "./components/RestaurantTabPage/RestaurantMainTab";
 
 function AppContent() {
@@ -22,12 +23,12 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurantname" element={<RestaurantPage />} />
         <Route path="/foodDetails" element={<ButtonTab />} />
-        
-        <Route path="/foodCartApp" element={<FoodCartApp/>}/>
+
+        <Route path="/foodCartApp" element={<FoodCartApp />} />
 
         <Route path="/partner" element={<PartnerPage />} />
-        <Route path="/cart" element={<ShoppingCart/> }/>
-        <Route path="/searchBar" element={<SearchInput/>}/>
+        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/searchBar" element={<SearchInput />} />
         {/* <Route path="/shoppingCart" element={<ShoppingCart/>}/> */}
       </Routes>
     </div>
@@ -37,19 +38,20 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      {/* Ensure the Navbar styles don't push it to the left */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: 0,
-          padding: 0,
-        }}
-      >
-        <Navbar />
-      </div>
-      <AppContent />
-      <Footer />
+        {/* Ensure the Navbar styles don't push it to the left */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            margin: 0,
+            padding: 0,
+            width:"auto",
+          }}
+        >
+          <Navbar />
+        </Box>
+        <AppContent />
+        <Footer />
     </BrowserRouter>
   );
 }

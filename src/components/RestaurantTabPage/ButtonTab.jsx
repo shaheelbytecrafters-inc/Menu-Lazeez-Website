@@ -57,16 +57,22 @@ export default function ButtonTab() {
               backgroundColor: value === 0 ? "#fe0604" : "#fff",
               border: "2px solid #fe0604",
               transition: "background-color 0.3s ease, color 0.3s ease",
-              padding: isSmallScreen ? "15px 20px" : "20px 25px",
-              "&:hover": {
-                backgroundColor: value === 0 ? "#fe0604" : "#fff",
-                color: value === 0 ? "#fff" : "#fe0604",
+              padding: isSmallScreen ? "15px 17px" : "20px 22px",
+              ":hover": {
+                backgroundColor:"#fe0604" ,
+                color: "#fff",
               },
               height: "2rem",
-              // textTransform: "none",
               fontSize: "1.2rem",
               fontWeight: "550",
             }}
+
+            // sx={{
+            //   color: viewType === "services" ? "#fff" : "#14c523",
+            //   backgroundColor: viewType === "services" ? "#14c523" : "#fff",
+            //   ":hover": { color: "#fff", backgroundColor: "#14c523" },
+            //   border: "1px solid #14c523"
+            // }}
           >
             Dining
           </Button>
@@ -83,17 +89,16 @@ export default function ButtonTab() {
             //   />
             // }
             sx={{
-              color: value === 1 ? "#fff" : "#fe0604",
+              color: value === 1? "#fff" : "#fe0604",
               backgroundColor: value === 1 ? "#fe0604" : "#fff",
               border: "2px solid #fe0604",
               transition: "background-color 0.3s ease, color 0.3s ease",
-              padding: isSmallScreen ? "15px 20px" : "20px 25px",
-              "&:hover": {
-                backgroundColor: value === 1 ? "#fe0604" : "#fff",
-                color: value === 1 ? "#fff" : "#fe0604",
+              padding: isSmallScreen ? "15px 17px" : "20px 22px",
+              ":hover": {
+                backgroundColor:"#fe0604" ,
+                color: "#fff",
               },
               height: "2rem",
-              // textTransform: "none",
               fontSize: "1.2rem",
               fontWeight: "550",
             }}
@@ -117,13 +122,12 @@ export default function ButtonTab() {
               backgroundColor: value === 2 ? "#fe0604" : "#fff",
               border: "2px solid #fe0604",
               transition: "background-color 0.3s ease, color 0.3s ease",
-              padding: isSmallScreen ? "15px 20px" : "20px 25px",
-              "&:hover": {
-                backgroundColor: value === 2 ? "#fe0604" : "#fff",
-                color: value === 2 ? "#fff" : "#fe0604",
+              padding: isSmallScreen ? "15px 17px" : "20px 22px",
+              ":hover": {
+                backgroundColor:"#fe0604" ,
+                color: "#fff",
               },
               height: "2rem",
-              // textTransform: "none",
               fontSize: "1.2rem",
               fontWeight: "550",
             }}
@@ -132,7 +136,7 @@ export default function ButtonTab() {
           </Button>
         </Box>
       </AppBar>
-
+      
       {/* Conditional Rendering based on selected value */}
       {value === 0 && (
         <Box

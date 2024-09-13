@@ -24,7 +24,7 @@ const HamburgerOrClose = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     display: "none",
   },
 }));
@@ -32,7 +32,8 @@ const HamburgerOrClose = styled(Box)(({ theme }) => ({
 const NavbarBox = styled(Box)(({ theme }) => ({
   display: "none",
   alignItems: "center",
-  [theme.breakpoints.up("sm")]: {
+   gap:"2rem",
+  [theme.breakpoints.up("md")]: {
     display: "flex",
   },
 }));
@@ -43,7 +44,7 @@ const SearchBar = styled(Box)(({ theme }) => ({
   backgroundColor: "transparent",
   padding: "0 5px",
   height: "2rem",
-
+  cursor: "pointer",
   color: "black",
 }));
 
@@ -69,7 +70,6 @@ const Navbar = () => {
     const handleScroll = () => {
       setScroll(window.scrollY > window.innerHeight * 0.2);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -79,22 +79,22 @@ const Navbar = () => {
   const handleOpenLogin = () => {
     setOpen(true);
   };
-
+  
   const handleCloseLogin = () => {
     setOpen(false);
   };
-
+  
   const toggleDrawer = (newOpen) => () => {
     setShowDrawer(newOpen);
   };
-
+  
   const handleNavigation = (path) => () => {
   // Scroll to the top smoothly
   window.scrollTo({ top: 0, behavior: 'smooth' });
   // Navigate to the specified path
   navigate(path);
 };
-
+  
   return (
     <>
       <AppBar
@@ -111,6 +111,7 @@ const Navbar = () => {
           // width:"100vw",
           padding: 0,
           margin: 0,
+          
         }}
       >
         <Toolbar
@@ -137,12 +138,12 @@ const Navbar = () => {
                   color: homePage ? (scroll ? "white" : "black") : "white",
                   fontSize: "2rem",
                   textTransform: "italic",
+                  cursor: "pointer",
                 }}
               >
                 MenuLazeez
               </Typography>
             </Box>
-
             <NavbarBox
               flex={1}
               justifyContent={"flex-end"}
@@ -168,7 +169,7 @@ const Navbar = () => {
                 </Typography>
               </SearchBar>
               <Typography
-                sx={{ fontSize: "18px", fontWeight: "500" }}
+                sx={{ fontSize: "18px", fontWeight: "500",cursor: "pointer" }}
                 onClick={() => navigate("/foodDetails")}
               >
                 Restaurant
@@ -185,6 +186,7 @@ const Navbar = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   gap: "0.5rem",
+                  cursor: "pointer",
                 }}
                 onClick={() => navigate("/cart")}
               >
