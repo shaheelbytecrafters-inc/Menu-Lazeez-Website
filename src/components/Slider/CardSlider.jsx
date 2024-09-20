@@ -4,7 +4,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { Box, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import res from "../../../src/assets/images/res.jpeg";
-
+import { fetchRestaurants } from "../../redux/restaurantSlice/Allrestaurant";
+import { useDispatch,useSelector } from "react-redux";
+import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 // Remove custom arrow components
 // const ArrowButton = styled(Box)(({ direction }) => ({
 //   position: "absolute",
@@ -51,30 +54,35 @@ import res from "../../../src/assets/images/res.jpeg";
 // );
 
 function CardSlider() {
-  const cards = [
-    {
-      name: "The Gourmet Kitchen",
-      image: res,
-    },
-    {
-      name: "Sushi World",
-      image: res,
-    },
-    {
-      name: "Pasta Palace",
-      image: res,
-    },
-    {
-      name: "Bistro Delight",
-      image: res,
-    },
-    {
-      name: "Urban Bites",
-      image: res,
-    },
-  ];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+ 
+  const { restaurants, status } = useSelector((state) => state.restaurants);
 
-  const navigate = useNavigate();
+  // const cards = [
+  //   {
+  //     name: "The Gourmet Kitchen",
+  //     image: res,
+  //   },
+  //   {
+  //     name: "Sushi World",
+  //     image: res,
+  //   },
+  //   {
+  //     name: "Pasta Palace",
+  //     image: res,
+  //   },
+  //   {
+  //     name: "Bistro Delight",
+  //     image: res,
+  //   },
+  //   {
+  //     name: "Urban Bites",
+  //     image: res,
+  //   },
+  // ];
+
+  // const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -115,6 +123,7 @@ function CardSlider() {
   const handleRedirect = () => {
     navigate("/restaurantname");
   };
+  
 
   return (
     <Box
@@ -163,7 +172,7 @@ function CardSlider() {
           Foodie Favorites restaurants
         </Typography>
         <Slider {...settings}>
-          {cards.map((card, index) => (
+          {restaurants.map((card, index) => (
             <Box
               onClick={handleRedirect}
               key={index}
@@ -182,10 +191,11 @@ function CardSlider() {
                 <Box
                   sx={{
                     height: "320px",
-                    backgroundImage: `url(${card.image})`,
+                    backgroundImage: `url(${res})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     position: "relative",
+                    border:"2px solid black"
                   }}
                 >
                   {/* Text overlay at the bottom */}

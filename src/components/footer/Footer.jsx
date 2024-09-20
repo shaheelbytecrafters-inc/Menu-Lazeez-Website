@@ -70,7 +70,7 @@ const Footer = () => {
               fontFamily: "poppins",
             }}
           >
-            MenuLazeez
+            Lazeez
           </Typography>
 
           {/* Footer Links */}

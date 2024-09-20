@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   TextField,
   Button,
@@ -6,20 +5,36 @@ import {
   Box,
   Container,
   InputAdornment,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import login from "../../assets/images/Sign.png";
 import ChatIcon from "@mui/icons-material/Chat";
+import login from "../../assets/images/Sign.png";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpUser } from "../../redux/authSlice/authSlice.js.js";
+import { requestFCMToken } from "../../Firebase/firebaseConfig .js";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = ({ setIsAuth }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
-    contactNumber: "",
+    phoneNumber: "",
     bio: "",
   });
+
+  const dispatch = useDispatch();
+  // const { isLoading, error } = useSelector((state) => state.auth);
+  const authState = useSelector((state) => state.auth);
+  const { isLoading, error } = authState;
+
+  const [fcmToken, setFcmToken] = useState(null);
 
   const handleKey = (event) => {
     if (!/\d/.test(event.key)) {
@@ -28,19 +43,34 @@ const SignUp = ({ setIsAuth }) => {
   };
 
   const handleSignIn = () => {
-    const { contactNumber } = formData;
-    if (contactNumber.length >= 10) {
-      setIsAuth("signIn");
-    } else {
-      alert("Invalid contact number");
-    }
+    // Dispatch signInUser with the form data and FCM token
+    setIsAuth("login");
+    console.log(fcmToken);
+    dispatch(signUpUser({ ...formData, fcmToken }));
   };
 
   const handleChange = (e) => {
+    // e.preventDefault()
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
+  useEffect(() => {
+    const fetchFCMToken = async () => {
+      try {
+        const token = await requestFCMToken();
+        setFcmToken(token);
+      } catch (err) {
+        console.log("Getting an error", err);
+      }
+    };
+    fetchFCMToken();
+  }, []);
+
+  // TextField styling to maintain gray color
   const textFieldStyles = {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
@@ -51,7 +81,7 @@ const SignUp = ({ setIsAuth }) => {
       },
       "&.Mui-focused fieldset": {
         borderColor: "gray",
-        borderWidth: 1, 
+        borderWidth: 1,
       },
     },
     "& .MuiInputLabel-root": {
@@ -61,40 +91,40 @@ const SignUp = ({ setIsAuth }) => {
       },
     },
     "& .MuiInputBase-input": {
-      color: "black", // Ensure text color is black
+      color: "black",
     },
     "& .MuiInputBase-root": {
       "&.Mui-focused": {
         "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "gray", // Ensures the border remains gray when focused
+          borderColor: "gray",
         },
       },
     },
   };
 
+  // const navigate=usenavigate()
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (authState.isAuthenticated) {
+      navigate("/"); // Or wherever you want to redirect
+    }
+  }, [authState.isAuthenticated, navigate]);
+
   return (
     <Container
       maxWidth="md"
       sx={{
-        backgroundColor: "#f5f5f5", // Changed background color
+        backgroundColor: "#f5f5f5",
         borderRadius: 4,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: { xs: "column", md: "row" }, // Adjust layout based on screen size
+        flexDirection: { xs: "column", md: "row" },
         gap: 2,
         paddingBlock: "2rem",
-        marginTop: "4rem",
-        // width: "80%",
-        // border: "2px solid black",
-        width: {
-          xs: "100%",
-          sm: "100%",
-          md: "80%",
-        },
-        // marginTop: {
-        //   lg: "6rem",
-        // },
+        width: "100%",
+        border: "2px solid black",
+        marginTop: "5rem",
       }}
     >
       <Box
@@ -112,13 +142,24 @@ const SignUp = ({ setIsAuth }) => {
       >
         <Typography variant="h5">Sign In</Typography>
 
+        {/* Display loading or error messages */}
+        {isLoading && <CircularProgress />}
+        {/* {error && <Alert severity="error">{error}</Alert>} */}
+        {error && (
+          <Alert severity="error">
+            {typeof error === "string"
+              ? error
+              : error.message || JSON.stringify(error)}
+          </Alert>
+        )}
+
         {/* Name Field */}
         <TextField
           required
           fullWidth
           label="Name"
-          name="name"
-          value={formData.name}
+          name="username"
+          value={formData.username}
           onChange={handleChange}
           sx={{
             ...textFieldStyles,
@@ -164,9 +205,9 @@ const SignUp = ({ setIsAuth }) => {
           required
           fullWidth
           label="Mobile Number"
-          name="contactNumber"
+          name="phoneNumber"
           onKeyPress={handleKey}
-          value={formData.contactNumber}
+          value={formData.phoneNumber}
           onChange={handleChange}
           sx={{
             ...textFieldStyles,
@@ -215,7 +256,7 @@ const SignUp = ({ setIsAuth }) => {
               backgroundColor: "#fe0604",
             },
           }}
-          // onClick={() => setView("otp")}
+          // onClick={()=>navigate("/")}
         >
           Submit
         </Button>

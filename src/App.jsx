@@ -7,10 +7,11 @@ import Navbar from "./components/Header/Navbar";
 import FoodCartApp from "./components/Cart/FoodCartApp";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import SearchInput from "./components/SearchInput/SearchInput";
-import { Box } from "@mui/material";
-import RestaurantBookTableSmallScreen from "./components/Restraunt/RestaurantPages/RestaurantBookTableSmallScreen";
-import RestaurantOrderOnlineSmallScreen from "./components/Restraunt/RestaurantPages/RestaurantOrderOnlineSmallScreen";
-import MainNightLife from "./components/NightLifePage/MainNightLife";
+import NightlifeComponent from "./components/NightLifePage/MainNightLife";
+// import SignIn from "./components/authComponent/SignIn";
+// import Profile from "./components/ProfileSection/Profile";
+import SidebarWithTabs from "./components/Profile/SidebarWithTabs";
+import OTPInput from "./components/authComponent/Otp";
 
 function AppContent() {
   const location = useLocation();
@@ -21,44 +22,50 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurantname" element={<RestaurantPage />} />
-        <Route path="/foodDetails" element={<MainNightLife />} />
+        <Route path="/foodDetails" element={<NightlifeComponent />} />
 
         <Route path="/foodCartApp" element={<FoodCartApp />} />
 
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/searchBar" element={<SearchInput />} />
-        <Route
-          path="/RestaurantBookTableSmallScreen"
-          element={<RestaurantBookTableSmallScreen />}
-        />
-        <Route
-          path="/RestaurantOrderOnlineSmallScreen"
-          element={<RestaurantOrderOnlineSmallScreen />}
-        />
+        <Route path="/profile" element={<SidebarWithTabs />} />
+        <Route path="/otp" element={<OTPInput/>} />
       </Routes>
     </div>
   );
 }
 
 function App() {
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js") // This should match the location of the SW file
+    .then(function (registration) {
+      console.log("Service Worker registered with scope:", registration.scope);
+    })
+    .catch(function (err) {
+      console.log("Service Worker registration failed:", err);
+    });
+}
+
   return (
     <BrowserRouter>
-        {/* Ensure the Navbar styles don't push it to the left */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            margin: 0,
-            padding: 0,
-            width:"auto",
-          }}
-        >
-          <Navbar />
-          
-        </Box>
-        <AppContent />
-        <Footer />
+      {/* Ensure the Navbar styles don't push it to the left */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <Navbar />
+      </div>
+      <AppContent />
+      <Footer />
+      {/* <SignIn/> */}
+      {/* <SignIn/> */}
+      
     </BrowserRouter>
   );
 }

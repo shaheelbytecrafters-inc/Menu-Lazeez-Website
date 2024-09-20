@@ -1,16 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
+import rest from '../assets/images/rest.jpeg'
 
 export default function RestaurantCard({ restaurant }) {
   const navigate=useNavigate()
-  const locationArray = Array.isArray(restaurant.location)
-    ? restaurant.location
-    : restaurant.location
-    ? restaurant.location.split(",")
-    : [];
+  // const locationArray = Array.isArray(restaurant.location)
+  //   ? restaurant.location
+  //   : restaurant.location
+  //   ? restaurant.location.split(",")
+  //   : [];
 
-  const locationText = locationArray.join(", ") || "Location not available";
+  const locationText =restaurant.location.address || "Location not available";
 
 
   return (
@@ -30,11 +31,11 @@ export default function RestaurantCard({ restaurant }) {
         justifyContent: "center",
         padding: "1rem",
       }}
-      onClick={() => navigate("/restaurantname")}
+      onClick={() => navigate(`/restaurantname`)}
     >
       <Box
         component="img"
-        src={restaurant.image}
+        src={rest}
         alt={restaurant.name}
         sx={{
           display: "block",
@@ -95,11 +96,11 @@ export default function RestaurantCard({ restaurant }) {
             whiteSpace: "nowrap",
           }}
         >
-          {locationText}
+          {restaurant.location.address}
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
-          ₹{restaurant.price_for_two} for two
+          {/* ₹{restaurant}  */}
         </Typography>
 
         <Typography

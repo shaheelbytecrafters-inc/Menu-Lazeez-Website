@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { Delete, Add, Remove } from "@mui/icons-material";
 import AddressForm from "./AddressForm";
+import { useDispatch, useSelector } from "react-redux";
+import {fetchCartData} from '../../redux/cartSlice/cart.js' 
 
 const ShoppingCart = () => {
   const initialProducts = [
@@ -43,10 +45,12 @@ const ShoppingCart = () => {
       quantity: 1,
     },
   ];
+  const dispatch = useDispatch();
 
   const [products, setProducts] = useState(initialProducts);
   const taxRate = 0.05;
   const shippingRate = 15.0;
+
 
   // Calculate totals
   const subtotal = products.reduce(
@@ -74,6 +78,12 @@ const ShoppingCart = () => {
     );
   };
 
+  useEffect(()=>{
+    // const id=JSON.parse()
+    const userData=JSON.parse(localStorage.getItem("userData"))
+    console.log("userData+++++++++++++++++++++++++++++++++++++++++++++++++++++++",userData._id)
+    dispatch(fetchCartData(userData._id));
+  },[])
   return (
     <Container sx={{ marginTop: 4 }}>
       <Typography variant="h4" gutterBottom>

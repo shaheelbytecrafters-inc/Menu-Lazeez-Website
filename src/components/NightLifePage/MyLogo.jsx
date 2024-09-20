@@ -98,49 +98,66 @@ function MyLogo() {
   return (
     <Box
       sx={{
-        paddingTop: "50px",
         paddingBottom: "50px",
         paddingInline: "50px",
+        display: "flex", // Use flexbox
+        justifyContent: "center", // Center the slider horizontally
       }}
     >
       <Box
         sx={{
           width: "100%",
-          maxWidth: "1000px",
+          maxWidth: "1200px", // Adjust the maximum width of the slider
           margin: "0 auto",
-          position: "relative",
-          //   backgroundColor: "red",
         }}
       >
         <Typography
-          sx={{ fontSize: "1.6rem", marginBottom: "1rem", fontWeight: "600" }}
+          sx={{
+            fontSize: "1.6rem",
+            marginBottom: "1rem",
+            fontWeight: "600",
+            marginLeft:"1rem"
+            // textAlign: "center",
+          }}
         >
-          Top Brands for you
+          Inspiration for your first order
         </Typography>
         <CustomSlider {...settings}>
           {cards.map((card, index) => (
             <Box
               key={index}
               sx={{
-                padding: "0 15px",
                 boxSizing: "border-box",
-                // border:"2px solid black",
-                // display:"flex"
+                // border: "2px solid black",
+                display: "flex",
+                flexDirection: "column", // Stack image and text vertically
+                justifyContent: "center", // Center content vertically
+                alignItems: "center", // Center content horizontally
+                // background: "red",
+                height: "200px",
+                width: "200px",
+                textAlign: "center", // Center text horizontally in case of longer text
+                padding: "2.4rem", // Add padding if needed
               }}
             >
-              <Box
+              <Box>
+                <img
+                  src={card.image}
+                  alt={card.name}
+                  style={{
+                    height: "100px",
+                    width: "100px",
+                    borderRadius: "50%",
+                    border: "2px solid black",
+                    marginBottom: "1rem",
+                  }}
+                />
+              </Box>
+              <Typography
                 sx={{
-                  height: "100px",
-                  width: "100px",
-                  backgroundImage: `url(${card.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "50%",
-                  border: "2px solid black",
-                  marginBottom: "0.4rem",
+                  fontWeight: "600",
                 }}
-              />
-              <Typography sx={{ textAlign: "center", fontWeight: "600" }}>
+              >
                 {card.name}
               </Typography>
             </Box>
