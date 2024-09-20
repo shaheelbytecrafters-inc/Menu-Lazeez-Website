@@ -1,9 +1,33 @@
 import { Box, Button, Typography } from "@mui/material";
 import RestaurantCard from "../../card/RestaurantCard";
-import data from "../../card/dummyCardData";
+// import data from "../../card/dummyCardData";
+import { fetchRestaurants } from "../../redux/restaurantSlice/Allrestaurant";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 // import HoverFilterButton from "../Delivery/HoverFilterButton";
 
 const NightlifeComponent = () => {
+  const dispatch = useDispatch();
+  const { restaurants, status, error } = useSelector(
+    (state) => state.restaurants
+
+  );
+
+  // Fetch data when component mounts
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchRestaurants());
+    }
+  }, [dispatch, status]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <Box>
       <Box
@@ -37,8 +61,12 @@ const NightlifeComponent = () => {
               justifyItems: "center",
             }}
           >
-            {data.map((restaurant) => (
-              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+            {console.log("++++++++++++++", restaurants)}
+            {restaurants.map((restaurant) => (
+              <RestaurantCard
+                key={restaurant.restaurantId}
+                restaurant={restaurant}
+              />
             ))}
           </Box>
         </Box>

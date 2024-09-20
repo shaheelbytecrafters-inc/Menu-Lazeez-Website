@@ -52,8 +52,8 @@ const PrevArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
-        marginRight: { sm: '0px', xs: '100px' },
-        marginLeft: { sm: '0px', xs: '100px' }
+        marginRight: { sm: '70px', xs: '100px', md: '50px', lg: '0px'  },
+        marginLeft: { sm: '70px', xs: '100px', md: '50px', lg: '0px' }
       }}
     >
       <ArrowBackIosIcon />
@@ -71,8 +71,8 @@ const NextArrow = ({ onClick }) => (
           background: "#f0ae46", // Darker background color on hover
         },
         boxShadow: "0px 4px 10px #f0ae46", // Add shadow to the icon
-        marginLeft: { xs: '100px', sm: '0px' },
-        marginRight: { xs: '100px', sm: '0px' }
+        marginRight: { sm: '70px', xs: '100px', md: '40px', lg: '0px'  },
+        marginLeft: { sm: '70px', xs: '100px', md: '40px', lg: '0px' }
       }}
     >
       <ArrowForwardIosIcon />
@@ -270,26 +270,25 @@ const Restaurant = () => {
       <Box
         maxWidth={'1115px'}
         width={'100%'}
-      >     
+      >
         <Divider />
         {/* Gallery */}
 
-        <Box sx={{ display: { xs: "block", sm: 'none' } }} >
+        <Box // sx={{ display: { xs: "block", sm: 'none' } }} 
+        >
           <Slider {...settingsForSmallScreenCarousel}>
             {cards.map((card, index) => (
               <Box
                 key={index}
                 sx={{
                   boxSizing: "border-box",
-                  height: '27vh',
-                  maxHeight: '414px'
                 }}
               >
                 <Box
                   sx={{
-                    height: "100%",
-                    maxHeight: '250px',
+                    height: { xs: '250px', sm: '400px', md: '450px'},
                     backgroundImage: `url(${card.image})`,
+                    bgcolor: 'purple',
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     borderRadius: "0.5rem",
@@ -301,26 +300,28 @@ const Restaurant = () => {
           </Slider>
         </Box>
 
-        <Box sx={{ display: { xs: "none", sm: 'block' } }}>
-          <Box className="restroGallery" sx={{ width: "auto" }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
+        <Box
+        // sx={{ display: { xs: "none", sm: 'block' } }}
+        >
+          {/* <Box className="restroGallery" sx={{ width: "auto" }} height={{ xs: '30vh', sm: '40vh' }} marginBottom={'5px'} onClick={handleOpen} >
             {itemData.map((item, index) => (
               <Box key={index} id={`box-${index + 1}`} className="box">
                 <img src={item.img} alt={item.title} />
               </Box>
             ))}
-          </Box>
+          </Box> */}
 
           {/* SlikeModal */}
-          <Modal
+          {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             sx={{ bgcolor: 'lightgray' }}
 
-          >
-            <Box sx={{ ...style, }} position={'relative'}>
-              <Button
+          > */}
+          {/* <Box sx={{ ...style, }} position={'relative'}> */}
+          {/* <Button
                 onClick={handleClose}
                 sx={{
                   position: 'absolute',
@@ -331,10 +332,9 @@ const Restaurant = () => {
                 }}
               >
                 <CloseIcon sx={{ fontSize: '40px' }} />
-              </Button>
-              <Box sx={{ ...style, overflow: 'visible', display: "flex", alignItems: 'center' }}>
-                {/* SLIDER  */}
-                <Box
+              </Button> */}
+          {/* <Box sx={{ ...style, overflow: 'visible', display: "flex", alignItems: 'center' }}> */}
+          {/* <Box
                   sx={{
                     width: "100%",
                     maxWidth: "900px",
@@ -365,16 +365,16 @@ const Restaurant = () => {
                       </Box>
                     ))}
                   </Slider>
-                </Box>
-              </Box>
-            </Box>
-          </Modal>
+                </Box> */}
+          {/* </Box> */}
+          {/* </Box>
+          </Modal> */}
         </Box>
 
         {/* Main Section */}
         <Box display="flex" flexDirection="column" boxSizing={'border-box'}>
           {/*  Info */}
-          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} sx={{ mx: { xs: '7px', md: '5px'}}} >
+          <Box display={'flex'} justifyContent="space-between" flexDirection={{ xs: 'column-reverse', sm: 'row' }} marginBottom={'5px'} sx={{ mx: { xs: '7px', md: '5px' } }} >
             <Box flex={1}>
               <Typography color="#1d1d1d" fontFamily={'poppins, sans-serif'} fontWeight={'500'} sx={
                 { fontSize: { xs: '23px', sm: '36px' }, my: { xs: '11px', sm: '3px' } }
@@ -469,7 +469,7 @@ const Restaurant = () => {
                 title={item.title}
                 offer={item.offer}
                 bgColor={item.bgColor}
-                onClick={()=>navigate(item.route)}
+                onClick={() => navigate(item.route)}
               />
             ))}
           </Box>
@@ -513,8 +513,8 @@ const Restaurant = () => {
           </Box>
 
           {/* LargeScreenContentSection  */}
-          <Box display={{ xs: 'none', sm: 'flex', }} sx={{m: {sm: '5px'}}}>
-            <Box display={{ xs: 'none', sm: 'flex',}} flexDirection={'column'} gap={3}>
+          <Box display={{ xs: 'none', sm: 'flex', }} sx={{ m: { sm: '5px' } }}>
+            <Box display={{ xs: 'none', sm: 'flex', }} flexDirection={'column'} gap={3}>
               <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -525,8 +525,8 @@ const Restaurant = () => {
                     <Tab label="Menu" {...a11yProps(4)} sx={tabStyles} />
                     <Tab label="Book a Table" {...a11yProps(5)} sx={tabStyles} />
                   </Tabs>
-
                 </Box>
+                
                 <CustomTabPanel value={value} index={0}>
                   <RestaurantOverview />
                 </CustomTabPanel>

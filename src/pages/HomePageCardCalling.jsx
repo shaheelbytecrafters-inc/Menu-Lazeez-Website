@@ -1,9 +1,18 @@
 import { Box, Button, Typography } from "@mui/material";
-import HomePageCard from "./HomePageCard"; // Assuming this is the card component
-import data from "../card/dummyCardData"; // Import the data array
+// import HomePageCard from "./HomePageCard"; // Assuming this is the card component
+// import data from "../card/dummyCardData"; // Import the data array
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchRestaurants } from "../redux/restaurantSlice/Allrestaurant";
+import RestaurantCard from "../card/RestaurantCard";
+// import { fetchCartDat } from "../redux/cartSlice/cart";
 
 const HomePageCardCalling = () => {
+   const dispatch = useDispatch();
+   const { restaurants, status, error } = useSelector(
+     (state) => state.restaurants
+   );
   const navigate = useNavigate();
 
   const handleShowMoreClick = () => {
@@ -13,6 +22,20 @@ const HomePageCardCalling = () => {
     // Navigate to the desired page
     navigate("/foodDetails");
   };
+    useEffect(() => {
+      if (status === "idle") {
+        dispatch(fetchRestaurants());
+      }
+    }, [dispatch, status]);
+
+    if (status === "loading") {
+      return <div>Loading...</div>;
+    }
+
+    if (status === "failed") {
+      return <div>Error: {error}</div>;
+    }
+
 
   return (
     <Box
@@ -56,8 +79,11 @@ const HomePageCardCalling = () => {
             justifyItems: "center", // Center items within their grid columns
           }}
         >
-          {data.slice(0, 8).map((restaurant) => (
-            <HomePageCard key={restaurant.id} restaurant={restaurant} />
+          {restaurants.slice(0, 8).map((restaurant) => (
+            <RestaurantCard
+              key={restaurant.restaurantId}
+              restaurant={restaurant}
+            />
           ))}
         </Box>
       </Box>

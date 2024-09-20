@@ -225,7 +225,5 @@ const FoodCartApp = () => {
     </Grid>
   );
 };
-
-// Exporting FoodCartApp Component
 export default FoodCartApp;
 

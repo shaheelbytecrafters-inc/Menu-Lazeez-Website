@@ -3,16 +3,16 @@ import { Box } from '@mui/material'
 import Slider  from '../Slider/CardSlider'
 import NightlifeComponent from './NightLifeComponent'
 import NightLifeBanner from './NightLifeBanner'
-import MyLogo from './MyLogo'
-import VerifySlider from './VerifySlider'
+import Logo from './MyLogo'
+import Variety from './VarietySlider'
 
 const MainNightLife = () => {
   return (
     <Box width="100vw">
       <Slider />
       <NightLifeBanner />
-      <MyLogo/>
-      <VerifySlider/>
+      <Logo/>
+      <Variety/>
       <NightlifeComponent />
     </Box>
   );

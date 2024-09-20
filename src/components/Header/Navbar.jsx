@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
-import {  styled } from "@mui/system";
+import { styled } from "@mui/system";
 // import Modal from "@mui/material/Modal";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Modal
+  Modal,
 } from "@mui/material";
 // import Modal from "@mui/material/Modal";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -30,9 +30,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SignUpIcon from "@mui/icons-material/PersonAdd";
 import Login from "../authComponent/Login";
 // import SignIn from "../authComponent/SignIn";
-import OTPInput from "../authComponent/Otp";
-import SignUp from "../authComponent/SignIn";
-
+import OTPInput from "../../components/authComponent/Otp";
+import SignUp from "../../components/authComponent/SignUp";
 
 const HamburgerOrClose = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -96,7 +95,6 @@ const Navbar = () => {
     setOpen(true);
   };
 
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -104,8 +102,6 @@ const Navbar = () => {
   const toggleDrawer = (newOpen) => () => {
     setShowDrawer(newOpen);
   };
-
-
 
   return (
     <>
