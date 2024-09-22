@@ -1,9 +1,8 @@
-// import React from "react";
+
 import { TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Search } from "@mui/icons-material";
 
-// Sample data array for mapping
 const cardData = [
   {
     imgSrc:
@@ -41,7 +40,7 @@ const cardData = [
     heading: "Pizza Hut",
     subheading: "Italian",
   },
-  // Add more objects as needed
+
 ];
 
 const SearchInput = () => {
@@ -63,10 +62,10 @@ const SearchInput = () => {
           },
           "& .MuiOutlinedInput-root": {
             "&:hover fieldset": {
-              borderColor: " gray", // Changes border color on hover
+              borderColor: " gray",
             },
             "&.Mui-focused fieldset": {
-              borderColor: " gray", // Keeps border color black on focus
+              borderColor: " gray", 
             },
           },
         }}
@@ -74,8 +73,6 @@ const SearchInput = () => {
           endAdornment: <Search style={{ color: "#282C3F" }} />,
         }}
       />
-
-      {/* Outer Container */}
       <Box
         sx={{
           height: "100vh",
@@ -88,7 +85,6 @@ const SearchInput = () => {
           marginX: "auto",
         }}
       >
-        {/* Map through the card data array */}
         {cardData.map((card, index) => (
           <Box
             key={index}
@@ -98,7 +94,6 @@ const SearchInput = () => {
                 md: "92px",
               },
               width: "65%",
-              // border: "1px solid blue",
               display: "flex",
               alignItems: "center",
               padding: "8px",

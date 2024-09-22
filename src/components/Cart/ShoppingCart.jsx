@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Container,
   Grid,
   Paper,
   Typography,
-//   Button,
   IconButton,
   TextField,
   Box,
@@ -13,77 +12,77 @@ import {
 import { Delete, Add, Remove } from "@mui/icons-material";
 import AddressForm from "./AddressForm";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchCartData} from '../../redux/cartSlice/cart.js' 
+import {
+  fetchCartData,
+  removeCartItem,
+  updateCartQuantity,
+} from "../../redux/cartSlice/cart";
+import food from "../../../src/assets/images/food.jpeg";
 
 const ShoppingCart = () => {
-  const initialProducts = [
-    {
-      id: 1,
-      title: "Kebab",
-      description: "Melt in your mouth kebabs",
-      price: 49.99,
-      image:
-        "https://c.ndtvimg.com/2020-01/a39okhfk_620_625x300_21_January_20.jpg",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      title: "Biryani",
-      description: "A biryani a day keeps the doctor away",
-      price: 59.99,
-      image:
-        "https://www.licious.in/blog/wp-content/uploads/2023/01/Shutterstock_2047827035-1024x683.jpg",
-      quantity: 1,
-    },
-    {
-      id: 3,
-      title: "Egg Curry",
-      description: "Savor the flavor, taste the difference",
-      price: 69.99,
-      image:
-        "https://www.whiskaffair.com/wp-content/uploads/2020/04/Kerala-Style-Egg-Curry-2-3-500x500.jpg",
-      quantity: 1,
-    },
-  ];
   const dispatch = useDispatch();
 
-  const [products, setProducts] = useState(initialProducts);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData?._id;
+    if (userId) {
+      dispatch(fetchCartData(userId));
+    }
+  }, [dispatch]);
+
+  const { cartData, status, error } = useSelector((state) => state.cart);
+
+  if (status === "loading") {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (status === "failed") {
+    return (
+      <Typography>
+        Error: {error?.message || "An unknown error occurred."}
+      </Typography>
+    );
+  }
+
+  if (!cartData || !cartData.items || cartData.items.length === 0) {
+    return <Typography>Your cart is empty.</Typography>;
+  }
+
+  const products = cartData.items;
   const taxRate = 0.05;
   const shippingRate = 15.0;
 
-
-  // Calculate totals
   const subtotal = products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
+    (acc, product) => acc + product.totalPrice,
     0
   );
   const tax = subtotal * taxRate;
   const total = subtotal + tax + (subtotal > 0 ? shippingRate : 0);
 
-  // Update product quantity
-  const updateQuantity = (id, quantity) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id
-          ? { ...product, quantity: quantity < 1 ? 1 : quantity }
-          : product
-      )
-    );
+  const handleRemoveItem = (itemId) => {
+    const payload = {
+      userId: cartData.userId,
+      restaurantId: cartData.restaurantId,
+    };
+    dispatch(removeCartItem(itemId, payload));
   };
 
-  // Remove a product from the cart
-  const removeItem = (id) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    );
+
+  const handleUpdateQuantity = (itemId,action) => {
+    
+
+      const payload = {
+        itemId,
+        quantity: 1,
+        userId: cartData.userId,
+        restaurantId: cartData.restaurantId,
+        action:action
+      };
+
+      dispatch(updateCartQuantity(payload));
+    
   };
 
-  useEffect(()=>{
-    // const id=JSON.parse()
-    const userData=JSON.parse(localStorage.getItem("userData"))
-    console.log("userData+++++++++++++++++++++++++++++++++++++++++++++++++++++++",userData._id)
-    dispatch(fetchCartData(userData._id));
-  },[])
   return (
     <Container sx={{ marginTop: 4 }}>
       <Typography variant="h4" gutterBottom>
@@ -91,10 +90,9 @@ const ShoppingCart = () => {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
-          {/* Cart items */}
           {products.map((product) => (
             <Paper
-              key={product.id}
+              key={product.itemId}
               variant="outlined"
               sx={{
                 padding: 2,
@@ -107,8 +105,8 @@ const ShoppingCart = () => {
             >
               <Box
                 component="img"
-                src={product.image}
-                alt={product.title}
+                src={food}
+                alt={product.name}
                 sx={{
                   width: 80,
                   height: 80,
@@ -117,10 +115,7 @@ const ShoppingCart = () => {
                 }}
               />
               <Box sx={{ flex: 1, minWidth: 150 }}>
-                <Typography variant="h6">{product.title}</Typography>
-                <Typography color="textSecondary">
-                  {product.description}
-                </Typography>
+                <Typography variant="h6">{product.name}</Typography>
               </Box>
               <Typography
                 sx={{
@@ -129,6 +124,7 @@ const ShoppingCart = () => {
                   flexShrink: 0,
                 }}
               >
+            
                 ${product.price.toFixed(2)}
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -143,7 +139,7 @@ const ShoppingCart = () => {
                     },
                   }}
                   onClick={() =>
-                    updateQuantity(product.id, product.quantity - 1)
+                    handleUpdateQuantity(product.itemId,"decrease")
                   }
                 >
                   <Remove />
@@ -153,9 +149,12 @@ const ShoppingCart = () => {
                   variant="outlined"
                   size="small"
                   value={product.quantity}
-                  onChange={(e) =>
-                    updateQuantity(product.id, parseInt(e.target.value))
-                  }
+                  onChange={(e) => {
+                    const quantity = parseInt(e.target.value);
+                    if (!isNaN(quantity) && quantity >= 0) {
+                      handleUpdateQuantity(product.itemId, quantity);
+                    }
+                  }}
                   sx={{ width: 70, mx: 1, flexShrink: 0 }}
                   inputProps={{ min: 1 }}
                 />
@@ -170,15 +169,16 @@ const ShoppingCart = () => {
                     },
                   }}
                   onClick={() =>
-                    updateQuantity(product.id, product.quantity + 1)
+                    handleUpdateQuantity(product.itemId, "increase" )
                   }
                 >
                   <Add />
                 </IconButton>
               </Box>
+
               <IconButton
                 sx={{ color: "#fe0604" }}
-                onClick={() => removeItem(product.id)}
+                onClick={() => handleRemoveItem(product.itemId)}
               >
                 <Delete />
               </IconButton>
@@ -187,19 +187,16 @@ const ShoppingCart = () => {
                   minWidth: 80,
                   textAlign: "right",
                   flexShrink: 0,
-                  ml: "auto", // Pushes the total amount to the right
+                  ml: "auto",
                 }}
               >
-                <Typography>
-                  ${(product.price * product.quantity).toFixed(2)}
-                </Typography>
+                <Typography>${product.price * product.quantity}</Typography>
               </Box>
             </Paper>
           ))}
         </Grid>
 
         <Grid item xs={12} md={4}>
-          {/* Checkout section */}
           <Paper variant="outlined" sx={{ padding: 2 }}>
             <Box
               display="flex"
@@ -228,20 +225,11 @@ const ShoppingCart = () => {
                   <Typography variant="h6">${total.toFixed(2)}</Typography>
                 </Box>
               </Box>
-              {/* <Button
-                variant="contained"
-                color="success"
-                fullWidth
-                sx={{ mt: 2 }}
-                disabled={products.length === 0}
-              >
-                Checkout
-              </Button> */}
             </Box>
           </Paper>
         </Grid>
       </Grid>
-      <AddressForm/>
+      <AddressForm />
     </Container>
   );
 };

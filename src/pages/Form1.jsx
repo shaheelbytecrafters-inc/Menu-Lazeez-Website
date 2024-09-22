@@ -18,8 +18,6 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// import { useSnackbar } from "notistack";
-
 const Form1 = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);

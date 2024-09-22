@@ -17,28 +17,26 @@ import Switch from "@mui/material/Switch";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function SidebarWithTabs() {
-  const [selectedTab, setSelectedTab] = useState(0); // Track selected tab
-  const [showContent, setShowContent] = useState(false); // Manage content view in small screen
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [showContent, setShowContent] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
     if (isSmallScreen) {
-      setShowContent(true); // Show content when paragraph is clicked on small screens
+      setShowContent(true); 
     }
   };
 
   const handleBackClick = () => {
-    setShowContent(false); // Go back to paragraphs when back button is clicked
+    setShowContent(false); 
   };
 
   return (
     <Box bgcolor="red" width="100vw">
       <Box
         sx={{
-          // backgroundColor: isSmallScreen ? "#fff" : "#fe0604", // Change background to white on small screens
           width: "100%",
-          // height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -47,30 +45,28 @@ function SidebarWithTabs() {
       >
         <Box
           sx={{
-            width: "100%", // Ensure the box takes the full width
+            width: "100%",
             backgroundColor: "#fff",
-            marginLeft: isSmallScreen ? "0" : "3.8rem", // Remove margin on small screens
+            marginLeft: isSmallScreen ? "0" : "3.8rem", 
           }}
         >
           <Box
             sx={{
               height: "100vh",
               display: "flex",
-              marginLeft: isSmallScreen ? "0.4rem" : "-1rem", // Remove left margin on small screens
-              marginTop: isSmallScreen ? "0" : "4rem", // Remove top margin on small screens
+              marginLeft: isSmallScreen ? "0.4rem" : "-1rem", 
+              marginTop: isSmallScreen ? "0" : "4rem", 
             }}
           >
-            {/* Navbar converted into a paragraph on small screens */}
             {isSmallScreen ? (
               !showContent && (
                 <Box sx={{ padding: "1rem", marginTop: "0" }}>
-                  {/* Remove top margin */}
                   <Typography
                     variant="h6"
                     sx={{
                       fontFamily: "poppins",
                       color: "#000",
-                      fontSize: isSmallScreen ? "16px" : "24px", // Decrease font size on small screens
+                      fontSize: isSmallScreen ? "16px" : "24px",
                     }}
                   >
                     Eram Khan
@@ -90,18 +86,15 @@ function SidebarWithTabs() {
                     Edit Profile
                   </Button>
                   <Divider sx={{ width: "90%", marginTop: "10px" }} />{" "}
-                  {/* Full width horizontal line */}
-                  {/* Tabs (paragraphs) below the "Edit Profile" button */}
                   {!showContent && isSmallScreen && (
                     <Box
                       sx={{
-                        width: "100%", // Make the full width
+                        width: "100%",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "flex-start",
-                        // padding: "1rem",
                         gap: "1rem",
-                        marginTop: "1rem", // Move tabs closer to the button
+                        marginTop: "1rem", 
                       }}
                     >
                       <Typography
@@ -109,10 +102,9 @@ function SidebarWithTabs() {
                         sx={{
                           cursor: "pointer",
                           color: "#fe0604",
-                          width: "81vw", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                          // backgroundColor:"pink"
+                          width: "81vw",
+                          textAlign: "left",
+                          padding: "0.5rem 0",
                         }}
                       >
                         Orders
@@ -124,9 +116,9 @@ function SidebarWithTabs() {
                         sx={{
                           cursor: "pointer",
                           color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
+                          width: "100%", 
+                          textAlign: "left", 
+                          padding: "0.5rem 0", 
                         }}
                       >
                         Address
@@ -138,15 +130,14 @@ function SidebarWithTabs() {
                         sx={{
                           cursor: "pointer",
                           color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
+                          width: "100%", 
+                          textAlign: "left", 
+                          padding: "0.5rem 0",
                         }}
                       >
                         Setting
                       </Typography>
-                      <Divider sx={{ width: " 100%" }} />{" "}
-                      {/* Full width horizontal line */}
+                      <Divider sx={{ width: " 100%" }} />
                     </Box>
                   )}
                 </Box>
@@ -164,7 +155,7 @@ function SidebarWithTabs() {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between", // Align the name, phone number, and button in one line
+                      justifyContent: "space-between",
                       alignItems: "center",
                       flexGrow: 1,
                     }}
@@ -208,9 +199,7 @@ function SidebarWithTabs() {
               </AppBar>
             )}
 
-            {/* Main Content with Sidebar */}
             <Box sx={{ display: "flex", height: "100vh", width: "100%" }}>
-              {/* Tabs in Sidebar for larger screens */}
               {!isSmallScreen && (
                 <Box sx={{ width: "20%", marginTop: "5rem" }}>
                   <Tabs
@@ -226,8 +215,6 @@ function SidebarWithTabs() {
                   </Tabs>
                 </Box>
               )}
-
-              {/* Content Area */}
               <Box
                 sx={{
                   flexGrow: 1,
@@ -263,25 +250,8 @@ function SidebarWithTabs() {
                     <Box
                       sx={{
                         height: "281px",
-                        // "@media (min-width: 820px) and (max-width: 1180px)": {
-                        //   width: "600px",
-                        // },
-                        // "@media (min-width: 1024px) and (max-width: 1180px)": {
-                        //   width: "700px",
-                        // },
-                        // "@media (min-width: 1024px) and (max-width: 1366px)": {
-                        //   width: "800px",
-                        // },
-                        // "@media (min-width: 786px) and (max-width: 1024px)": {
-                        //   width: "300px",
-                        // },
-                        //  "@media (min-width: 375px) and (max-width: 667px)": {
-                        //   width: "350px",
-                        // },
-                        // width: "600px",
                         border: "1px solid #fe0604",
-                        // overflow: "hidden",
-                        mt: 2, // Margin Top for Spacing
+                        mt: 2, 
                       }}
                     >
                       <Box
@@ -291,7 +261,6 @@ function SidebarWithTabs() {
                           marginTop: "1.5rem",
                         }}
                       >
-                        {/* Image inside the Box */}
                         <img
                           src="https://content.jdmagicbox.com/comp/kota-rajasthan/a4/9999px744.x744.191022231804.z1a4/catalogue/jaipuri-chicken-biryani-dada-bari-kota-rajasthan-north-indian-delivery-restaurants-h36c8o0sr5.jpg"
                           alt="Example"
@@ -328,21 +297,12 @@ function SidebarWithTabs() {
                           </Button>
                         </Box>
                       </Box>
-
-                      {/* Half Line */}
-                      <Box
-                      // sx={{
-                      //   width: "95%",
-                      //   // borderBottom: "1px solid #ddd",
-                      //   margin: "1rem auto",
-                      // }}
-                      />
+                      <Box/>
 
                       <Box
                         sx={{
                           height: "100px",
                           width: "828px",
-                          // marginTop: "1.5rem",
                           marginLeft: "1.8rem",
                         }}
                       >

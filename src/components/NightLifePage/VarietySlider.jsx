@@ -127,17 +127,15 @@ function Variety() {
             <Box
               key={index}
               sx={{
-                boxSizing: "border-box",
-                // border: "2px solid black",
+                boxSizing: "border-box",  
                 display: "flex",
-                flexDirection: "column", // Stack image and text vertically
-                justifyContent: "center", // Center content vertically
-                alignItems: "center", // Center content horizontally
-                // background: "red",
+                flexDirection: "column", 
+                justifyContent: "center", 
+                alignItems: "center",
                 height: "200px",
                 width: "200px",
-                textAlign: "center", // Center text horizontally in case of longer text
-                padding: "2.4rem", // Add padding if needed
+                textAlign: "center",
+                padding: "2.4rem",
               }}
             >
               <Box>

@@ -39,16 +39,16 @@ const textFieldStyles = {
 };
 const radioStyles = {
   "& .MuiRadio-root": {
-    color: " gray", // Default color of the radio button
+    color: " gray", 
     
     "&.Mui-checked": {
-      color: " gray", // Radio button color when checked
+      color: " gray",
     },
   },
   "& .MuiFormControlLabel-label": {
-    color: " gray", // Default label color
+    color: " gray", 
     "& .Mui-focused": {
-      color: "gray", // Focused label color
+      color: "gray", 
     },
   },
 };
@@ -77,7 +77,7 @@ function AddressForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+
     console.log("Form submitted:", formData);
   };
 

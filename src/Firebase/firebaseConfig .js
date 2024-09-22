@@ -1,7 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-
-// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAE-FYvTNXqsWlgdiOoVIv1d3nvxR_1nME",
   authDomain: "test-notification-95205.firebaseapp.com",
@@ -12,16 +10,13 @@ const firebaseConfig = {
   measurementId: "G-816HHCHVQZ",
 };
 
-// Correct VAPID key
 const vapidKey =
   "BMlaYezmBaXatqf98y1AMxbmkSNWhxkuUCiQOteCu0IQZhs51fee09tcwqFpyCwKkguZOP8Rbc6D8EgxNyZ07YY"; // Replace with your checked VAPID key
 
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Messaging
 const messaging = getMessaging(app);
 
-// Request FCM Token
 export const requestFCMToken = async () => {
   try {
     const permission = await Notification.requestPermission();
@@ -32,23 +27,20 @@ export const requestFCMToken = async () => {
       const currentToken = await getToken(messaging, { vapidKey });
 
       if (currentToken) {
-        // console.log("FCM token generated:", currentToken);
-        return currentToken; // Return the token
+        return currentToken; 
       } else {
         console.error("Failed to generate FCM token.");
-        return null; // Handle if token is not returned
+        return null; 
       }
     } else {
       console.warn("Notification permission denied.");
-      return null; // Permission denied
+      return null;
     }
   } catch (err) {
     console.error("Error getting FCM token:", err);
   }
 };
 
-// Optionally, handle foreground messages
 onMessage(messaging, (payload) => {
   console.log("Message received in foreground:", payload);
-  // Customize notification handling here if necessary
 });
