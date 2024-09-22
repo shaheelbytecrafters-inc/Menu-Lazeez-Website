@@ -66,8 +66,6 @@ function Profile() {
                   <Typography>eram123@gmail.com</Typography>
                 </Box>
               </Box>
-
-              {/* Add any additional Navbar items here */}
               <Button
                 sx={{
                   color: "#fff",
@@ -80,7 +78,6 @@ function Profile() {
             </Toolbar>
           </AppBar>
 
-          {/* Main Content with Sidebar */}
 
           <Box
             sx={{
@@ -90,17 +87,16 @@ function Profile() {
               paddingTop: "64px",
             }}
           >
-            {/* Sidebar Drawer */}
             <Drawer
               variant="permanent"
               sx={{
-                width: 200, // Reduced width
+                width: 200,
                 flexShrink: 0,
                 "& .MuiDrawer-paper": {
-                  width: 200, // Reduced width
+                  width: 200, 
                   boxSizing: "border-box",
-                  marginTop: "64px", // Adjust to start below the AppBar
-                  backgroundColor: "#fff", // Apply yellow background only to the Drawer
+                  marginTop: "64px", 
+                  backgroundColor: "#fff", 
                   marginLeft: "2.1rem",
                 },
               }}
@@ -113,41 +109,40 @@ function Profile() {
                 sx={{
                   borderRight: 1,
                   borderColor: "divider",
-                  paddingTop: "0px", // No extra padding needed here
+                  paddingTop: "0px",
                   marginTop: "3rem",
                 }}
               >
                 <Tab
-                  icon={<LocalMallIcon sx={{ color: "#fe0604" }} />} // Set icon color
+                  icon={<LocalMallIcon sx={{ color: "#fe0604" }} />} 
                   iconPosition="start"
                   label="Orders"
                   sx={{
-                    color: "#fe0604", // Set text color
+                    color: "#fe0604", 
                     "&:hover": {
-                      color: "#fe0604", // Maintain hover color
+                      color: "#fe0604", 
                     },
                   }}
                 />
                 <Tab
-                  icon={<LocationOnIcon sx={{ color: "#fe0604" }} />} // Set icon color
+                  icon={<LocationOnIcon sx={{ color: "#fe0604" }} />} 
                   iconPosition="start"
                   label="Address"
-                  // color="red"
                   sx={{
-                    color: "#fe0604", // Set text color
+                    color: "#fe0604", 
                     "&:hover": {
-                      color: "#fe0604", // Maintain hover color
+                      color: "#fe0604", 
                     },
                   }}
                 />
                 <Tab
-                  icon={<SettingsIcon sx={{ color: "#fe0604" }} />} // Set icon color
+                  icon={<SettingsIcon sx={{ color: "#fe0604" }} />}
                   iconPosition="start"
                   label="Settings"
                   sx={{
-                    color: "#fe0604", // Set text color
+                    color: "#fe0604", 
                     "&:hover": {
-                      color: "#fe0604", // Maintain hover color
+                      color: "#fe0604",
                     },
                   }}
                 />

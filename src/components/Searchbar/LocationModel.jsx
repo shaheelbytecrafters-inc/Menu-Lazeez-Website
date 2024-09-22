@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, CardMedia, Typography, styled } from '@mui/material';
 
-// Sample foods array
 const foods = [
   {
     id: 1,

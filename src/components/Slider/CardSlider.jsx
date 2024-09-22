@@ -4,85 +4,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { Box, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import res from "../../../src/assets/images/res.jpeg";
-import { fetchRestaurants } from "../../redux/restaurantSlice/Allrestaurant";
-import { useDispatch,useSelector } from "react-redux";
-import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// Remove custom arrow components
-// const ArrowButton = styled(Box)(({ direction }) => ({
-//   position: "absolute",
-//   top: "50%",
-//   transform: "translateY(-50%)",
-//   cursor: "pointer",
-//   zIndex: 1,
-//   [direction]: "-40px",
-// }));
-
-// const PrevArrow = ({ onClick }) => (
-//   <ArrowButton direction="left" onClick={onClick}>
-//     <IconButton
-//       sx={{
-//         color: "white",
-//         fontWeight: "bold",
-//         background: "black",
-//         "&:hover": {
-//           background: "black",
-//         },
-//         boxShadow: "0px 4px 10px black",
-//       }}
-//     >
-//       <ArrowBackIosIcon />
-//     </IconButton>
-//   </ArrowButton>
-// );
-
-// const NextArrow = ({ onClick }) => (
-//   <ArrowButton direction="right" onClick={onClick}>
-//     <IconButton
-//       sx={{
-//         color: "white",
-//         background: "black",
-//         "&:hover": {
-//           background: "black",
-//         },
-//         boxShadow: "0px 4px 10px black",
-//       }}
-//     >
-//       <ArrowForwardIosIcon />
-//     </IconButton>
-//   </ArrowButton>
-// );
-
+import { useSelector } from "react-redux";
 function CardSlider() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
  
-  const { restaurants, status } = useSelector((state) => state.restaurants);
+  const { restaurants } = useSelector((state) => state.restaurants);
 
-  // const cards = [
-  //   {
-  //     name: "The Gourmet Kitchen",
-  //     image: res,
-  //   },
-  //   {
-  //     name: "Sushi World",
-  //     image: res,
-  //   },
-  //   {
-  //     name: "Pasta Palace",
-  //     image: res,
-  //   },
-  //   {
-  //     name: "Bistro Delight",
-  //     image: res,
-  //   },
-  //   {
-  //     name: "Urban Bites",
-  //     image: res,
-  //   },
-  // ];
-
-  // const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -92,9 +19,7 @@ function CardSlider() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-    // Remove arrow buttons from settings
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -154,19 +79,13 @@ function CardSlider() {
               md: "1.7rem",
               lg: "2rem",
             },
-            // pl: {
-            //   xs: 2,
-            //   lg: 8,
-            // },
             pb: {
               xs: 0.8,
               sm: 1,
               md: 2,
               lg: 3,
             },
-            // textAlign: "center",
             marginBottom: "1rem",
-            // bgcolor:"red"
           }}
         >
           Foodie Favorites restaurants
@@ -198,13 +117,12 @@ function CardSlider() {
                     border:"2px solid black"
                   }}
                 >
-                  {/* Text overlay at the bottom */}
                   <Box
                     sx={{
                       position: "absolute",
                       bottom: 0,
                       width: "100%",
-                      background: "rgba(0, 0, 0, 0.6)", // Slightly dark background for better text visibility
+                      background: "rgba(0, 0, 0, 0.6)",
                       padding: "8px 12px",
                     }}
                   >

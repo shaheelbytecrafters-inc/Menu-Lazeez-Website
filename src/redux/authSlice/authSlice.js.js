@@ -1,40 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import toastify CSS
-// import { act } from "react";
-// import { json } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css"; 
 
-// Async thunk for user sign-in
-// export const signUpUser = createAsyncThunk(
-//   "auth/signUpUser",
-//   async (userData, { rejectWithValue }) => {
-  
-//     console.log("Hello ",userData)
-//     try {
-//       const response = await axios.post(
-//         "https://lazeez-restaurant-backend.onrender.com/signup",
-//         userData
-//       );
-//       // console.log("response data from /////////////////",response)
-//       // console.log("response data 1",response.data.data)
-//       const token={
-//         token:response.data.token
-//       }
-//       localStorage.setItem("token",JSON.stringify(token))
-//       // console.log("token",response.data.token)
-//       return response.data.data; // Assuming this is where you receive the token
-//     } catch (error) {
-//       console.log("rejected++++++++++++++++++++++++++++",error)
-      
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
 
 export const signUpUser = createAsyncThunk(
   "auth/signUpUser",
   async (userData, { rejectWithValue }) => {
+    console.log("SignUp Data",userData)
     try {
       const response = await axios.post(
         "https://lazeez-restaurant-backend.onrender.com/signup",
@@ -42,43 +15,16 @@ export const signUpUser = createAsyncThunk(
       );
       const token = { token: response.data.token };
       localStorage.setItem("token", JSON.stringify(token));
-      toast.success("Sign Up Successful!"); // Show success toast
-      return response.data.data; // Assuming this is where you receive the token
+      toast.success("Sign Up Successful!"); 
+      return response.data.data; 
     } catch (error) {
-      toast.error("Sign Up Failed!"); // Show error toast
+      toast.error("Sign Up Failed!"); 
+      console.log(error)
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-// export const loginUser = createAsyncThunk(
-//   "auth/loginUser",
-//   async (userData, { rejectWithValue }) => {
-//     console.log("logIn Data",userData)
-//     try {
-//       const response = await axios.post(
-//         "https://lazeez-restaurant-backend.onrender.com/login",
-//         userData
-//       );
-//       // console.log("response data from login", response);
-//       // console.log("response data 1 from login",response.data.data)
-//       // const token = {
-//       //   token: response.data.token,
-//       // };
-//       // console.log("Login token", token);
-//       // console.log("response data 1 from login",response.data.data)
-
-//       // localStorage.setItem("userData", JSON.stringify(response.data.data));
-//       // localStorage.setItem("token", JSON.stringify(token));
-
-//       // console.log("token",response.data.token)
-//       return response.data;
-//     } catch (error) {
-//       // console.log("problem in login")
-//       return rejectWithValue(error.response?.data || "Error during login");
-//     }
-//   }
-// );
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData, { rejectWithValue }) => {
@@ -87,9 +33,10 @@ export const loginUser = createAsyncThunk(
         "https://lazeez-restaurant-backend.onrender.com/login",
         userData
       );
-      toast.success("Login Successful!"); 
-      // localStorage.setItem("userData", JSON.stringify(response.data.data));
-      // localStorage.setItem("token", JSON.stringify(response.data.token));
+      
+      const token = { token: response.data.token };
+      localStorage.setItem("token", JSON.stringify(token));
+      toast.success("Login Successful!");
       return response.data;
     } catch (error) {
       toast.error("Login Failed!"); 
@@ -108,7 +55,6 @@ export const verifyOtp = createAsyncThunk(
         "https://lazeez-restaurant-backend.onrender.com/verify-otp",
         payload 
       );
-      // console.log("verified otp",response)
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -117,6 +63,24 @@ export const verifyOtp = createAsyncThunk(
   }
 );
 
+export const resendOtp = createAsyncThunk(
+  "auth/verifyOtp",
+  async (payload, { rejectWithValue }) => {
+    console.log("PhoneNumber , token", payload);
+
+    try {
+      const response = await axios.post(
+        "https://lazeez-restaurant-backend.onrender.com/send-otp",
+        payload
+      );
+      // console.log("resend otp", response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response?.data || "Error verifying OTP");
+    }
+  }
+);
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -142,14 +106,13 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.data;
         state.token = action.payload.token;
-        // localStorage.setItem("token", action.payload.token);
         const mobileNumber = {
           phoneNumber: action.payload.phoneNumber,
         };
-        // console.log(mobileNumber);
+        console.log(mobileNumber);
+        console.log("Storing in localStorage: ", action.payload);
         localStorage.setItem("phoneNumber", JSON.stringify(mobileNumber));
         localStorage.setItem("userData", JSON.stringify(action.payload));
-        //  console.log("userData payload", JSON.stringify(action.payload));
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -162,34 +125,13 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      // .addCase(loginUser.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.user = action.payload.data;
-      //   state.token = action.payload.token;
-      //   // localStorage.setItem("token", action.payload.token);
-      //   const mobileNumber = {
-      //     phoneNumber: action.payload.phoneNumber,
-      //   };
-      //   console.log(mobileNumber);
-      //   console.log("payload data from login",action.payload.data);
-      //   // console.log()
-      //   localStorage.setItem("userData", JSON.stringify(action.payload.data));
-      //   localStorage.setItem("token", JSON.stringify(action.payload.token));
-      //   //  console.log("userData payload", JSON.stringify(action.payload));
-      // })
+    
 
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.data; // Ensure this is correct
-        state.token = action.payload.token; // Ensure this is correct
-
-        // Check if action.payload contains the correct values
+        state.user = action.payload.data;
         console.log("Payload from loginUser.fulfilled:", action.payload.data);
-        console.log("token login ==========================",action.payload.token)
-        
-        // Store user data and token in localStorage
         localStorage.setItem("userData", JSON.stringify(action.payload.data));
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
       })
 
       .addCase(loginUser.rejected, (state, action) => {
@@ -206,7 +148,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.otpVerificationMessage = action.payload.message;
         state.user = { phoneNumber: action.meta.arg.phoneNumber };
-        // localStorage.setItem("phoneNumber", action.meta.arg.phoneNumber);
       })
       .addCase(verifyOtp.rejected, (state, action) => {
         state.isLoading = false;

@@ -6,6 +6,7 @@ import NightLifeBanner from './NightLifeBanner'
 import Logo from './MyLogo'
 import Variety from './VarietySlider'
 
+
 const MainNightLife = () => {
   return (
     <Box width="100vw">

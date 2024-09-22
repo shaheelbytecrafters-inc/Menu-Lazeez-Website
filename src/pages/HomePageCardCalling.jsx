@@ -1,12 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
-// import HomePageCard from "./HomePageCard"; // Assuming this is the card component
-// import data from "../card/dummyCardData"; // Import the data array
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchRestaurants } from "../redux/restaurantSlice/Allrestaurant";
 import RestaurantCard from "../card/RestaurantCard";
-// import { fetchCartDat } from "../redux/cartSlice/cart";
 
 const HomePageCardCalling = () => {
    const dispatch = useDispatch();
@@ -16,10 +13,7 @@ const HomePageCardCalling = () => {
   const navigate = useNavigate();
 
   const handleShowMoreClick = () => {
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Navigate to the desired page
     navigate("/foodDetails");
   };
     useEffect(() => {
@@ -76,7 +70,7 @@ const HomePageCardCalling = () => {
               lg: "repeat(4,1fr)",
             },
             width: "90%",
-            justifyItems: "center", // Center items within their grid columns
+            justifyItems: "center",
           }}
         >
           {restaurants.slice(0, 8).map((restaurant) => (
@@ -91,9 +85,7 @@ const HomePageCardCalling = () => {
       <Box sx={{ textAlign: "center", marginBlock: "20px" }}>
         <Button
           variant="contained"
-          // className="button-90"
           sx={{
-            // backgroundColor: " #f24a07",
             backgroundColor: "#fe0604 ",
 
             color: "white",

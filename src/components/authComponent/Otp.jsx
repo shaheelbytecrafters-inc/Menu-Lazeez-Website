@@ -1,18 +1,18 @@
 import { Button, Typography, Box, Container } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyOtp } from "../../redux/authSlice/authSlice.js";
+import { verifyOtp, resendOtp } from "../../redux/authSlice/authSlice.js"; // Import resendOtp action
 import otp from "../../assets/images/Otp.png";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function OTPInput({ onClose }) {
-  // Add onClose as a prop
   const dispatch = useDispatch();
   const { isLoading, error, otpVerificationMessage } = useSelector(
     (state) => state.auth
   );
+  const phoneNumber = JSON.parse(localStorage.getItem("phoneNumber"));
   const navigate = useNavigate();
 
   const Ref1 = useRef(null);
@@ -22,12 +22,8 @@ export default function OTPInput({ onClose }) {
   const Ref5 = useRef(null);
   const Ref6 = useRef(null);
 
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const [input3, setInput3] = useState("");
-  const [input4, setInput4] = useState("");
-  const [input5, setInput5] = useState("");
-  const [input6, setInput6] = useState("");
+  const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
+  const [isResending, setIsResending] = useState(false); 
 
   const handleKey = (event) => {
     if (!/\d/.test(event.key)) {
@@ -35,22 +31,25 @@ export default function OTPInput({ onClose }) {
     }
   };
 
-  const handleBackspace = (event, setInput, prevRef) => {
-    if (event.key === "Backspace" && event.target.value === "") {
-      setInput("");
-      if (prevRef) prevRef.current.focus();
+  const handleBackspace = (event, index) => {
+    if (event.key === "Backspace" && inputValues[index] === "") {
+      const newValues = [...inputValues];
+      newValues[index] = "";
+      setInputValues(newValues);
+      if (index > 0) {
+        [Ref1, Ref2, Ref3, Ref4, Ref5, Ref6][index - 1].current.focus();
+      }
     }
   };
 
   useEffect(() => {
-    if (input6.length === 1) {
+    if (inputValues[5].length === 1) {
       Ref6.current.blur();
     }
-  }, [input6]);
+  }, [inputValues]);
 
   const handleVerifyOTP = () => {
-    const otpCode = `${input1}${input2}${input3}${input4}${input5}${input6}`;
-    const phoneNumber = JSON.parse(localStorage.getItem("phoneNumber"));
+    const otpCode = inputValues.join("");
     if (phoneNumber) {
       const otpData = {
         phoneNumber: phoneNumber.phoneNumber,
@@ -62,19 +61,32 @@ export default function OTPInput({ onClose }) {
     }
   };
 
+  const handleResendOTP = () => {
+    if (phoneNumber) {
+      setIsResending(true);
+      const otpData = {
+        phoneNumber: phoneNumber.phoneNumber,
+      };
+      dispatch(resendOtp(otpData)); 
+      toast.success("OTP has been resent!");
+      setInputValues(["", "", "", "", "", ""]); 
+      setIsResending(false); 
+    } else {
+      toast.error("Phone number not found in local storage!");
+    }
+  };
+
   useEffect(() => {
     if (otpVerificationMessage === "OTP verified successfully") {
       toast.success("OTP verified successfully!");
-      // Close the modal after success
       if (onClose) {
-        onClose(); // Call the modal close function
+        onClose();
       }
-      // Navigate to the home page after a small delay
       setTimeout(() => {
         navigate("/");
       }, 1000);
     }
-  }, [otpVerificationMessage, navigate, onClose]); // Include onClose in the dependency array
+  }, [otpVerificationMessage, navigate, onClose]);
 
   return (
     <Container
@@ -118,57 +130,37 @@ export default function OTPInput({ onClose }) {
               gap={1.5}
               marginTop={3}
             >
-              {[input1, input2, input3, input4, input5, input6].map(
-                (value, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    style={{
-                      padding: "12px",
-                      width: "20px",
-                      height: "20px",
-                      textAlign: "center",
-                      fontSize: "1.2rem",
-                      border: "1px solid #ccc",
-                      borderRadius: "6px",
-                    }}
-                    value={value}
-                    ref={[Ref1, Ref2, Ref3, Ref4, Ref5, Ref6][index]}
-                    onChange={(e) => {
-                      [
-                        setInput1,
-                        setInput2,
-                        setInput3,
-                        setInput4,
-                        setInput5,
-                        setInput6,
-                      ][index](e.target.value);
-                      if (e.target.value.length === 1) {
-                        const nextRef = [Ref2, Ref3, Ref4, Ref5, Ref6, null][
-                          index
-                        ];
-                        if (nextRef) nextRef.current.focus();
-                      }
-                    }}
-                    maxLength={1}
-                    onKeyPress={handleKey}
-                    onKeyDown={(e) =>
-                      handleBackspace(
-                        e,
-                        [
-                          setInput1,
-                          setInput2,
-                          setInput3,
-                          setInput4,
-                          setInput5,
-                          setInput6,
-                        ][index],
-                        [null, Ref1, Ref2, Ref3, Ref4, Ref5][index]
-                      )
+              {inputValues.map((value, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  style={{
+                    padding: "12px",
+                    width: "20px",
+                    height: "20px",
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "6px",
+                  }}
+                  value={value}
+                  ref={[Ref1, Ref2, Ref3, Ref4, Ref5, Ref6][index]}
+                  onChange={(e) => {
+                    const newValues = [...inputValues];
+                    newValues[index] = e.target.value;
+                    setInputValues(newValues);
+                    if (e.target.value.length === 1) {
+                      const nextRef = [Ref2, Ref3, Ref4, Ref5, Ref6, null][
+                        index
+                      ];
+                      if (nextRef) nextRef.current.focus();
                     }
-                  />
-                )
-              )}
+                  }}
+                  maxLength={1}
+                  onKeyPress={handleKey}
+                  onKeyDown={(e) => handleBackspace(e, index)}
+                />
+              ))}
             </Box>
 
             <Button
@@ -185,23 +177,32 @@ export default function OTPInput({ onClose }) {
                 },
               }}
               onClick={handleVerifyOTP}
-              disabled={isLoading}
+              disabled={isLoading || isResending} 
             >
               {isLoading ? "Verifying..." : "Verify OTP"}
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{
+                color: "white",
+                backgroundColor: "red",
+                textTransform: "none",
+                marginTop: 3,
+                padding: "0.8rem 2rem",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#fe0604",
+                },
+              }}
+              onClick={handleResendOTP}
+              disabled={isLoading || isResending}
+            >
+              {isResending ? "Resending..." : "Resend OTP"}
             </Button>
           </>
         )}
 
-        {/* {error && (
-          <Typography color="error" marginTop={2}>
-            {error}
-          </Typography>
-        )} */}
-        {/* {error && (
-          <Typography color="error" marginTop={2}>
-            {typeof error === "string" ? error : JSON.stringify(error)}
-          </Typography>
-        )} */}
         {error && (
           <Typography color="error" marginTop={2}>
             {typeof error === "string"

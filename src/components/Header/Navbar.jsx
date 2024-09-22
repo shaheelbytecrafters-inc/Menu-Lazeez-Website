@@ -114,7 +114,7 @@ const Navbar = () => {
               : "transparent"
             : "#fe0604",
           color: "white",
-          zIndex: 1600,
+          // zIndex: 1600,
           boxShadow: "none",
           padding: 0,
           margin: 0,

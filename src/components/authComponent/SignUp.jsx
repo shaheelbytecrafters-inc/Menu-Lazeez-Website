@@ -18,8 +18,7 @@ import { signUpUser } from "../../redux/authSlice/authSlice.js.js";
 import { requestFCMToken } from "../../Firebase/firebaseConfig .js";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+
 
 const SignUp = ({ setIsAuth }) => {
   const [formData, setFormData] = useState({
@@ -30,7 +29,7 @@ const SignUp = ({ setIsAuth }) => {
   });
 
   const dispatch = useDispatch();
-  // const { isLoading, error } = useSelector((state) => state.auth);
+
   const authState = useSelector((state) => state.auth);
   const { isLoading, error } = authState;
 
@@ -43,14 +42,14 @@ const SignUp = ({ setIsAuth }) => {
   };
 
   const handleSignIn = () => {
-    // Dispatch signInUser with the form data and FCM token
+ 
     setIsAuth("login");
     console.log(fcmToken);
     dispatch(signUpUser({ ...formData, fcmToken }));
   };
 
   const handleChange = (e) => {
-    // e.preventDefault()
+
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -70,7 +69,6 @@ const SignUp = ({ setIsAuth }) => {
     fetchFCMToken();
   }, []);
 
-  // TextField styling to maintain gray color
   const textFieldStyles = {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
@@ -102,11 +100,10 @@ const SignUp = ({ setIsAuth }) => {
     },
   };
 
-  // const navigate=usenavigate()
   const navigate = useNavigate();
   useEffect(() => {
     if (authState.isAuthenticated) {
-      navigate("/"); // Or wherever you want to redirect
+      navigate("/"); 
     }
   }, [authState.isAuthenticated, navigate]);
 
@@ -142,9 +139,7 @@ const SignUp = ({ setIsAuth }) => {
       >
         <Typography variant="h5">Sign In</Typography>
 
-        {/* Display loading or error messages */}
         {isLoading && <CircularProgress />}
-        {/* {error && <Alert severity="error">{error}</Alert>} */}
         {error && (
           <Alert severity="error">
             {typeof error === "string"
@@ -153,7 +148,6 @@ const SignUp = ({ setIsAuth }) => {
           </Alert>
         )}
 
-        {/* Name Field */}
         <TextField
           required
           fullWidth
@@ -174,8 +168,6 @@ const SignUp = ({ setIsAuth }) => {
             ),
           }}
         />
-
-        {/* Email Field */}
         <TextField
           variant="outlined"
           required
@@ -198,8 +190,6 @@ const SignUp = ({ setIsAuth }) => {
             ),
           }}
         />
-
-        {/* Phone Number Field */}
         <TextField
           variant="outlined"
           required
@@ -223,7 +213,6 @@ const SignUp = ({ setIsAuth }) => {
           }}
         />
 
-        {/* Bio Field */}
         <TextField
           variant="outlined"
           fullWidth
@@ -256,13 +245,11 @@ const SignUp = ({ setIsAuth }) => {
               backgroundColor: "#fe0604",
             },
           }}
-          // onClick={()=>navigate("/")}
+
         >
           Submit
         </Button>
       </Box>
-
-      {/* Image section */}
       <Box
         component="img"
         src={login}

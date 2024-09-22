@@ -4,14 +4,11 @@ import RestaurantPage from "./pages/RestaurantPage";
 import Footer from "./components/footer/Footer";
 import PartnerPage from "./components/Partner/PartnerPage";
 import Navbar from "./components/Header/Navbar";
-import FoodCartApp from "./components/Cart/FoodCartApp";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import SearchInput from "./components/SearchInput/SearchInput";
 import NightlifeComponent from "./components/NightLifePage/MainNightLife";
-// import SignIn from "./components/authComponent/SignIn";
-// import Profile from "./components/ProfileSection/Profile";
 import SidebarWithTabs from "./components/Profile/SidebarWithTabs";
-import OTPInput from "./components/authComponent/Otp";
+
 
 function AppContent() {
   const location = useLocation();
@@ -23,14 +20,10 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurantname" element={<RestaurantPage />} />
         <Route path="/foodDetails" element={<NightlifeComponent />} />
-
-        <Route path="/foodCartApp" element={<FoodCartApp />} />
-
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/searchBar" element={<SearchInput />} />
         <Route path="/profile" element={<SidebarWithTabs />} />
-        <Route path="/otp" element={<OTPInput/>} />
       </Routes>
     </div>
   );
@@ -39,7 +32,7 @@ function AppContent() {
 function App() {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/firebase-messaging-sw.js") // This should match the location of the SW file
+    .register("/firebase-messaging-sw.js")
     .then(function (registration) {
       console.log("Service Worker registered with scope:", registration.scope);
     })
@@ -50,7 +43,6 @@ if ("serviceWorker" in navigator) {
 
   return (
     <BrowserRouter>
-      {/* Ensure the Navbar styles don't push it to the left */}
       <div
         style={{
           display: "flex",
@@ -63,9 +55,6 @@ if ("serviceWorker" in navigator) {
       </div>
       <AppContent />
       <Footer />
-      {/* <SignIn/> */}
-      {/* <SignIn/> */}
-      
     </BrowserRouter>
   );
 }
