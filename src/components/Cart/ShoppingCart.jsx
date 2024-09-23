@@ -14,9 +14,10 @@ import AddressForm from "./AddressForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCartData,
-  removeCartItem,
+  // removeCartItem,
   updateCartQuantity,
 } from "../../redux/cartSlice/cart";
+import { removeCartItem } from "../../redux/cartSlice/cart";
 import food from "../../../src/assets/images/food.jpeg";
 
 const ShoppingCart = () => {
@@ -60,11 +61,16 @@ const ShoppingCart = () => {
   const total = subtotal + tax + (subtotal > 0 ? shippingRate : 0);
 
   const handleRemoveItem = (itemId) => {
+    console.log("handleRemoveItem")
     const payload = {
       userId: cartData.userId,
       restaurantId: cartData.restaurantId,
+      itemId:Number(itemId)
     };
-    dispatch(removeCartItem(itemId, payload));
+    // console.log("handleRemoveItem , ================",payload.userId, "||||||", payload.restaurantId,"||||||||", itemId)
+    console.log("============================",payload)
+    console.log("======",typeof(payload.itemId))
+    dispatch(removeCartItem(payload));
   };
 
 
@@ -124,7 +130,6 @@ const ShoppingCart = () => {
                   flexShrink: 0,
                 }}
               >
-            
                 ${product.price.toFixed(2)}
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -139,7 +144,7 @@ const ShoppingCart = () => {
                     },
                   }}
                   onClick={() =>
-                    handleUpdateQuantity(product.itemId,"decrease")
+                    handleUpdateQuantity(product.itemId, "decrease")
                   }
                 >
                   <Remove />
@@ -169,7 +174,7 @@ const ShoppingCart = () => {
                     },
                   }}
                   onClick={() =>
-                    handleUpdateQuantity(product.itemId, "increase" )
+                    handleUpdateQuantity(product.itemId, "increase")
                   }
                 >
                   <Add />
@@ -178,6 +183,7 @@ const ShoppingCart = () => {
 
               <IconButton
                 sx={{ color: "#fe0604" }}
+                // onClick={() => handleRemoveItem(product.itemId)}
                 onClick={() => handleRemoveItem(product.itemId)}
               >
                 <Delete />
