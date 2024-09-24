@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
-import { styled } from "@mui/system";
+import { styled } from '@mui/material/styles';
+
 // import Modal from "@mui/material/Modal";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -32,6 +33,20 @@ import Login from "../authComponent/Login";
 // import SignIn from "../authComponent/SignIn";
 import OTPInput from "../../components/authComponent/Otp";
 import SignUp from "../../components/authComponent/SignUp";
+import { useSelector } from "react-redux";
+import AccountMenu from "../AccountMenu/AccountMenu";
+// import AccountMenu from "../AccountMenu/AccountMenu";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: {xs: 'auto'},
+  bgcolor: 'transparent',
+  border: '1px solid black',
+  // p: 4,
+};
 
 const HamburgerOrClose = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -60,15 +75,15 @@ const SearchBar = styled(Box)(({ theme }) => ({
   color: "white",
 }));
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    right: -3,
-    top: 13,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-  color: "white",
-}));
+// const StyledBadge = styled(Badge)(({ theme }) => ({
+//   "& .MuiBadge-badge": {
+//     right: -3,
+//     top: 13,
+//     border: `2px solid ${theme.palette.background.paper}`,
+//     padding: "0 4px",
+//   },
+//   color: "white",
+// }));
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -78,6 +93,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const homePage = location.pathname === "/";
+  const { cartData, status, error } = useSelector((state) => state.cart);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,6 +112,7 @@ const Navbar = () => {
   };
 
   const handleClose = () => {
+    console.log("==================================");
     setOpen(false);
   };
 
@@ -184,9 +201,9 @@ const Navbar = () => {
                 onClick={() => navigate("/cart")}
               >
                 <IconButton aria-label="cart">
-                  <StyledBadge badgeContent={4}>
+                  <Badge badgeContent={1}>
                     <ShoppingCartIcon style={{ color: "white" }} />
-                  </StyledBadge>
+                  </Badge>
                 </IconButton>
                 <Typography
                   sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
@@ -194,7 +211,7 @@ const Navbar = () => {
                   Cart
                 </Typography>
               </Box>
-              <Button
+              {/* <Button
                 sx={{
                   backgroundColor: "white",
                   borderRadius: "100px",
@@ -226,7 +243,13 @@ const Navbar = () => {
                 onClick={() => handleAuthComponent("signUp")}
               >
                 Sign up
-              </Button>
+              </Button> */}
+              <Box>
+                <AccountMenu/>
+              </Box>
+              {/* <Box>
+                <AccountMenu/>
+              </Box> */}
               <Button
                 sx={{
                   backgroundColor: "white",
@@ -347,13 +370,13 @@ const Navbar = () => {
         )}
       </Modal> */}
 
-      <Modal
+       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <Box>
+        <Box sx={style} >
           {isAuth == "logIn" ? (
             <Login setIsAuth={setIsAuth} />
           ) : isAuth == "signUp" ? (
