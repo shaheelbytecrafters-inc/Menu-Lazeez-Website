@@ -7,7 +7,8 @@ import Navbar from "./components/Header/Navbar";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import SearchInput from "./components/SearchInput/SearchInput";
 import NightlifeComponent from "./components/NightLifePage/MainNightLife";
-import SidebarWithTabs from "./components/Profile/SidebarWithTabs";
+// import SidebarWithTabs from "./components/Profile/SidebarWithTabs";
+import Profile from "./components/Profile/Profile";
 
 
 function AppContent() {
@@ -23,7 +24,7 @@ function AppContent() {
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/searchBar" element={<SearchInput />} />
-        <Route path="/profile" element={<SidebarWithTabs />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

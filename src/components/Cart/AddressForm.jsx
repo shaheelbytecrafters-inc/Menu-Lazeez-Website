@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -6,66 +6,69 @@ import {
   Container,
   Typography,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { postAddress } from "../../redux/profileSlice/addressSlice";
 
 const textFieldStyles = {
   flex: 1,
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "gray", 
+      borderColor: "gray",
     },
     "&:hover fieldset": {
-      borderColor: "gray", 
+      borderColor: "gray",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "gray", 
+      borderColor: "gray",
       border: "1px solid gray",
     },
   },
   "& .MuiInputLabel-root": {
-    color: "gray", 
-    
+    color: "gray",
+
     "&.Mui-focused": {
-      color: " gray", 
+      color: " gray",
     },
   },
 };
 const radioStyles = {
   "& .MuiRadio-root": {
-    color: " gray", 
-    
+    color: " gray",
+
     "&.Mui-checked": {
       color: " gray",
     },
   },
   "& .MuiFormControlLabel-label": {
-    color: " gray", 
+    color: " gray",
     "& .Mui-focused": {
-      color: "gray", 
+      color: "gray",
     },
   },
 };
 
-
-
 function AddressForm() {
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    pincode: "",
-    locality: "",
     address: "",
-    state: "",
-    landmark: "",
-    alternatePhone: "",
+    buildingDetails: "",
+    addressLabel: "",
+    deliveryContactNumber: "",
   });
+
+  const {
+    address,
+    loading: addressLoading,
+    error: addressError,
+  } = useSelector((state) => state.address);
+  //   const { address, loading, error } = useSelector((state) =>
+  //   // console.log(state.address)
+  //   state.address);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,6 +82,20 @@ function AddressForm() {
     e.preventDefault();
 
     console.log("Form submitted:", formData);
+    const userId = JSON.parse(localStorage.getItem("userData"))?._id;
+    const payload = {
+      userId,
+      address: formData.address,
+      buildingDetails: formData.buildingDetails,
+      addressLabel: formData.addressLabel,
+      deliveryContactNumber: formData.deliveryContactNumber,
+    };
+    console.log("Hello...........................", payload);
+
+    dispatch(postAddress({ payload }));
+    console.log(
+      "hedddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    );
   };
 
   return (
@@ -110,52 +127,29 @@ function AddressForm() {
             marginInline: { xs: "1rem", sm: "2rem" },
           }}
         >
-          <Box sx={{ display: "flex", gap: 1, width: "100%" }}>
-            <TextField
-              label="Name"
-              variant="outlined"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-            <TextField
-              label="Phone Number"
-              variant="outlined"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              type="tel"
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-          </Box>
+          <TextField
+            label="deliveryContactNumber"
+            variant="outlined"
+            name="deliveryContactNumber"
+            value={formData.deliveryContactNumber}
+            onChange={handleChange}
+            required
+            rows={4}
+            sx={{ width: "100%", ...textFieldStyles }}
+            InputProps={{ sx: { backgroundColor: "transparent" } }}
+          />
 
-          <Box sx={{ display: "flex", gap: 1, width: "100%" }}>
-            <TextField
-              label="Pincode"
-              variant="outlined"
-              name="pincode"
-              value={formData.pincode}
-              onChange={handleChange}
-              required
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-            <TextField
-              label="Locality"
-              variant="outlined"
-              name="locality"
-              value={formData.locality}
-              onChange={handleChange}
-              required
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-          </Box>
+          <TextField
+            label="buildingDetails"
+            variant="outlined"
+            name="buildingDetails"
+            value={formData.buildingDetails}
+            onChange={handleChange}
+            required
+            rows={4}
+            sx={{ width: "100%", ...textFieldStyles }}
+            InputProps={{ sx: { backgroundColor: "transparent" } }}
+          />
 
           <TextField
             label="Address"
@@ -170,120 +164,70 @@ function AddressForm() {
             InputProps={{ sx: { backgroundColor: "transparent" } }}
           />
 
-          <Box sx={{ display: "flex", gap: 1, width: "100%" }}>
-            <TextField
-              label="City/District/Town"
-              variant="outlined"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-            <FormControl fullWidth sx={{ flex: 1, ...textFieldStyles }}>
-              <InputLabel id="state-select-label">State</InputLabel>
-              <Select
-                labelId="state-select-label"
-                id="state-select"
-                value={formData.state}
-                name="state"
-                label="State"
-                onChange={handleChange}
-                sx={{ backgroundColor: "transparent" }}
-              >
-                <MenuItem value="Delhi">Delhi</MenuItem>
-                <MenuItem value="California">California</MenuItem>
-                <MenuItem value="New York">New York</MenuItem>
-                <MenuItem value="Texas">Texas</MenuItem>
-                <MenuItem value="Florida">Florida</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-
-          <Box
+          <FormLabel
+            id="address-type-label"
             sx={{
-              display: "flex",
-              gap: 1,
-              width: "100%",
-              alignItems: "center",
-              ...textFieldStyles,
+              fontSize: "14px",
+              textAlign: "left",
+              color: "black",
+              "&.Mui-focused": {
+                color: "black", // Keeps the label black when focused
+              },
+              "&.MuiFormLabel-root": {
+                color: "black", // Ensures consistent color
+              },
             }}
           >
-            <TextField
-              label="Landmark (Optional)"
-              variant="outlined"
-              name="landmark"
-              value={formData.landmark}
-              onChange={handleChange}
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-            <TextField
-              label="Alternate Phone (Optional)"
-              variant="outlined"
-              name="alternatePhone"
-              value={formData.alternatePhone}
-              onChange={handleChange}
-              sx={{ flex: 1, ...textFieldStyles }}
-              InputProps={{ sx: { backgroundColor: "transparent" } }}
-            />
-          </Box>
+            Address Type
+          </FormLabel>
+
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="addressLabel"
+                value="Home"
+                checked={formData.addressLabel === "Home"}
+                onChange={(e) =>
+                  setFormData({ ...formData, addressLabel: e.target.value })
+                }
+                required
+              />
+              Home
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="addressLabel"
+                value="Work"
+                checked={formData.addressLabel === "Work"}
+                onChange={(e) =>
+                  setFormData({ ...formData, addressLabel: e.target.value })
+                }
+                required
+              />
+              Work
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="addressLabel"
+                value="Other"
+                checked={formData.addressLabel === "Other"}
+                onChange={(e) =>
+                  setFormData({ ...formData, addressLabel: e.target.value })
+                }
+                required
+              />
+              Other
+            </label>
+          </div>
 
           <FormControl
             sx={{ fontSize: "14px", alignItems: "flex-start", width: "100%" }}
-          >
-            <FormLabel
-              id="address-type-label"
-              sx={{
-                fontSize: "14px",
-                textAlign: "left",
-                color: "black",
-                "&.Mui-focused": {
-                  color: "black", // Keeps the label black when focused
-                },
-                "&.MuiFormLabel-root": {
-                  color: "black", // Ensures consistent color
-                },
-              }}
-            >
-              Address Type
-            </FormLabel>
-
-            <RadioGroup
-              row
-              aria-labelledby="address-type-label"
-              name="addressType"
-              sx={{
-                justifyContent: "flex-start",
-                width: "100%",
-                ...radioStyles,
-              }}
-            >
-              <FormControlLabel
-                value="Home"
-                control={<Radio sx={{ ...radioStyles }} />}
-                label="Home (All day delivery)"
-                componentsProps={{
-                  typography: {
-                    fontSize: "14px",
-                    color: "black", // Set the text color directly for label
-                  },
-                }}
-              />
-              <FormControlLabel
-                value="Work"
-                control={<Radio sx={{ ...radioStyles }} />}
-                label="Work (Delivery between 10AM - 5PM)"
-                componentsProps={{
-                  typography: {
-                    fontSize: "14px",
-                    color: "black", // Set the text color directly for label
-                  },
-                }}
-              />
-            </RadioGroup>
-          </FormControl>
+          ></FormControl>
 
           <Button
             type="submit"
