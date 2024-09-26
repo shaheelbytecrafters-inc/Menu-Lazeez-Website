@@ -26,9 +26,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProfile,
   editProfile,
-  // postAddress
 } from "../../redux/profileSlice/profileSlice";
-import { deleteAddress, editAddress, getAddress } from "../../redux/profileSlice/addressSlice";
+import {
+  deleteAddress,
+  editAddress,
+  getAddress,
+} from "../../redux/profileSlice/addressSlice";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -157,9 +160,9 @@ function Profile() {
   useEffect(() => {
     const profileData = JSON.parse(localStorage.getItem("userData"));
     const profileId = profileData._id;
-    dispatch(fetchProfile(profileId));
+    // dispatch(fetchProfile(profileId));
     // console.log(profileId);
-    // console.log("Profile Data:++++++++++++++ ", profileData);
+    console.log("Profile Data:++++++++++++++ ", profileData);
   }, [dispatch]);
 
   useEffect(() => {
@@ -186,9 +189,13 @@ function Profile() {
   };
 
   const handleSaveClick = () => {
-    const address = inputValue; 
+    const address = inputValue;
     const addressID = specificAddressId;
-    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",address,addressID)
+    console.log(
+      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+      address,
+      addressID
+    );
     dispatch(editAddress({ addressID, address }));
 
     setOpenEditDialog(false);
@@ -980,7 +987,7 @@ function Profile() {
                           >
                             {/* Left side: Icon and address information */}
                             <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <PlaceIcon sx={{ fontSize:"2rem" }} />
+                              <PlaceIcon sx={{ fontSize: "2rem" }} />
                               <Box sx={{ marginLeft: "1rem" }}>
                                 <Typography
                                   sx={{ fontSize: "17px", fontWeight: "bold" }}

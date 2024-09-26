@@ -24,7 +24,8 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const userId = userData?._id;
     if (userId) {
       dispatch(fetchCartData(userId));
@@ -62,15 +63,17 @@ const ShoppingCart = () => {
 
   const handleRemoveItem = (itemId) => {
     console.log("handleRemoveItem")
+     itemId = Number(itemId);
     const payload = {
-      userId: cartData.userId,
-      restaurantId: cartData.restaurantId,
-      itemId:Number(itemId)
+         userId:cartData.userId,
+      restaurantId:cartData.restaurantId,
+   
     };
     // console.log("handleRemoveItem , ================",payload.userId, "||||||", payload.restaurantId,"||||||||", itemId)
-    console.log("============================",payload)
-    console.log("======",typeof(payload.itemId))
-    dispatch(removeCartItem(payload));
+    // console.log("============================",restaurantId,payload)
+    // console.log("======",typeof(payload.itemId))
+    
+    dispatch(removeCartItem({itemId,payload}));
   };
 
 

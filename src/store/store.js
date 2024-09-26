@@ -5,6 +5,8 @@ import restaurantReducer from '../redux/restaurantSlice/Allrestaurant.js'
 import cartReducer from '../redux/cartSlice/cart.js';
 import profileReducer from "../redux/profileSlice/profileSlice.js";
 import addressReducer from "../redux/profileSlice/addressSlice"; 
+import searchReducer from "../redux/searchSlice/searchSlice.js";
+
 
 const store = configureStore({
   reducer: {
@@ -13,6 +15,7 @@ const store = configureStore({
     cart: cartReducer,
     profile: profileReducer,
     address: addressReducer,
+    search: searchReducer,
   },
 });
 

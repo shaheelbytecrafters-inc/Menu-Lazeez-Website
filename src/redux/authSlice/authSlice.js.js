@@ -7,19 +7,36 @@ import "react-toastify/dist/ReactToastify.css";
 export const signUpUser = createAsyncThunk(
   "auth/signUpUser",
   async (userData, { rejectWithValue }) => {
-    console.log("SignUp Data",userData)
+    console.log("SignUp Data", userData);
     try {
       const response = await axios.post(
         "https://lazeez-restaurant-backend.onrender.com/signup",
         userData
       );
+      console.log("Data from signUp==================",userData)
       const token = { token: response.data.token };
       localStorage.setItem("token", JSON.stringify(token));
-      toast.success("Sign Up Successful!"); 
-      return response.data.data; 
+      // localStorage.setItem(JSON.stringify(userData))
+      toast.success("Sign Up Successful!");
+      console.log("===========================================response",response.data)
+      return response.data;
     } catch (error) {
-      toast.error("Sign Up Failed!"); 
-      console.log(error)
+      // Handle specific error scenarios
+      if (error.response && error.response.data) {
+        const errorMessage =
+          error.response.data.message || "Signup failed due to an error!";
+        toast.error(`Error: ${errorMessage}`);
+      } else {
+        // Generic error if no response is received from the server
+        toast.error("Signup failed! Please check your internet connection.");
+      }
+
+      // Log the error to the console for debugging
+      console.log(error);
+
+      // Return the error response to handle it elsewhere in your app\
+
+      
       return rejectWithValue(error.response.data);
     }
   }
@@ -29,14 +46,14 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
+    console.log("Login =>",userData)
       const response = await axios.post(
         "https://lazeez-restaurant-backend.onrender.com/login",
         userData
-      );
-      
+      );  
       const token = { token: response.data.token };
       localStorage.setItem("token", JSON.stringify(token));
-      toast.success("Login Successful!");
+      toast.success("OTP Send Successfully!");
       return response.data;
     } catch (error) {
       toast.error("Login Failed!"); 
@@ -48,16 +65,18 @@ export const loginUser = createAsyncThunk(
 export const verifyOtp = createAsyncThunk(
   "auth/verifyOtp",
   async (payload, { rejectWithValue }) => {
-    console.log("PhoneNumber , token",payload)
-    
+    console.log("PhoneNumber , token", payload);
+
     try {
       const response = await axios.post(
         "https://lazeez-restaurant-backend.onrender.com/verify-otp",
         payload 
       );
+      toast.success("OTP verification Successfully");
       return response.data; 
     } catch (error) {
       console.log(error)
+
       return rejectWithValue(error.response?.data || "Error verifying OTP");
     }
   }
@@ -66,7 +85,7 @@ export const verifyOtp = createAsyncThunk(
 export const resendOtp = createAsyncThunk(
   "auth/verifyOtp",
   async (payload, { rejectWithValue }) => {
-    console.log("PhoneNumber , token", payload);
+  
 
     try {
       const response = await axios.post(
@@ -81,13 +100,15 @@ export const resendOtp = createAsyncThunk(
     }
   }
 );
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: {},
     token: null,
     isLoading: false,
-    error: null,
+    error: null
   },
   reducers: {
     logout: (state) => {
@@ -109,14 +130,14 @@ const authSlice = createSlice({
         const mobileNumber = {
           phoneNumber: action.payload.phoneNumber,
         };
-        console.log(mobileNumber);
-        console.log("Storing in localStorage: ", action.payload);
+  
         localStorage.setItem("phoneNumber", JSON.stringify(mobileNumber));
-        localStorage.setItem("userData", JSON.stringify(action.payload));
+        console.log("===================userData===========",state.user)
+        localStorage.setItem("userData", JSON.stringify(state.user));
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload.error;
       })
 
       //Login
@@ -129,15 +150,18 @@ const authSlice = createSlice({
 
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.data;
+        state.user = action.payload;
+        // state.error = action.payload.data.status || false;
         console.log("Payload from loginUser.fulfilled:", action.payload.data);
-        localStorage.setItem("userData", JSON.stringify(action.payload.data));
+        localStorage.setItem("userData", JSON.stringify(state.user));
       })
 
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        console.log("Rejected =>",action.payload);
+        state.error = action.payload.error;
       })
+
       // OTP Verification
       .addCase(verifyOtp.pending, (state) => {
         state.isLoading = true;
@@ -148,6 +172,9 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.otpVerificationMessage = action.payload.message;
         state.user = { phoneNumber: action.meta.arg.phoneNumber };
+        const myToken = localStorage.getItem("token");
+        
+        console.log("======================myToken",myToken);
       })
       .addCase(verifyOtp.rejected, (state, action) => {
         state.isLoading = false;

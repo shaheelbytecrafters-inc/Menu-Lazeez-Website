@@ -56,7 +56,7 @@ export const deleteAddress = createAsyncThunk(
         `https://lazeez-restaurant-backend.onrender.com/address/${addressId}`,
         { headers }
       );
-      return response.data; // Returning the success message
+      return response.data.data; // Returning the success message
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
