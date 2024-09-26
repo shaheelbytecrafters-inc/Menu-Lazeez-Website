@@ -4,49 +4,27 @@ import {
   Button,
   Typography,
   Box,
-  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
   InputAdornment,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import login from "../../assets/images/wave12.png"; 
+import login from "../../assets/images/wave12.png";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/authSlice/authSlice.js";
-import { requestFCMToken } from "../../Firebase/firebaseConfig .js";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
+import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
 
-const Login = () => {
-  const [phoneNumber, setphoneNumber] = useState("");
+const Login = ({ open, handleClose, handleOpenModal }) => {
+  const [phoneNumber, setPhoneNumber] = useState("");
   const dispatch = useDispatch();
   const { isLoading, otpStatus, error } = useSelector((state) => state.auth);
   const [fcmToken, setFcmToken] = useState(null);
 
-
-  const handleKey = (event) => {
-    if (!/\d/.test(event.key)) {
-      event();
-    }
-  };
-
-  const handleLogin = () => {
-    if (phoneNumber.length >= 10) {
-      dispatch(loginUser({phoneNumber,fcmToken}));
-    console.log(fcmToken);
-
-    } else {
-      alert("Invalid contact number");
-    }
-  };
-
-    useEffect(() => {
-      if (otpStatus) {
-        toast.success("OTP sent successfully!");
-      }
-      if (error) {
-        toast.error(`Error: ${error}`);
-      }
-    }, [otpStatus, error]);
-    
   useEffect(() => {
     const fetchFCMToken = async () => {
       try {
@@ -59,121 +37,179 @@ const Login = () => {
     fetchFCMToken();
   }, []);
 
-  const textFieldStyles = {
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "gray",
-      },
-      "&:hover fieldset": {
-        borderColor: "gray",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "gray",
-        border: "1px solid gray",
-      },
-    },
-    "& .MuiInputLabel-root": {
-      color: "gray",
-      "&.Mui-focused": {
-        color: "gray",
-      },
-    },
+  const handleKey = (event) => {
+    if (!/\d/.test(event.key)) {
+      event.preventDefault();
+    }
   };
 
+  const handleLogin = async () => {
+    if (phoneNumber.length >= 10) {
+      try {
+        // Using unwrap to get the result or catch any errors
+        const resultAction = await dispatch(
+          loginUser({ phoneNumber, fcmToken })
+        );
+
+        if (
+          loginUser.fulfilled.match(resultAction) &&
+          resultAction.payload.status
+        ) {
+          console.log("resultAction: ", resultAction);
+          handleOpenModal("otp");
+        } else {
+          handleOpenModal("signUp");
+        }
+      } catch (err) {
+        console.log("An unexpected error occurred: ", resultAction);
+      }
+    } else {
+      alert("Invalid contact number");
+    }
+  };
+
+  // const textFieldStyles = {
+  //   "& .MuiOutlinedInput-root": {
+  //     "& fieldset": {
+  //       borderColor: "gray",
+  //     },
+  //     "&:hover fieldset": {
+  //       borderColor: "gray",
+  //     },
+  //     "&.Mui-focused fieldset": {
+  //       borderColor: "gray",
+  //       border: "1px solid gray",
+  //     },
+  //   },
+  //   "& .MuiInputLabel-root": {
+  //     color: "gray",
+  //     "&.Mui-focused": {
+  //       color: "gray",
+  //     },
+  //   },
+  // };
+
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        backgroundColor: "#fff",
-        borderRadius: 4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: { xs: "column", md: "row" },
-        gap: 2,
-        width: { xs: "90%", sm: "80%", md: "60%", lg: "30%" },
-        marginTop: "5rem",
-        height: "50vh",
-        backgroundImage: `url(${login})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <ToastContainer />
-      <Box
-        component="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleLogin();
-        }}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="start"
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+      <DialogTitle
+        // backgroundImage: `url(${login})`,
+        sx={
+          {
+            backgroundImage: `url(${login})`,
+          }
+        }
+      >
+        <Typography variant="h6" component="div">
+          Login
+        </Typography>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent
         sx={{
+          // backgroundImage: `url(${login})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          borderRadius: "8px",
+          padding: "2rem",
+          // border: "2px solid black",
         }}
       >
-        <Typography variant="h5" sx={{ color: "black" }}>
-          Login
-        </Typography>
-
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          label="Mobile Number"
-          onKeyPress={handleKey}
-          value={phoneNumber}
-          onChange={(e) => setphoneNumber(e.target.value)}
-          sx={{
-            ...textFieldStyles,
-            "& .MuiOutlinedInput-root": { height: 35 },
-            margin: "10px",
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
+        <Box
+          component="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <LocalPhoneOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        {isLoading ? (
-          <Typography variant="body2" sx={{ color: "white" }}>
-            Sending OTP...
-          </Typography>
-        ) : (
-          <Button
-            type="submit"
-            variant="contained"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ gap: 2, marginTop: "2rem" }}
+        >
+          <TextField
+            // variant="outlined"
+            required
+            fullWidth
+            label="Mobile Number"
+            onKeyPress={handleKey}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             sx={{
-              color: "white",
-              backgroundColor: "#fe0604",
-              textTransform: "none",
-              padding: "5px 15px",
-              fontSize: "0.9rem",
-              "&:hover": {
-                backgroundColor: "#fe0604",
+              "& .MuiOutlinedInput-root": {
+                height: 45,
+                "& fieldset": {
+                  borderColor: "black", // Border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "black", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "black", // Border color when focused
+                },
               },
+              margin: "10px 0", // Margin
+              // backgroundColor: "rgba(255, 255, 255, 0.9)",
             }}
-          >
-            Send OTP
-          </Button>
-        )}
-
-        {otpStatus && (
-          <Typography sx={{ color: "white" }}>{otpStatus}</Typography>
-        )}
-        {error && <Typography color="error">{error}</Typography>}
-      </Box>
-    </Container>
+            InputLabelProps={{
+              style: { color: "black" }, // Label color
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LocalPhoneOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          {isLoading ? (
+            <Typography variant="body2">Sending OTP...</Typography>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                color: "white",
+                backgroundColor: "#fe0604",
+                textTransform: "none",
+                padding: "8px 20px",
+                fontSize: "0.9rem",
+                "&:hover": {
+                  backgroundColor: "#fe0604",
+                },
+              }}
+            >
+              Send OTP
+            </Button>
+          )}
+          {otpStatus && (
+            <Typography sx={{ color: "black", marginTop: "1rem" }}>
+              {typeof otpStatus === "string" ? otpStatus : String(otpStatus)}
+            </Typography>
+          )}
+          {error && (
+            <Typography color="error">
+              {typeof error === "string" ? error : String(error)}
+            </Typography>
+          )}
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} sx={{ color: "#fe0604" }}>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

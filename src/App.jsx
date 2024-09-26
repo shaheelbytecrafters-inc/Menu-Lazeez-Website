@@ -9,6 +9,8 @@ import SearchInput from "./components/SearchInput/SearchInput";
 import NightlifeComponent from "./components/NightLifePage/MainNightLife";
 // import SidebarWithTabs from "./components/Profile/SidebarWithTabs";
 import Profile from "./components/Profile/Profile";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import SignUp from "./components/authComponent/SignUp";
 
 
 function AppContent() {
@@ -22,9 +24,24 @@ function AppContent() {
         <Route path="/restaurantname" element={<RestaurantPage />} />
         <Route path="/foodDetails" element={<NightlifeComponent />} />
         <Route path="/partner" element={<PartnerPage />} />
-        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/sign" element={<SignUp/>}/>
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <ShoppingCart />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/searchBar" element={<SearchInput />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+           </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

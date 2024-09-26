@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import { styled } from '@mui/material/styles';
-
-// import Modal from "@mui/material/Modal";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import AuthForm from "../authComponent/AuthForm";
 import {
   Drawer,
   List,
@@ -19,7 +16,6 @@ import {
   Box,
   Modal,
 } from "@mui/material";
-// import Modal from "@mui/material/Modal";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -30,22 +26,20 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SignUpIcon from "@mui/icons-material/PersonAdd";
 import Login from "../authComponent/Login";
-// import SignIn from "../authComponent/SignIn";
 import OTPInput from "../../components/authComponent/Otp";
 import SignUp from "../../components/authComponent/SignUp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AccountMenu from "../AccountMenu/AccountMenu";
-// import AccountMenu from "../AccountMenu/AccountMenu";
+import { fetchCartData } from "../../redux/cartSlice/cart";
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: {xs: 'auto'},
+  width: { xs: 'auto' },
   bgcolor: 'transparent',
   border: '1px solid black',
-  // p: 4,
 };
 
 const HamburgerOrClose = styled(Box)(({ theme }) => ({
@@ -75,27 +69,67 @@ const SearchBar = styled(Box)(({ theme }) => ({
   color: "white",
 }));
 
-// const StyledBadge = styled(Badge)(({ theme }) => ({
-//   "& .MuiBadge-badge": {
-//     right: -3,
-//     top: 13,
-//     border: `2px solid ${theme.palette.background.paper}`,
-//     padding: "0 4px",
-//   },
-//   color: "white",
-// }));
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+  color: "white",
+}));
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(null);
   const [showDrawer, setShowDrawer] = useState(false);
   const [scroll, setScroll] = useState(false);
-  const [isAuth, setIsAuth] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const homePage = location.pathname === "/";
   const { cartData, status, error } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  console.log("Cart =>", cartData);
+
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("userData");
+  //   let userData = {};
+  //   if (storedUserData) {
+  //     try {
+  //       userData = JSON.parse(storedUserData); // Safely parse JSON
+  //     } catch (e) {
+  //       console.error("Invalid JSON in localStorage for 'userData':", e);
+  //     }
+  //   }  
+  //   const userId = userData?._id;
+  //   if (userId) {
+  //     dispatch(fetchCartData(userId));
+  //   }
+  // }, [dispatch]);
+  
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    let userData = {};
+
+    if (storedUserData) {
+      try {
+        userData = JSON.parse(storedUserData); // Safely parse JSON
+      } catch (e) {
+        console.error("Invalid JSON in localStorage for 'userData':", e);
+      }
+    } else {
+      console.log("No user data found in localStorage.");
+    }
+
+    const userId = userData?._id;
+    if (userId) {
+      dispatch(fetchCartData(userId));
+    }
+  }, [dispatch]);
+
+
 
   useEffect(() => {
+
     const handleScroll = () => {
       setScroll(window.scrollY > window.innerHeight * 0.2);
     };
@@ -104,16 +138,15 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+
   }, [homePage]);
 
-  const handleAuthComponent = (type) => {
-    setIsAuth(type);
-    setOpen(true);
+  const handleOpenModal = (type) => {
+    setOpenModal(type);
   };
 
-  const handleClose = () => {
-    console.log("==================================");
-    setOpen(false);
+  const handleCloseModal = () => {
+    setOpenModal(null);
   };
 
   const toggleDrawer = (newOpen) => () => {
@@ -125,13 +158,8 @@ const Navbar = () => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: homePage
-            ? scroll
-              ? "#fe0604"
-              : "transparent"
-            : "#fe0604",
+          backgroundColor: homePage ? (scroll ? "#fe0604" : "transparent") : "#fe0604",
           color: "white",
-          // zIndex: 1600,
           boxShadow: "none",
           padding: 0,
           margin: 0,
@@ -162,20 +190,11 @@ const Navbar = () => {
               </Typography>
             </Box>
 
-            <NavbarBox
-              flex={1}
-              justifyContent={"flex-end"}
-              gap={"15px"}
-              width={"2rem"}
-            >
+            <NavbarBox flex={1} justifyContent={"flex-end"} gap={"15px"} width={"2rem"}>
               <SearchBar>
                 <SearchIcon style={{ color: "white", fontSize: "1.7rem" }} />
                 <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: "18px",
-                    fontWeight: "500",
-                  }}
+                  sx={{ color: "white", fontSize: "18px", fontWeight: "500" }}
                   onClick={() => navigate("/searchBar")}
                 >
                   Search
@@ -201,13 +220,11 @@ const Navbar = () => {
                 onClick={() => navigate("/cart")}
               >
                 <IconButton aria-label="cart">
-                  <Badge badgeContent={1}>
+                  <StyledBadge badgeContent={10}>
                     <ShoppingCartIcon style={{ color: "white" }} />
-                  </Badge>
+                  </StyledBadge>
                 </IconButton>
-                <Typography
-                  sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
-                >
+                <Typography sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}>
                   Cart
                 </Typography>
               </Box>
@@ -220,10 +237,7 @@ const Navbar = () => {
                   color: "black",
                   cursor: "pointer",
                   display: "inline-block",
-                  fontFamily:
-                    "CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif",
-                  // padding: "5px 20px",
-                  // paddingInline:"20px",
+                  fontFamily: "CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif",
                   textAlign: "center",
                   textDecoration: "none",
                   transition: "all 250ms",
@@ -240,16 +254,13 @@ const Navbar = () => {
                     backgroundColor: "white", // Keeps the button white on hover
                   },
                 }}
-                onClick={() => handleAuthComponent("signUp")}
+                onClick={() => handleOpenModal("signUp")}
               >
                 Sign up
               </Button> */}
               <Box>
-                <AccountMenu/>
+                <AccountMenu />
               </Box>
-              {/* <Box>
-                <AccountMenu/>
-              </Box> */}
               <Button
                 sx={{
                   backgroundColor: "white",
@@ -262,7 +273,7 @@ const Navbar = () => {
                     backgroundColor: "white",
                   },
                 }}
-                onClick={() => handleAuthComponent("logIn")}
+                onClick={() => handleOpenModal("logIn")}
               >
                 Login
               </Button>
@@ -271,9 +282,7 @@ const Navbar = () => {
             <HamburgerOrClose>
               {!showDrawer ? (
                 <Button onClick={toggleDrawer(true)}>
-                  <MenuRoundedIcon
-                    style={{ color: "white", fontSize: "2rem" }}
-                  />
+                  <MenuRoundedIcon style={{ color: "white", fontSize: "2rem" }} />
                 </Button>
               ) : (
                 <Button onClick={toggleDrawer(false)}>
@@ -282,11 +291,7 @@ const Navbar = () => {
               )}
             </HamburgerOrClose>
 
-            <Drawer
-              anchor="left"
-              open={showDrawer}
-              onClose={toggleDrawer(false)}
-            >
+            <Drawer anchor="left" open={showDrawer} onClose={toggleDrawer(false)}>
               <Box
                 sx={{
                   width: 250,
@@ -321,7 +326,7 @@ const Navbar = () => {
 
                   <ListItem
                     sx={{ borderBottom: "1px solid black" }}
-                    onClick={() => handleAuthComponent("signUp")}
+                    onClick={() => handleOpenModal("signUp")}
                   >
                     <ListItemIcon>
                       <SignUpIcon />
@@ -331,7 +336,7 @@ const Navbar = () => {
 
                   <ListItem
                     sx={{ borderBottom: "1px solid black" }}
-                    onClick={() => handleAuthComponent("logIn")}
+                    onClick={() => handleOpenModal("logIn")}
                   >
                     <ListItemIcon>
                       <LoginIcon />
@@ -359,33 +364,11 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
 
-      {/* <Modal open={open} onClose={handleCloseLogin}>
-         
-        {isAuth == "logIn" ? (
-          <Login setIsAuth={setIsAuth} />
-        ) : isAuth == "signUp" ? (
-          <SignUp setIsAuth={setIsAuth} />
-        ) : (
-          <OTPInput />
-        )}
-      </Modal> */}
-
-       <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} >
-          {isAuth == "logIn" ? (
-            <Login setIsAuth={setIsAuth} />
-          ) : isAuth == "signUp" ? (
-            <SignUp setIsAuth={setIsAuth} />
-          ) : (
-            <OTPInput />
-          )}
-        </Box>
-      </Modal>
+      {/* Modals */}
+      {openModal === "logIn" && <Login open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
+      {openModal === "signUp" && <SignUp open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
+      {openModal === "otp" && <OTPInput open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
+      {openModal === null && <></>} {/* Assuming this is always rendered based on your original structure */}
     </>
   );
 };
