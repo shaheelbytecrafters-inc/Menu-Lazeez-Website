@@ -48,33 +48,7 @@ function Profile() {
   const [phoneNumber, setPhoneNumber] = useState("8368767396");
   const [email, setEmail] = useState("eram123@gmail.com");
   const dispatch = useDispatch();
-  // console.log("InputValue=========================", inputValue);
-  // console.log("==================specific", specificAddressId);
 
-  // console.log(specificAddress);
-  // console.log("hejkreeeeeeeeeee", inputValue);
-  // console.log("InputValue=++++++++++++++++++++++++++",inputValue)
-  // console.log("Eram Khan 1 ", specificAddress, typeof(specificAddress))
-  // const addressList = [
-  //   {
-  //     id: 1,
-  //     title: "Work",
-  //     address: "1234, Elm Street, Apt 56, City ",
-  //     contactNumber: "123-456-7890",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Home",
-  //     address: "9876, Oak Street, Apt 45, Town",
-  //     contactNumber: "987-654-3210",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Other",
-  //     address: "5678, Maple Street, Apt 23, Village",
-  //     contactNumber: "567-890-1234",
-  //   },
-  // ];
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -83,14 +57,7 @@ function Profile() {
     }
   };
 
-  // const toggleEditDialog = (addressID) => {
-  //   const addressObject = address.filter((ele) => ele._id === addressID);
-  //   console.log("addressObject", addressObject);
-  //   const addressEdit = addressObject[0].address;
-  //   console.log("SpecificAddress=======", addressEdit);
-  //   setSpecificAddress(addressEdit);
-  //   setOpenEditDialog(!openEditDialog);
-  // };
+
   const toggleEditDialog = (addressID) => {
     const addressObject = address.find((ele) => ele._id === addressID);
     setSpecificAddressId(addressID);
@@ -106,10 +73,7 @@ function Profile() {
     setInputValue(e.target.value); // Update the state with new input value
   };
 
-  // Handle input field change
-  // const handleInputChange = (e) => {
-  //   setInputValue(e.target.value);
-  // };
+ 
 
   // Function to open the dialog
   const handleClickOpen = () => {
