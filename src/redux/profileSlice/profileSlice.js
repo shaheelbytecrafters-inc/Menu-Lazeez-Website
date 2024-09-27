@@ -1,17 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 // Fetching profile
 export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
+  console.log("Fetching =>", profileId);
+
   try {
-    const value = JSON.parse(localStorage.getItem("token"));
-    const headers = `{ Authorization: Bearer ${value.token} }`;
+    const token = JSON.parse(localStorage.getItem("token"))?.token;
+    const headers = { Authorization: `Bearer ${token}` };
     const response = await axios.get(
       `https://lazeez-restaurant-backend.onrender.com/profile/${profileId}`,
       { headers }
     );
     return response.data;
   } catch (error) {
+    toast.error("Failed to fetch profile!");
     throw new Error(
       error.response ? error.response.data : "Something went wrong"
     );
@@ -31,8 +37,10 @@ export const editProfile = createAsyncThunk(
         { phoneNumber, email },
         { headers }
       );
+      toast.success("Profile updated successfully!");
       return response.data;
     } catch (error) {
+      toast.error("Failed to update profile!");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );

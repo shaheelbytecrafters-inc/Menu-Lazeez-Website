@@ -19,6 +19,7 @@ import {
 } from "../../redux/cartSlice/cart";
 import { removeCartItem } from "../../redux/cartSlice/cart";
 import food from "../../../src/assets/images/food.jpeg";
+import AddToCart from "../../../src/assets/images/AddToCart.gif";
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,13 @@ const ShoppingCart = () => {
   }
 
   if (!cartData || !cartData.items || cartData.items.length === 0) {
-    return <Typography>Your cart is empty.</Typography>;
+    return (
+      <>
+        <Box sx={{ width: "100%", height: "100vh", display: 'center', justifyContent: "center", alignItems: "center" }}>
+          <img src={AddToCart} alt="Add To Cart" />
+        </Box>
+      </>
+    )
   }
 
   const products = cartData.items;
@@ -63,183 +70,187 @@ const ShoppingCart = () => {
 
   const handleRemoveItem = (itemId) => {
     console.log("handleRemoveItem")
-     itemId = Number(itemId);
+    itemId = Number(itemId);
     const payload = {
-         userId:cartData.userId,
-      restaurantId:cartData.restaurantId,
-   
+      userId: cartData.userId,
+      restaurantId: cartData.restaurantId,
+
     };
     // console.log("handleRemoveItem , ================",payload.userId, "||||||", payload.restaurantId,"||||||||", itemId)
     // console.log("============================",restaurantId,payload)
     // console.log("======",typeof(payload.itemId))
-    
-    dispatch(removeCartItem({itemId,payload}));
+
+    dispatch(removeCartItem({ itemId, payload }));
   };
 
 
-  const handleUpdateQuantity = (itemId,action) => {
-    
+  const handleUpdateQuantity = (itemId, action) => {
 
-      const payload = {
-        itemId,
-        quantity: 1,
-        userId: cartData.userId,
-        restaurantId: cartData.restaurantId,
-        action:action
-      };
 
-      dispatch(updateCartQuantity(payload));
-    
+    const payload = {
+      itemId,
+      quantity: 1,
+      userId: cartData.userId,
+      restaurantId: cartData.restaurantId,
+      action: action
+    };
+
+    dispatch(updateCartQuantity(payload));
+
   };
 
   return (
-    <Container sx={{ marginTop: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Shopping Cart
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          {products.map((product) => (
-            <Paper
-              key={product.itemId}
-              variant="outlined"
-              sx={{
-                padding: 2,
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: 1,
-                marginBottom: 2,
-              }}
-            >
-              <Box
-                component="img"
-                src={food}
-                alt={product.name}
+    <>
+      <Container sx={{ marginTop: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Shopping Cart
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            {products.map((product) => (
+              <Paper
+                key={product.itemId}
+                variant="outlined"
                 sx={{
-                  width: 80,
-                  height: 80,
-                  objectFit: "cover",
-                  flexShrink: 0,
-                }}
-              />
-              <Box sx={{ flex: 1, minWidth: 150 }}>
-                <Typography variant="h6">{product.name}</Typography>
-              </Box>
-              <Typography
-                sx={{
-                  minWidth: 60,
-                  textAlign: "center",
-                  flexShrink: 0,
+                  padding: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: 1,
+                  marginBottom: 2,
                 }}
               >
-                ${product.price.toFixed(2)}
-              </Typography>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <IconButton
-                  size="small"
+                <Box
+                  component="img"
+                  src={food}
+                  alt={product.name}
                   sx={{
-                    bgcolor: "#fe0604",
-                    color: "#fff",
-                    ":hover": {
-                      color: "#fe0604",
-                      border: "1.8px solid #fe0604",
-                    },
+                    width: 80,
+                    height: 80,
+                    objectFit: "cover",
+                    flexShrink: 0,
                   }}
-                  onClick={() =>
-                    handleUpdateQuantity(product.itemId, "decrease")
-                  }
-                >
-                  <Remove />
-                </IconButton>
-                <TextField
-                  type="number"
-                  variant="outlined"
-                  size="small"
-                  value={product.quantity}
-                  onChange={(e) => {
-                    const quantity = parseInt(e.target.value);
-                    if (!isNaN(quantity) && quantity >= 0) {
-                      handleUpdateQuantity(product.itemId, quantity);
-                    }
-                  }}
-                  sx={{ width: 70, mx: 1, flexShrink: 0 }}
-                  inputProps={{ min: 1 }}
                 />
-                <IconButton
-                  size="small"
+                <Box sx={{ flex: 1, minWidth: 150 }}>
+                  <Typography variant="h6">{product.name}</Typography>
+                </Box>
+                <Typography
                   sx={{
-                    bgcolor: "red",
-                    color: "#fff",
-                    ":hover": {
-                      color: "#fe0604",
-                      border: "1.8px solid #fe0604",
-                    },
+                    minWidth: 60,
+                    textAlign: "center",
+                    flexShrink: 0,
                   }}
-                  onClick={() =>
-                    handleUpdateQuantity(product.itemId, "increase")
-                  }
                 >
-                  <Add />
-                </IconButton>
-              </Box>
+                  ${product.price.toFixed(2)}
+                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      bgcolor: "#fe0604",
+                      color: "#fff",
+                      ":hover": {
+                        color: "#fe0604",
+                        border: "1.8px solid #fe0604",
+                      },
+                    }}
+                    onClick={() =>
+                      handleUpdateQuantity(product.itemId, "decrease")
+                    }
+                  >
+                    <Remove />
+                  </IconButton>
+                  <TextField
+                    type="number"
+                    variant="outlined"
+                    size="small"
+                    value={product.quantity}
+                    onChange={(e) => {
+                      const quantity = parseInt(e.target.value);
+                      if (!isNaN(quantity) && quantity >= 0) {
+                        handleUpdateQuantity(product.itemId, quantity);
+                      }
+                    }}
+                    sx={{ width: 70, mx: 1, flexShrink: 0 }}
+                    inputProps={{ min: 1 }}
+                  />
+                  <IconButton
+                    size="small"
+                    sx={{
+                      bgcolor: "red",
+                      color: "#fff",
+                      ":hover": {
+                        color: "#fe0604",
+                        border: "1.8px solid #fe0604",
+                      },
+                    }}
+                    onClick={() =>
+                      handleUpdateQuantity(product.itemId, "increase")
+                    }
+                  >
+                    <Add />
+                  </IconButton>
+                </Box>
 
-              <IconButton
-                sx={{ color: "#fe0604" }}
-                // onClick={() => handleRemoveItem(product.itemId)}
-                onClick={() => handleRemoveItem(product.itemId)}
-              >
-                <Delete />
-              </IconButton>
+                <IconButton
+                  sx={{ color: "#fe0604" }}
+                  // onClick={() => handleRemoveItem(product.itemId)}
+                  onClick={() => handleRemoveItem(product.itemId)}
+                >
+                  <Delete />
+                </IconButton>
+                <Box
+                  sx={{
+                    minWidth: 80,
+                    textAlign: "right",
+                    flexShrink: 0,
+                    ml: "auto",
+                  }}
+                >
+                  <Typography>${product.price * product.quantity}</Typography>
+                </Box>
+              </Paper>
+            ))}
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Paper variant="outlined" sx={{ padding: 2 }}>
               <Box
-                sx={{
-                  minWidth: 80,
-                  textAlign: "right",
-                  flexShrink: 0,
-                  ml: "auto",
-                }}
+                display="flex"
+                flexDirection="column"
+                height="100%"
+                justifyContent="space-between"
               >
-                <Typography>${product.price * product.quantity}</Typography>
+                <Box>
+                  <Box display="flex" justifyContent="space-between" mb={1}>
+                    <Typography>Subtotal</Typography>
+                    <Typography>${subtotal.toFixed(2)}</Typography>
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" mb={1}>
+                    <Typography>Tax (5%)</Typography>
+                    <Typography>${tax.toFixed(2)}</Typography>
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" mb={1}>
+                    <Typography>Shipping</Typography>
+                    <Typography>
+                      ${subtotal > 0 ? shippingRate.toFixed(2) : "0.00"}
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ my: 1 }} />
+                  <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h6">Total Amount</Typography>
+                    <Typography variant="h6">${total.toFixed(2)}</Typography>
+                  </Box>
+                </Box>
               </Box>
             </Paper>
-          ))}
+          </Grid>
         </Grid>
+        <AddressForm />
+      </Container>
 
-        <Grid item xs={12} md={4}>
-          <Paper variant="outlined" sx={{ padding: 2 }}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              height="100%"
-              justifyContent="space-between"
-            >
-              <Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography>Subtotal</Typography>
-                  <Typography>${subtotal.toFixed(2)}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography>Tax (5%)</Typography>
-                  <Typography>${tax.toFixed(2)}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography>Shipping</Typography>
-                  <Typography>
-                    ${subtotal > 0 ? shippingRate.toFixed(2) : "0.00"}
-                  </Typography>
-                </Box>
-                <Divider sx={{ my: 1 }} />
-                <Box display="flex" justifyContent="space-between">
-                  <Typography variant="h6">Total Amount</Typography>
-                  <Typography variant="h6">${total.toFixed(2)}</Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-      <AddressForm />
-    </Container>
+    </>
+
   );
 };
 

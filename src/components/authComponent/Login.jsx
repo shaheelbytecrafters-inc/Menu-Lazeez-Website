@@ -16,7 +16,6 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import login from "../../assets/images/wave12.png";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/authSlice/authSlice.js";
-// import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
 import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
 
 const Login = ({ open, handleClose, handleOpenModal }) => {
@@ -46,7 +45,6 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
   const handleLogin = async () => {
     if (phoneNumber.length >= 10) {
       try {
-        // Using unwrap to get the result or catch any errors
         const resultAction = await dispatch(
           loginUser({ phoneNumber, fcmToken })
         );
@@ -68,63 +66,39 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
     }
   };
 
-  // const textFieldStyles = {
-  //   "& .MuiOutlinedInput-root": {
-  //     "& fieldset": {
-  //       borderColor: "gray",
-  //     },
-  //     "&:hover fieldset": {
-  //       borderColor: "gray",
-  //     },
-  //     "&.Mui-focused fieldset": {
-  //       borderColor: "gray",
-  //       border: "1px solid gray",
-  //     },
-  //   },
-  //   "& .MuiInputLabel-root": {
-  //     color: "gray",
-  //     "&.Mui-focused": {
-  //       color: "gray",
-  //     },
-  //   },
-  // };
-
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+      {/* Dialog Title with Background Image */}
       <DialogTitle
-        // backgroundImage: `url(${login})`,
-        sx={
-          {
-            backgroundImage: `url(${login})`,
-          }
-        }
+        sx={{
+          backgroundImage: `url(${login})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "100px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
-        <Typography variant="h6" component="div">
+        <Typography variant="h6" sx={{ color: "Black", fontWeight: "bold" , fontSize:"2rem"}}>
           Login
         </Typography>
         <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
+            color: "white",
             position: "absolute",
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
           }}
         >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent
-        sx={{
-          // backgroundImage: `url(${login})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          padding: "2rem",
-          // border: "2px solid black",
-        }}
-      >
+
+      {/* Dialog Content */}
+      <DialogContent>
         <Box
           component="form"
           onSubmit={(e) => {
@@ -135,10 +109,10 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          sx={{ gap: 2, marginTop: "2rem" }}
+          sx={{ gap: 2, marginTop: "1rem" }}
         >
+          {/* Phone Number Input Field */}
           <TextField
-            // variant="outlined"
             required
             fullWidth
             label="Mobile Number"
@@ -148,32 +122,36 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
             sx={{
               "& .MuiOutlinedInput-root": {
                 height: 45,
+                borderRadius: "8px", // Rounded corners
+                backgroundColor: "white",
                 "& fieldset": {
-                  borderColor: "black", // Border color
+                  borderColor: "#d3d3d3", // Soft border color
                 },
                 "&:hover fieldset": {
-                  borderColor: "black", // Border color on hover
+                  borderColor: "#a5a5a5", // Border color on hover
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "black", // Border color when focused
+                  borderColor: "#3b3a39", // Darker color when focused
                 },
               },
-              margin: "10px 0", // Margin
-              // backgroundColor: "rgba(255, 255, 255, 0.9)",
             }}
             InputLabelProps={{
-              style: { color: "black" }, // Label color
+              style: { color: "#3b3a39" }, // Label color
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LocalPhoneOutlinedIcon />
+                  <LocalPhoneOutlinedIcon sx={{ color: "#3b3a39" }} />
                 </InputAdornment>
               ),
             }}
           />
+
+          {/* Loading / Button */}
           {isLoading ? (
-            <Typography variant="body2">Sending OTP...</Typography>
+            <Typography variant="body2" sx={{ color: "#fe0604" }}>
+              Sending OTP...
+            </Typography>
           ) : (
             <Button
               type="submit"
@@ -182,30 +160,39 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
                 color: "white",
                 backgroundColor: "#fe0604",
                 textTransform: "none",
-                padding: "8px 20px",
-                fontSize: "0.9rem",
+                padding: "10px 30px",
+                fontSize: "1rem",
+                borderRadius: "8px", // Smooth button edges
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Soft shadow
                 "&:hover": {
-                  backgroundColor: "#fe0604",
+                  backgroundColor: "#d90404", // Darker shade on hover
                 },
               }}
             >
               Send OTP
             </Button>
           )}
+
+          {/* Feedback / Error Messages */}
           {otpStatus && (
-            <Typography sx={{ color: "black", marginTop: "1rem" }}>
+            <Typography sx={{ color: "#3b3a39", marginTop: "1rem" }}>
               {typeof otpStatus === "string" ? otpStatus : String(otpStatus)}
             </Typography>
           )}
           {error && (
-            <Typography color="error">
+            <Typography color="error" sx={{ marginTop: "0.5rem" }}>
               {typeof error === "string" ? error : String(error)}
             </Typography>
           )}
         </Box>
       </DialogContent>
+
+      {/* Dialog Actions */}
       <DialogActions>
-        <Button onClick={handleClose} sx={{ color: "#fe0604" }}>
+        <Button
+          onClick={handleClose}
+          sx={{ color: "#fe0604", textTransform: "none" }}
+        >
           Close
         </Button>
       </DialogActions>

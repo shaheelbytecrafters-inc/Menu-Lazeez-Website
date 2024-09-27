@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   TextField,
   Button,
@@ -7,9 +7,6 @@ import {
   Typography,
   FormControl,
   FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { postAddress } from "../../redux/profileSlice/addressSlice";
@@ -93,9 +90,13 @@ function AddressForm() {
     console.log("Hello...........................", payload);
 
     dispatch(postAddress({ payload }));
-    console.log(
-      "hedddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-    );
+
+    setFormData({
+      address: "",
+      buildingDetails: "",
+      addressLabel: "",
+      deliveryContactNumber: "",
+    });
   };
 
   return (

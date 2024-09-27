@@ -140,7 +140,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-          width: { xs: "90%", sm: "70%", md: "50%" },
+          width: { xs: "50%", sm: "0%", md: "50%" },
           borderRadius: 2,
           boxShadow: 24,
           padding: 2,
@@ -169,7 +169,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
           sx={{
             display: { xs: "block", sm: "none" },
             width: "100%",
-            height: "auto",
+            // height: "auto",
             marginBottom: 2,
           }}
         >
@@ -189,7 +189,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
           alignItems="center"
           justifyContent="center"
           gap={1}
-          sx={{ width: "100%" }}
+          sx={{ width: "50%" }}
         >
           {isLoading && <CircularProgress />}
           {error && (

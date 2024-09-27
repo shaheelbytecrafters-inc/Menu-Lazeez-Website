@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 // Async thunk to post address
@@ -18,9 +19,11 @@ export const postAddress = createAsyncThunk(
         { headers }
       );
       console.log("===================================Solve",response)
+       toast.success("Address posted successfully!");
       return response.data;
     } catch (error) {
       console.log("error=====================",error)
+      toast.error("Failed to post address."); 
       return rejectWithValue(error.response?.data || "Error posting address");
     }
   }
@@ -38,6 +41,7 @@ export const getAddress = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      toast.error("Failed to fetch address data.");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -56,8 +60,10 @@ export const deleteAddress = createAsyncThunk(
         `https://lazeez-restaurant-backend.onrender.com/address/${addressId}`,
         { headers }
       );
+       toast.success("Address deleted successfully!");
       return response.data.data; // Returning the success message
     } catch (error) {
+       toast.error("Failed to delete address."); 
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -84,11 +90,15 @@ export const editAddress = createAsyncThunk(
         {address},
         { headers }
       );
+      toast.success("Address updated successfully!"); 
       // console.log("=======================response",response)
       return response.data;
     } catch (error) {
+      toast.error("Failed to update address."); 
       return rejectWithValue(
+
         console.log("erorr=============",error),
+        
         error.response ? error.response.data : "Something went wrong"
       );
     }

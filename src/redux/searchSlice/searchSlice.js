@@ -40,7 +40,7 @@ const searchSlice = createSlice({
       })
       .addCase(fetchSearchResults.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.results = action.payload; // Update search results when API call succeeds
+        state.results = action.payload.results; // Update search results when API call succeeds
       })
       .addCase(fetchSearchResults.rejected, (state, action) => {
         state.status = "failed";
