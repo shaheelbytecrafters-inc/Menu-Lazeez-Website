@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
 
 // Fetch cart data
 export const fetchCartData = createAsyncThunk(
@@ -13,9 +15,12 @@ export const fetchCartData = createAsyncThunk(
         { headers }
       );
       console.log("cartSlice,===================", response);
+       toast.success("Cart data fetched successfully!");
       return response.data;
     } catch (error) {
+      toast.error("Error fetching cart data");
       return rejectWithValue(
+        
         error.response?.data || "Error fetching cart data"
       );
     }
@@ -37,8 +42,10 @@ export const updateCartQuantity = createAsyncThunk(
         { headers }
       );
       console.log("Response ###################", response);
+      toast.success("Cart quantity updated successfully!"); 
       return response.data;
     } catch (error) {
+      toast.error("Error updating cart quantity");
       return rejectWithValue(
         error.response?.data || "Error updating cart quantity"
       );
@@ -73,11 +80,13 @@ export const removeCartItem = createAsyncThunk(
 
       // After successfully removing the item, fetch the updated cart data
       dispatch(fetchCartData(payload.userId));
-
+       toast.success("Item removed from cart!");
       return response.data;
     } catch (error) {
       console.log("===================== Error from removeCart", error);
+      toast.error("Error removing cart item");
       return rejectWithValue(
+        
         error.response?.data || "Error removing cart item"
       );
     }

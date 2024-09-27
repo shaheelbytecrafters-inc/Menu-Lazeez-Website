@@ -33,42 +33,22 @@ import {
   getAddress,
 } from "../../redux/profileSlice/addressSlice";
 
+import EditIcon from '@mui/icons-material/Edit';
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-function Profile() {
+function Profile() { 
   const [selectedTab, setSelectedTab] = useState(0); // Track selected tab
   const [showContent, setShowContent] = useState(false); // Manage content view in small
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [specificAddressId, setSpecificAddressId] = useState("");
-  // console.log("InputValue=========================", inputValue);
-  // console.log("==================specific", specificAddressId);
+  const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("8368767396");
+  const [email, setEmail] = useState("eram123@gmail.com");
+  const dispatch = useDispatch();
 
-  // console.log(specificAddress);
-  // console.log("hejkreeeeeeeeeee", inputValue);
-  // console.log("InputValue=++++++++++++++++++++++++++",inputValue)
-  // console.log("Eram Khan 1 ", specificAddress, typeof(specificAddress))
-  // const addressList = [
-  //   {
-  //     id: 1,
-  //     title: "Work",
-  //     address: "1234, Elm Street, Apt 56, City ",
-  //     contactNumber: "123-456-7890",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Home",
-  //     address: "9876, Oak Street, Apt 45, Town",
-  //     contactNumber: "987-654-3210",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Other",
-  //     address: "5678, Maple Street, Apt 23, Village",
-  //     contactNumber: "567-890-1234",
-  //   },
-  // ];
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -77,14 +57,7 @@ function Profile() {
     }
   };
 
-  // const toggleEditDialog = (addressID) => {
-  //   const addressObject = address.filter((ele) => ele._id === addressID);
-  //   console.log("addressObject", addressObject);
-  //   const addressEdit = addressObject[0].address;
-  //   console.log("SpecificAddress=======", addressEdit);
-  //   setSpecificAddress(addressEdit);
-  //   setOpenEditDialog(!openEditDialog);
-  // };
+
   const toggleEditDialog = (addressID) => {
     const addressObject = address.find((ele) => ele._id === addressID);
     setSpecificAddressId(addressID);
@@ -100,10 +73,7 @@ function Profile() {
     setInputValue(e.target.value); // Update the state with new input value
   };
 
-  // Handle input field change
-  // const handleInputChange = (e) => {
-  //   setInputValue(e.target.value);
-  // };
+ 
 
   // Function to open the dialog
   const handleClickOpen = () => {
@@ -129,16 +99,10 @@ function Profile() {
     setOpen(false);
   };
 
-  const [isEditingPhone, setIsEditingPhone] = useState(false);
-  const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("8368767396");
-  const [email, setEmail] = useState("eram123@gmail.com");
-  const dispatch = useDispatch();
-
   const {
     profileData,
-    loading: profileLoading,
-    error: profileError,
+    loading,
+    error,
   } = useSelector((state) => state.profile);
 
   const {
@@ -159,17 +123,15 @@ function Profile() {
   // Fetching profile data
   useEffect(() => {
     const profileData = JSON.parse(localStorage.getItem("userData"));
-    const profileId = profileData._id;
-    // dispatch(fetchProfile(profileId));
-    // console.log(profileId);
-    console.log("Profile Data:++++++++++++++ ", profileData);
-  }, [dispatch]);
+    const profileId = profileData.data._id;
+    dispatch(fetchProfile(profileId));
+  }, []);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
-    const userId = user._id;
-
-    // const addressId = "66ee23f03a5235f2c188e1e3"; // Address ID for the API request
+    const userId = user.data._id;
+    console.log("UserId => " , user);
+    
     dispatch(getAddress(userId));
   }, [dispatch]);
 
@@ -201,34 +163,31 @@ function Profile() {
     setOpenEditDialog(false);
   };
 
-  //  useEffect(() => {
-  //    dispatch(deleteAddress());
-  //  }, [dispatch]);
-  // Update state with fetched profile data once it's available
   useEffect(() => {
     if (profileData && Object.keys(profileData).length > 1) {
       setPhoneNumber(profileData.data.phoneNumber);
       setEmail(profileData.data.email);
     }
+  console.log("Updated profile =>", profileData);
   }, [profileData]);
 
-  if (profileLoading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (profileError) {
-    return <div>Error: {profileError}</div>;
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   if (!profileData) {
     return <div>No profile data available</div>;
   }
 
-  if (addressLoading) {
-    return <div>Loading address...</div>;
-  }
+  // if (addressLoading) {
+  //   return <div>Loading address...</div>;
+  // }
 
-  if (addressError) {
+  if (error) {
     return <div>Error loading address: {addressError}</div>;
   }
 
@@ -1050,6 +1009,7 @@ function Profile() {
                               </Button>
                             </Box>
                           </Box>
+
                         ))}
                         {/* Edit Dialog */}
                         <Dialog
