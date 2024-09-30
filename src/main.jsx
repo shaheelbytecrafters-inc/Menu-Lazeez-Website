@@ -12,19 +12,21 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <App />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        closeButton={false}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition="Bounce"
+/>
+{/* Same as */}
+<ToastContainer />
     </ThemeProvider>
   </Provider>
 );

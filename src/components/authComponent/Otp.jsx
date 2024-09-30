@@ -2,24 +2,23 @@ import {
   Button,
   Typography,
   Box,
-  Container,
   Dialog,
-  DialogTitle,
   DialogContent,
-  DialogActions,
+  IconButton,
 } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close"; // Import Close icon
 import { useDispatch, useSelector } from "react-redux";
 import { verifyOtp, resendOtp } from "../../redux/authSlice/authSlice.js";
-import otp from "../../assets/images/Otp.png";
 import { useNavigate } from "react-router-dom";
+import opt from "../../assets/images/wave12.png"; // Import wave image
+import { border } from "@mui/system";
 
 export default function OTPInput({ open, handleClose }) {
   const dispatch = useDispatch();
   const { isLoading, error, otpVerificationMessage } = useSelector(
     (state) => state.auth
   );
-  const phoneNumber = JSON.parse(localStorage.getItem("phoneNumber"));
   const navigate = useNavigate();
 
   const Ref1 = useRef(null);
@@ -31,6 +30,8 @@ export default function OTPInput({ open, handleClose }) {
 
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const [isResending, setIsResending] = useState(false);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const phoneNumber = userData.phoneNumber;
 
   const handleKey = (event) => {
     if (!/\d/.test(event.key)) {
@@ -57,9 +58,10 @@ export default function OTPInput({ open, handleClose }) {
 
   const handleVerifyOTP = () => {
     const otpCode = inputValues.join("");
+
     if (phoneNumber) {
       const otpData = {
-        phoneNumber: phoneNumber.phoneNumber,
+        phoneNumber: phoneNumber,
         token: otpCode,
       };
       dispatch(verifyOtp(otpData));
@@ -72,7 +74,7 @@ export default function OTPInput({ open, handleClose }) {
     if (phoneNumber) {
       setIsResending(true);
       const otpData = {
-        phoneNumber: phoneNumber.phoneNumber,
+        phoneNumber: phoneNumber,
       };
       dispatch(resendOtp(otpData));
       setInputValues(["", "", "", "", "", ""]);
@@ -84,7 +86,6 @@ export default function OTPInput({ open, handleClose }) {
 
   useEffect(() => {
     if (otpVerificationMessage === "OTP verified successfully") {
-      console.log("OTP verified successfully!");
       handleClose(); // Close the modal on successful verification
       setTimeout(() => {
         navigate("/");
@@ -93,8 +94,38 @@ export default function OTPInput({ open, handleClose }) {
   }, [otpVerificationMessage, navigate, handleClose]);
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Enter OTP</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="xs"
+      sx={{
+        "& .MuiDialog-paper": {
+          backgroundImage: `url(${opt})`, // Add the wave image to the modal itself
+          backgroundSize: "100% 125px", // Adjust the width to 100% and height to 50px
+          backgroundRepeat: "no-repeat",
+          // backgroundPosition: "bottom", // Align the wave to the bottom
+          boxShadow: "none", // Remove any box shadow
+          overflow: "hidden", // Prevent overflow and scrollbar
+          position: "relative",
+        },
+      }}
+    >
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={handleClose}
+        aria-label="close"
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color:"#fff"
+          // color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogContent>
         <Box
           display="flex"
@@ -102,7 +133,12 @@ export default function OTPInput({ open, handleClose }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="h6" marginTop={3}>
+          <Typography
+            variant="h6"
+            marginTop={3}
+            fontWeight={"bold"}
+            fontSize={"2rem"}
+          >
             {otpVerificationMessage === "OTP verified successfully"
               ? "Verified"
               : "Enter OTP"}
@@ -124,12 +160,15 @@ export default function OTPInput({ open, handleClose }) {
                     type="text"
                     style={{
                       padding: "12px",
-                      width: "20px",
-                      height: "20px",
+                      width: "30px",
+                      height: "30px",
                       textAlign: "center",
                       fontSize: "1.2rem",
                       border: "1px solid #ccc",
                       borderRadius: "6px",
+                      "&hover": {
+                        border: "1px solid #fe0604",
+                      },
                     }}
                     value={value}
                     ref={[Ref1, Ref2, Ref3, Ref4, Ref5, Ref6][index]}
@@ -150,44 +189,52 @@ export default function OTPInput({ open, handleClose }) {
                   />
                 ))}
               </Box>
-
-              <Button
-                variant="contained"
+              <Box
                 sx={{
-                  color: "white",
-                  backgroundColor: "red",
-                  textTransform: "none",
-                  marginTop: 3,
-                  padding: "0.8rem 2rem",
-                  fontSize: "1rem",
-                  "&:hover": {
-                    backgroundColor: "#fe0604",
-                  },
+                  display: "flex",
+                  justifyContent: "space-between", // Space buttons evenly
+                  marginTop: 3, // Top margin for the entire box
+                  gap: 1, // Gap between buttons to ensure consistent spacing
                 }}
-                onClick={handleVerifyOTP}
-                disabled={isLoading || isResending}
               >
-                {isLoading ? "Verifying..." : "Verify OTP"}
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    backgroundColor: "red",
+                    textTransform: "none",
+                    marginTop: 3,
+                    padding: "0.5rem 1rem", // Use consistent padding
+                    fontSize: "1rem", // Keep the same font size
+                    "&:hover": {
+                      backgroundColor: "#fe0604",
+                    },
+                  }}
+                  onClick={handleVerifyOTP}
+                  disabled={isLoading || isResending}
+                >
+                  {isLoading ? "Verifying..." : "Verify OTP"}
+                </Button>
 
-              <Button
-                variant="contained"
-                sx={{
-                  color: "white",
-                  backgroundColor: "red",
-                  textTransform: "none",
-                  marginTop: 3,
-                  padding: "0.8rem 2rem",
-                  fontSize: "1rem",
-                  "&:hover": {
-                    backgroundColor: "#fe0604",
-                  },
-                }}
-                onClick={handleResendOTP}
-                disabled={isLoading || isResending}
-              >
-                {isResending ? "Resending..." : "Resend OTP"}
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    backgroundColor: "red",
+                    textTransform: "none",
+                    marginTop: 3,
+                    padding: "0.5rem 1rem", // Use consistent padding
+                    fontSize: "1rem", // Keep the same font size
+                    "&:hover": {
+                      backgroundColor: "#fe0604",
+                    },
+                  }}
+                  onClick={handleResendOTP}
+                  disabled={isLoading || isResending}
+                >
+                  {isResending ? "Resending..." : "Resend OTP"}
+                </Button>
+              </Box>
             </>
           )}
 
@@ -202,11 +249,6 @@ export default function OTPInput({ open, handleClose }) {
           )}
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

@@ -7,11 +7,12 @@ import {
   Container,
   InputAdornment,
 } from "@mui/material";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+// import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import login from "../../assets/images/Sign.png";
 import ChatIcon from "@mui/icons-material/Chat";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const SignUp = ({ setIsAuth }) => {
   const [formData, setFormData] = useState({
@@ -128,7 +129,7 @@ const SignUp = ({ setIsAuth }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <PersonOutlineOutlinedIcon />
+                <AccountCircleIcon />
               </InputAdornment>
             ),
           }}
