@@ -14,11 +14,8 @@ export const fetchCartData = createAsyncThunk(
         `https://lazeez-restaurant-backend.onrender.com/cart/${userId}`,
         { headers }
       );
-      console.log("cartSlice,===================", response);
-       toast.success("Cart data fetched successfully!");
       return response.data;
     } catch (error) {
-      toast.error("Error fetching cart data");
       return rejectWithValue(
         
         error.response?.data || "Error fetching cart data"

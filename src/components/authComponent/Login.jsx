@@ -74,13 +74,24 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           backgroundImage: `url(${login})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "100px",
+          height: "120px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          color: "#fff",
+          position: "relative",
+          padding: "1.5rem",
         }}
       >
-        <Typography variant="h6" sx={{ color: "Black", fontWeight: "bold" , fontSize:"2rem"}}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: "bold",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
+            color: "black",
+            fontSize: "2rem",
+          }}
+        >
           Login
         </Typography>
         <IconButton
@@ -89,8 +100,8 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           sx={{
             color: "white",
             position: "absolute",
-            right: 8,
-            top: 8,
+            right: 16,
+            top: 16,
           }}
         >
           <CloseIcon />
@@ -98,7 +109,13 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
       </DialogTitle>
 
       {/* Dialog Content */}
-      <DialogContent>
+      <DialogContent
+        sx={{
+          padding: "2rem",
+          background: "#f9f9f9", // Light background color for content
+          borderRadius: "0 0 8px 8px",
+        }}
+      >
         <Box
           component="form"
           onSubmit={(e) => {
@@ -109,7 +126,7 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          sx={{ gap: 2, marginTop: "1rem" }}
+          sx={{ gap: 3, marginTop: "1rem" }}
         >
           {/* Phone Number Input Field */}
           <TextField
@@ -121,27 +138,40 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
             onChange={(e) => setPhoneNumber(e.target.value)}
             sx={{
               "& .MuiOutlinedInput-root": {
-                height: 45,
-                borderRadius: "8px", // Rounded corners
+                height: 50,
+                borderRadius: "12px", // Rounded corners
                 backgroundColor: "white",
                 "& fieldset": {
-                  borderColor: "#d3d3d3", // Soft border color
+                  borderColor: "#ccc", // Soft border color
                 },
                 "&:hover fieldset": {
-                  borderColor: "#a5a5a5", // Border color on hover
+                  borderColor: "#bbb", // Border color on hover
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#3b3a39", // Darker color when focused
+                  borderColor: "#fe0604", // Brand color when focused
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                "&.Mui-focused": {
+                  color: "#FF5A5F",
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "#4A4A4A",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px white inset", // Ensures the background remains white
+                WebkitTextFillColor: "#4A4A4A", // Ensures the text color stays consistent
               },
             }}
             InputLabelProps={{
-              style: { color: "#3b3a39" }, // Label color
+              style: { color: "#7a7a7a" }, // Muted label color
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LocalPhoneOutlinedIcon sx={{ color: "#3b3a39" }} />
+                  <LocalPhoneOutlinedIcon sx={{ color: "#fe0604" }} />
                 </InputAdornment>
               ),
             }}
@@ -160,10 +190,10 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
                 color: "white",
                 backgroundColor: "#fe0604",
                 textTransform: "none",
-                padding: "10px 30px",
-                fontSize: "1rem",
+                padding: "12px 40px",
+                fontSize: "1.1rem",
                 borderRadius: "8px", // Smooth button edges
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Soft shadow
+                boxShadow: "0px 6px 8px rgba(0, 0, 0, 0.1)", // Softer shadow
                 "&:hover": {
                   backgroundColor: "#d90404", // Darker shade on hover
                 },
@@ -188,14 +218,27 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
       </DialogContent>
 
       {/* Dialog Actions */}
-      <DialogActions>
+      {/* <DialogActions
+        sx={{
+          justifyContent: "center",
+          padding: "1rem 2rem",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
         <Button
           onClick={handleClose}
-          sx={{ color: "#fe0604", textTransform: "none" }}
+          sx={{
+            color: "#fe0604",
+            textTransform: "none",
+            fontSize: "1rem",
+            "&:hover": {
+              color: "#d90404",
+            },
+          }}
         >
           Close
         </Button>
-      </DialogActions>
+      </DialogActions> */}
     </Dialog>
   );
 };

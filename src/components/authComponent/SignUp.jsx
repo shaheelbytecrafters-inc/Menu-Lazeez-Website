@@ -18,9 +18,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import login from "../../assets/images/Sign.png"; // Your GIF image
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "../../redux/authSlice/authSlice.js";
-// import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
 import { requestFCMToken } from "../../Firebase/firebaseConfig.js";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -46,10 +45,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
-    // if (phoneNumber.length >= 10) {
     try {
-      // Using unwrap to get the result or catch any errors
       const resultAction = await dispatch(
         signUpUser({ ...formData, fcmToken })
       );
@@ -58,15 +54,11 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
       if (resultAction.payload.error !== "Phone Number already exists") {
         handleOpenModal("otp");
       } else {
-        console.log("resultAction: ", resultAction);
         toast.info("Phone Number already exists!");
       }
     } catch (err) {
-      console.log("An unexpected error occurred: ", resultAction);
+      console.log("An unexpected error occurred: ", err);
     }
-    // } else {
-    //   alert("Invalid contact number");
-    // }
   };
 
   const handleChange = (e) => {
@@ -91,32 +83,31 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
 
   const textFieldStyles = {
     "& .MuiOutlinedInput-root": {
+      height: 50,
+      borderRadius: "12px",
+      backgroundColor: "white",
       "& fieldset": {
-        borderColor: "gray",
+        borderColor: "#ccc",
       },
       "&:hover fieldset": {
-        borderColor: "gray",
+        borderColor: "#bbb",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "gray",
-        borderWidth: 1,
+        borderColor: "#fe0604",
       },
     },
     "& .MuiInputLabel-root": {
-      color: "gray",
+      color: "#888888",
       "&.Mui-focused": {
-        color: "gray",
+        color: "#FF5A5F",
       },
     },
     "& .MuiInputBase-input": {
-      color: "black",
+      color: "#4A4A4A",
     },
-    "& .MuiInputBase-root": {
-      "&.Mui-focused": {
-        "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "gray",
-        },
-      },
+    "& input:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
+      WebkitTextFillColor: "#4A4A4A",
     },
   };
 
@@ -140,7 +131,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-          width: { xs: "50%", sm: "0%", md: "50%" },
+          width: { xs: "90%", sm: "50%" },
           borderRadius: 2,
           boxShadow: 24,
           padding: 2,
@@ -161,24 +152,8 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
             color: (theme) => theme.palette.grey[500],
           }}
         >
-          <CloseIcon />
+          <CloseIcon sx={{ color: "#fe0604" }} />
         </IconButton>
-
-        {/* GIF section for small screens */}
-        <Box
-          sx={{
-            display: { xs: "block", sm: "none" },
-            width: "100%",
-            // height: "auto",
-            marginBottom: 2,
-          }}
-        >
-          <img
-            src={login}
-            alt="Sign Up GIF"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-        </Box>
 
         {/* Form Section */}
         <Box
@@ -189,9 +164,9 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
           alignItems="center"
           justifyContent="center"
           gap={1}
-          sx={{ width: "50%" }}
+          sx={{ width: { xs: "100%", sm: "50%" } }} // Full width on small screens
         >
-          {isLoading && <CircularProgress />}
+          {isLoading && <CircularProgress sx={{ color: "#fe0604" }} />}
           {error && (
             <Alert severity="error">
               {typeof error === "string"
@@ -209,13 +184,12 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
             onChange={handleChange}
             sx={{
               ...textFieldStyles,
-              "& .MuiOutlinedInput-root": { height: 35 },
               margin: "10px 0",
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonOutlineOutlinedIcon />
+                  <AccountCircleIcon sx={{ color: "#fe0604" }} />
                 </InputAdornment>
               ),
             }}
@@ -230,13 +204,12 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
             onChange={handleChange}
             sx={{
               ...textFieldStyles,
-              "& .MuiOutlinedInput-root": { height: 35 },
               margin: "10px 0",
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <EmailOutlinedIcon />
+                  <EmailOutlinedIcon sx={{ color: "#fe0604" }} />
                 </InputAdornment>
               ),
             }}
@@ -251,13 +224,12 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
             onChange={handleChange}
             sx={{
               ...textFieldStyles,
-              "& .MuiOutlinedInput-root": { height: 35 },
               margin: "10px 0",
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LocalPhoneOutlinedIcon />
+                  <LocalPhoneOutlinedIcon sx={{ color: "#fe0604" }} />
                 </InputAdornment>
               ),
             }}
@@ -275,7 +247,7 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <ChatIcon />
+                  <ChatIcon sx={{ color: "#fe0604" }} />
                 </InputAdornment>
               ),
             }}
