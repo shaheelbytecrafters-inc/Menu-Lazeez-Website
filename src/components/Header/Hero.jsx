@@ -57,8 +57,10 @@ const Hero = () => {
               fontFamily: "Poppins, sans-serif",
               color: "black",
               fontSize: { xs: 25, sm: 35 },
-              fontWeight: "500",
+              fontWeight: "bold",
+              fontFamily:"Playwrite DE Grund, cursive"
             }}
+            
           >
             Bringing the Best Bites to Your Doorstep.
           </Typography>

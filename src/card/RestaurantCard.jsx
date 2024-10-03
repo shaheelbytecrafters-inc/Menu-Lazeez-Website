@@ -3,16 +3,15 @@ import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
 import rest from '../assets/images/rest.jpeg'
 
-export default function RestaurantCard({ restaurant }) {
-  const navigate=useNavigate()
+export default function RestaurantCard({ restaurant, restaurantId }) {
+  const navigate = useNavigate();
   // const locationArray = Array.isArray(restaurant.location)
   //   ? restaurant.location
   //   : restaurant.location
   //   ? restaurant.location.split(",")
   //   : [];
 
-  const locationText =restaurant.location.address || "Location not available";
-
+  const locationText = restaurant.location.address || "Location not available";
 
   return (
     <Box
@@ -31,7 +30,9 @@ export default function RestaurantCard({ restaurant }) {
         justifyContent: "center",
         padding: "1rem",
       }}
-      onClick={() => navigate(`/restaurantname`)}
+      onClick={() =>
+                navigate(`/specificDetails/${restaurantId}`)
+              }
     >
       <Box
         component="img"

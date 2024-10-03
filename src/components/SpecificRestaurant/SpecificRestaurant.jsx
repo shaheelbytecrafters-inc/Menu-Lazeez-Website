@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setQuery,
@@ -14,9 +14,9 @@ const SpecificRestaurant = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("query")?.toLowerCase() || "";
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { results, status, error } = useSelector((state) => state.search);
-
+  console.log("results======", results);
   useEffect(() => {
     if (searchQuery.length > 0) {
       dispatch(fetchSearchResults(searchQuery));
@@ -64,10 +64,14 @@ const SpecificRestaurant = () => {
               maxWidth: 400,
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               position: "relative",
-              height:"7rem",
-              padding:"0.4rem",
-              textAlign:"left"
+              height: "7rem",
+              padding: "0.4rem",
+              textAlign: "left",
             }}
+            // onClick=(()=>navigate("/"))
+            onClick={() =>
+              navigate(`/specificDetails/${restaurant.restaurantId}`)
+            } // Pass restaurantId in the URL
           >
             {/* Image and Discount Badge */}
             <Box sx={{ position: "relative" }}>
@@ -146,7 +150,7 @@ const SpecificRestaurant = () => {
                 variant="body2"
                 sx={{ fontSize: "12px", color: "#757575", mt: 0.5 }}
               >
-                {restaurant.location.address}, {restaurant.location.city},{" "}
+                {restaurant.location.address}, {restaurant.location.city},
                 {restaurant.location.state}, {restaurant.location.zipCode}
               </Typography>
             </CardContent>

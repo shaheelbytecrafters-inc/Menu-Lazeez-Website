@@ -115,9 +115,9 @@ function MyLogo() {
           sx={{
             fontSize: "1.6rem",
             marginBottom: "1rem",
-            fontWeight: "600",
-            marginLeft:"1rem"
-            // textAlign: "center",
+            fontWeight: "bold",
+            marginLeft:"1rem",
+            fontFamily:"Playwrite DE Grund, cursive"
           }}
         >
           Inspiration for your first order

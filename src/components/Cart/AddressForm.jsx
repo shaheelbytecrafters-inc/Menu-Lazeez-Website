@@ -19,6 +19,7 @@ const textFieldStyles = {
     },
     "&:hover fieldset": {
       borderColor: "gray",
+      boxShadow: "1px 1px 2px black",
     },
     "&.Mui-focused fieldset": {
       borderColor: "gray",
@@ -27,27 +28,29 @@ const textFieldStyles = {
   },
   "& .MuiInputLabel-root": {
     color: "gray",
+    // fontSize:"12px",
 
     "&.Mui-focused": {
       color: " gray",
+      fontWeight: "bold",
     },
   },
 };
-const radioStyles = {
-  "& .MuiRadio-root": {
-    color: " gray",
+// const radioStyles = {
+//   "& .MuiRadio-root": {
+//     color: " gray",
 
-    "&.Mui-checked": {
-      color: " gray",
-    },
-  },
-  "& .MuiFormControlLabel-label": {
-    color: " gray",
-    "& .Mui-focused": {
-      color: "gray",
-    },
-  },
-};
+//     "&.Mui-checked": {
+//       color: " gray",
+//     },
+//   },
+//   "& .MuiFormControlLabel-label": {
+//     color: " gray",
+//     "& .Mui-focused": {
+//       color: "gray",
+//     },
+//   },
+// };
 
 function AddressForm() {
   const [formData, setFormData] = useState({
@@ -103,17 +106,20 @@ function AddressForm() {
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        // bgcolor: "red",
+        width: "60%",
       }}
     >
       <Container maxWidth="sm" sx={{ mt: 2, mb: 2 }}>
         <Typography
           variant="h4"
           component="h1"
-          textAlign="center"
-          sx={{ marginBottom: 1 }}
+          // textAlign="center"
+          fontFamily="Playwrite DE Grund, cursive"
+          fontWeight={"bold"}
+          sx={{ marginBottom: 3 }}
         >
           Address Form
         </Typography>
@@ -129,7 +135,7 @@ function AddressForm() {
           }}
         >
           <TextField
-            label="deliveryContactNumber"
+            label="Contact number"
             variant="outlined"
             name="deliveryContactNumber"
             value={formData.deliveryContactNumber}
@@ -141,7 +147,7 @@ function AddressForm() {
           />
 
           <TextField
-            label="buildingDetails"
+            label="Door / Flat no."
             variant="outlined"
             name="buildingDetails"
             value={formData.buildingDetails}
@@ -153,7 +159,7 @@ function AddressForm() {
           />
 
           <TextField
-            label="Address"
+            label="Street address, locality"
             variant="outlined"
             name="address"
             value={formData.address}
@@ -250,3 +256,11 @@ function AddressForm() {
 }
 
 export default AddressForm;
+
+
+
+
+// address: String, // Street address, locality, etc.
+//     buildingDetails: String, // Building details
+//     addressLabel: String, // Home, Work, etc.
+//     deliveryContactNumber: String, // Contact number

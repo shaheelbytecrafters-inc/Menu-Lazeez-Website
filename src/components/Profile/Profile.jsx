@@ -124,13 +124,16 @@ function Profile() {
   // Fetching profile data
   useEffect(() => {
     const profileData = JSON.parse(localStorage.getItem("userData"));
-    const profileId = profileData.data._id;
+    console.log("====================data",profileData)
+    const profileId = profileData._id;
+    // console.log("====================Id",profileId)
+ 
     dispatch(fetchProfile(profileId));
   }, []);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
-    const userId = user.data._id;
+    const userId = user._id;
     console.log("UserId => " , user);
     
     dispatch(getAddress(userId));
@@ -166,8 +169,8 @@ function Profile() {
 
   useEffect(() => {
     if (profileData && Object.keys(profileData).length > 1) {
-      setPhoneNumber(profileData.data.phoneNumber);
-      setEmail(profileData.data.email);
+      setPhoneNumber(profileData.phoneNumber);
+      setEmail(profileData.email);
     }
   console.log("Updated profile =>", profileData);
   }, [profileData]);

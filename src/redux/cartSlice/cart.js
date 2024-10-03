@@ -1,7 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
+
+// Post add to cart
+export const postAddToCart = createAsyncThunk(
+  "cart/postAddToCart",
+  async ({payload}, { rejectWithValue }) => {
+    // console.log("++++++++",payload)
+    try {
+      const token = JSON.parse(localStorage.getItem("token"))?.token;
+      if (!token) {
+        throw new Error("User not authenticated");
+      }
+      
+      const headers = { Authorization: `Bearer ${token}` };
+      const response = await axios.post(
+        `https://lazeez-user-backend-kpyf.onrender.com/cart/add`,
+        payload,
+        { headers }
+      );
+      toast.success("Added to cart successfully!");
+      return response.data;
+    } catch (error) {
+      console.error("Error posting AddToCart:", error);
+      toast.error("Failed to add to cart.");
+      return rejectWithValue(error.response?.data || "Error adding to cart");
+    }
+  }
+);
+
 
 // Fetch cart data
 export const fetchCartData = createAsyncThunk(
@@ -11,13 +39,12 @@ export const fetchCartData = createAsyncThunk(
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `https://lazeez-restaurant-backend.onrender.com/cart/${userId}`,
+        `https://lazeez-user-backend-kpyf.onrender.com/cart/${userId}`,
         { headers }
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        
         error.response?.data || "Error fetching cart data"
       );
     }
@@ -34,12 +61,12 @@ export const updateCartQuantity = createAsyncThunk(
       const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.post(
-        "https://lazeez-restaurant-backend.onrender.com/cart/quantity/update",
+        "https://lazeez-user-backend-kpyf.onrender.com/cart/quantity/update",
         payload,
         { headers }
       );
       console.log("Response ###################", response);
-      toast.success("Cart quantity updated successfully!"); 
+      toast.success("Cart quantity updated successfully!");
       return response.data;
     } catch (error) {
       toast.error("Error updating cart quantity");
@@ -53,7 +80,7 @@ export const updateCartQuantity = createAsyncThunk(
 // Remove cart item
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
-  async ({ itemId, payload}, { rejectWithValue, dispatch }) => {
+  async ({ itemId, payload }, { rejectWithValue, dispatch }) => {
     try {
       console.log("&&&&&&&&&&&&&&&&&&&&&&&&", itemId, payload);
       const token = JSON.parse(localStorage.getItem("token"))?.token;
@@ -66,10 +93,10 @@ export const removeCartItem = createAsyncThunk(
       const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.delete(
-        `https://lazeez-restaurant-backend.onrender.com/cart/item/${itemId}`,
+        `https://lazeez-user-backend-kpyf.onrender.com/cart/item/${itemId}`,
         {
-          headers, 
-          data: payload, 
+          headers,
+          data: payload,
         }
       );
 
@@ -77,13 +104,12 @@ export const removeCartItem = createAsyncThunk(
 
       // After successfully removing the item, fetch the updated cart data
       dispatch(fetchCartData(payload.userId));
-       toast.success("Item removed from cart!");
+      toast.success("Item removed from cart!");
       return response.data;
     } catch (error) {
       console.log("===================== Error from removeCart", error);
       toast.error("Error removing cart item");
       return rejectWithValue(
-        
         error.response?.data || "Error removing cart item"
       );
     }
@@ -95,12 +121,28 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartData: {},
+    cartItems: [],
     status: "idle",
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+
+      .addCase(postAddToCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(postAddToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cartItems.push(action.payload); // Add the item to the cart
+        state.error = null;
+      })
+      .addCase(postAddToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to add item to cart.";
+      })
+
       .addCase(fetchCartData.pending, (state) => {
         state.status = "loading";
       })
@@ -120,7 +162,7 @@ const cartSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(removeCartItem.fulfilled, (state, action) => {
-        state.cartData = action.payload; 
+        state.cartData = action.payload;
       })
       .addCase(removeCartItem.rejected, (state, action) => {
         state.status = "failed";

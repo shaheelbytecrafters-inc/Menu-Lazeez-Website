@@ -93,13 +93,13 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
         borderColor: "#bbb",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#fe0604",
+        borderColor: "#bbb",
       },
     },
     "& .MuiInputLabel-root": {
       color: "#888888",
       "&.Mui-focused": {
-        color: "#FF5A5F",
+        color: "#888888",
       },
     },
     "& .MuiInputBase-input": {

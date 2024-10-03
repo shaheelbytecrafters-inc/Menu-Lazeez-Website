@@ -12,7 +12,7 @@ export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
     const token = JSON.parse(localStorage.getItem("token"))?.token;
     const headers = { Authorization: `Bearer ${token}` };
     const response = await axios.get(
-      `https://lazeez-restaurant-backend.onrender.com/profile/${profileId}`,
+      `https://lazeez-user-backend-kpyf.onrender.com/profile/${profileId}`,
       { headers }
     );
     return response.data;
@@ -33,7 +33,7 @@ export const editProfile = createAsyncThunk(
       const headers = `{ Authorization: Bearer ${token} }`;
 
       const response = await axios.post(
-        `https://lazeez-restaurant-backend.onrender.com/edit-profile/${profileId}`,
+        `https://lazeez-user-backend-kpyf.onrender.com/edit-profile/${profileId}`,
         { phoneNumber, email },
         { headers }
       );

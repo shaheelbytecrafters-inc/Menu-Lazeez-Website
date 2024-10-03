@@ -7,7 +7,7 @@ export const fetchSearchResults = createAsyncThunk(
   async (query, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://lazeez-restaurant-backend.onrender.com/search?query=${query}`
+        `https://lazeez-user-backend-kpyf.onrender.com/search?query=${query}`
       );
       console.log("}}}}}}}}}}}}}}}}}}}}}",response)
       return response.data;

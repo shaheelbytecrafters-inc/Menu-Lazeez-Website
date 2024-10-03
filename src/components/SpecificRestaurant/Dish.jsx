@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   CardContent,
   Typography,
@@ -8,23 +9,28 @@ import {
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import StarIcon from "@mui/icons-material/Star";
-import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   setQuery,
   fetchSearchResults,
 } from "../../redux/searchSlice/searchSlice.js";
-import food from "../../../src/assets/images/food.jpeg";
+import food from "../../assets/images/food.jpeg";
+import { postAddToCart } from "../../redux/cartSlice/cart.js";
+import { updateCartQuantity} from "../../redux/cartSlice/cart";
 
 const Dish = () => {
-  const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("query")?.toLowerCase() || "";
   const dispatch = useDispatch();
+  const location = useLocation();
+  const searchQuery = location.state?.query?.toLowerCase() || "";
 
   const { results, status, error } = useSelector((state) => state.search);
-  console.log(results,"++++++++++++++++++++++++++++++++++")
-
+  const [cartItems, setCartItems] = useState({});
+   const { cartData } = useSelector((state) => state.cart);
+// console.log("|||||||((((((((())))))))))))))))))))))))))",cartData)
+  useEffect(() => {
+    console.log("Updated cartData:", cartData); // Monitor cartData changes
+  }, []);
   useEffect(() => {
     if (searchQuery.length > 0) {
       dispatch(fetchSearchResults(searchQuery));
@@ -32,19 +38,17 @@ const Dish = () => {
     }
   }, [dispatch, searchQuery]);
 
-  // Function to filter dishes based on the search query
-  const getFilteredDishes = (restaurants, searchTerm) => {
+  const getFilteredDishes = (restaurants = [], searchTerm) => {
     if (!searchTerm) return [];
-
     let matchedDishes = [];
     restaurants.forEach((restaurant) => {
-      const filteredMenu = restaurant.menu.filter((dish) =>
-        dish.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredMenu = restaurant.menu?.filter((dish) =>
+        dish.name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
-
-      if (filteredMenu.length > 0) {
+      if (filteredMenu && filteredMenu.length > 0) {
         matchedDishes.push({
-          restaurantName: restaurant.name,
+          restaurantName: restaurant.name || "Unknown Restaurant",
+          restaurantId: restaurant.restaurantId || "Unknown ID",
           dishes: filteredMenu,
         });
       }
@@ -52,10 +56,42 @@ const Dish = () => {
     return matchedDishes;
   };
 
-  // Get filtered dishes based on the search query
+  const handleAddToCart = (dish, restaurantId) => {
+    const userId = JSON.parse(localStorage.getItem("userData"))?._id;
+    if (!userId) return alert("User not logged in");
+
+    const payload = {
+      userId,
+      restaurantId,
+      itemId: dish.dishId,
+      productName: dish.name,
+      quantity: 1,
+      price: dish.price,
+      resetCart: false,
+    };
+    dispatch(postAddToCart({ payload }));
+
+    setCartItems((prev) => ({
+      ...prev,
+      [dish.dishId]: 1, // Initial quantity set to 1
+    }));
+  };
+
+const handleUpdateQuantity = (res, dish, action) => {
+  const userId = JSON.parse(localStorage.getItem("userData"))?._id;
+  const payload = {
+    userId,
+    restaurantId: res,
+    itemId: dish.dishId,
+    quantity: 1,
+    action: action,
+  };
+  console.log("==================", payload);
+  dispatch(updateCartQuantity(payload));
+};
+
   const filteredDishes = getFilteredDishes(results, searchQuery);
 
-  // Render loading, error, or empty states
   if (status === "loading") {
     return <Typography>Loading...</Typography>;
   }
@@ -85,22 +121,19 @@ const Dish = () => {
         alignItems="center"
         marginInline="5rem"
       >
-        {filteredDishes.map(({ restaurantName, dishes }) =>
+        {filteredDishes.map(({ restaurantName, restaurantId, dishes }) =>
           dishes.map((dish, index) => (
             <Box
               key={index}
               sx={{
                 borderRadius: "8px",
-                // Width: "370px",
                 border: "1px solid #eee",
                 margin: "16px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                height:"270px",
-                width:"370px"
-
+                height: "270px",
+                width: "370px",
               }}
             >
-              {/* Vendor Info Section */}
               <Box
                 display="flex"
                 alignItems="center"
@@ -123,7 +156,7 @@ const Dish = () => {
                       color="textSecondary"
                       sx={{ ml: 0.5, fontSize: "14px" }}
                     >
-                      {dish.rating} · {dish.reviewsCount} reviews
+                      {dish.rating || "N/A"} · {dish.reviewsCount || 0} reviews
                     </Typography>
                   </Box>
                 </Box>
@@ -132,12 +165,10 @@ const Dish = () => {
                 />
               </Box>
 
-              {/* Divider */}
               <Divider
                 sx={{ width: "90%", marginTop: "10px", marginLeft: "1rem" }}
               />
 
-              {/* Content Section */}
               <Box
                 sx={{ display: "flex", padding: "16px", borderRadius: "10px" }}
               >
@@ -145,33 +176,92 @@ const Dish = () => {
                   <CardMedia
                     component="img"
                     sx={{
-                      width: 120,
-                      height: 120,
+                      width: 130,
+                      height: 130,
                       borderRadius: "8px",
                       objectFit: "cover",
                     }}
-                    image={food}  // Use default image if dish image not found
+                    image={food}
                     alt={dish.name || "Dish image"}
                   />
+
                   <Box mt={1} display="flex" justifyContent="center">
-                    <Button
-                      variant="contained"
-                      sx={{
-                        fontFamily: "Poppins, sans-serif",
-                        bgcolor: "red",
-                        fontSize: "14px",
-                        fontWeight: 600,
-                        px: 3,
-                        py: 0.5,
-                        textTransform: "none",
-                      }}
-                    >
-                      ADD
-                    </Button>
+                    {cartItems[dish.dishId] ? (
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        sx={{
+                          marginTop: "-1rem",
+                          backgroundColor: "red",
+                          color: "#fff",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <Button
+                          variant="none"
+                          onClick={() =>
+                            handleUpdateQuantity(restaurantId, dish, "decrease")
+                          }
+                          sx={{
+                            fontFamily: "Poppins, sans-serif",
+                            fontSize: "14px",
+                            px: 1.5,
+                            py: 0.5,
+                            textTransform: "none",
+                            minWidth: "40px",
+                          }}
+                        >
+                          -
+                        </Button>
+                        <Typography
+                          sx={{
+                            fontFamily: "Poppins, sans-serif",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            px: 1.5,
+                          }}
+                        >
+                          {cartItems[dish.dishId]}
+                        </Typography>
+                        <Button
+                          variant="none"
+                          onClick={() =>
+                            handleUpdateQuantity(restaurantId, dish, "increase")
+                          }
+                          sx={{
+                            fontFamily: "Poppins, sans-serif",
+                            fontSize: "14px",
+                            px: 1.5,
+                            py: 0.5,
+                            textTransform: "none",
+                            minWidth: "40px",
+                          }}
+                        >
+                          +
+                        </Button>
+                      </Box>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={() => handleAddToCart(dish, restaurantId)}
+                        sx={{
+                          fontFamily: "Poppins, sans-serif",
+                          bgcolor: "red",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                          px: 2,
+                          py: 0.5,
+                          textTransform: "none",
+                          mt: "-1rem",
+                          minWidth: "100px",
+                        }}
+                      >
+                        ADD
+                      </Button>
+                    )}
                   </Box>
                 </Box>
 
-                {/* Product Info */}
                 <Box flex={1} sx={{ marginLeft: "30px" }}>
                   <CardContent sx={{ padding: "0" }}>
                     <Typography
@@ -182,18 +272,30 @@ const Dish = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {dish.name || "Dish Name"}
+                      {dish.name || "Unknown Dish"}
                     </Typography>
                     <Typography
+                      variant="body2"
                       sx={{
                         fontFamily: "Poppins, sans-serif",
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                        color: "black",
+                        fontSize: "14px",
+                        mt: 0.5,
+                        color: "gray",
+                      }}
+                    >
+                      {dish.description || "No description available."}
+                    </Typography>
+
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: "16px",
+                        fontWeight: 500,
                         mt: 1,
                       }}
                     >
-                      ₹{dish.price || "Price"}
+                      ₹ {dish.price}
                     </Typography>
                   </CardContent>
                 </Box>

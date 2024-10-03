@@ -148,7 +148,7 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
                   borderColor: "#bbb", // Border color on hover
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#fe0604", // Brand color when focused
+                  borderColor: "#bbb", // Brand color when focused
                 },
               },
               "& .MuiInputLabel-root": {

@@ -8,21 +8,17 @@ import {
   fetchSearchResults,
 } from "../../redux/searchSlice/searchSlice.js";
 import food from "../../../src/assets/images/food.jpeg";
-// import StarRateIcon from "@mui/icons-material/StarRate";
 import StarIcon from "@mui/icons-material/Star";
 import SearchBarSlider from "./SearchBarSlider.jsx";
-// import RestaurantCard from "../SpecificRestaurant/SpecificRestaurant.jsx";
-// import SpecificRestaurant from "../SpecificRestaurant/Dish.jsx";
-import CallingRestaurantPage from "../SpecificRestaurant/CallingRestaurantPage.jsx";
-import {  useSearchParams } from "react-router-dom";
-// import Dish from "../SpecificRestaurant/Dish.jsx";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const SearchInput = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
- const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { results, status, error } = useSelector((state) => state.search);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -62,6 +58,10 @@ const SearchInput = () => {
     return matchedDishes;
   };
 
+  const handleRestaurantClick = () => {
+    navigate(`/restroAndDishes`, { state: { query: debouncedTerm } }); // Pass the search query in state
+  };
+
   return (
     <Box>
       <Box
@@ -76,23 +76,32 @@ const SearchInput = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           sx={{
-            width: "70%",
+            width: { xs: "100%", sm: "80%", md: "70%" }, // Responsive width
+            backgroundColor: "#FFFFFF", // Add a background for clarity
+            borderRadius: "8px", // Rounded corners for a smoother look
             "& .MuiInputBase-input::placeholder": {
-              fontWeight: "bold",
+              fontWeight: "bold", // Bold placeholder
+              color: "#9E9E9E", // Light gray placeholder color
             },
             "& .MuiOutlinedInput-root": {
               "&:hover fieldset": {
-                borderColor: "gray",
+                borderColor: "gray", // Gray border on hover
               },
               "&.Mui-focused fieldset": {
-                borderColor: "gray",
+                borderColor: "gray", // Gray border on focus
               },
+              borderRadius: "8px", // Rounded corners for input
             },
+            padding: "0.5rem", // Add some padding for better look
           }}
           InputProps={{
-            endAdornment: <Search style={{ color: "#282C3F" }} />,
+            endAdornment: <Search style={{ color: "#282C3F" }} />, // Search icon style
+            sx: {
+              paddingRight: "8px", // Adjust padding for the icon
+            },
           }}
         />
+
         <SearchBarSlider />
         <Box
           sx={{
@@ -112,7 +121,11 @@ const SearchInput = () => {
             <>
               {Array.isArray(results) && results.length > 0 ? (
                 getFilteredDishes(results).map((restaurant, index) => (
-                  <Box key={index} sx={{ width: "100%" }}>
+                  <Box
+                    key={index}
+                    sx={{ width: "100%", cursor: "pointer" }} // Add cursor style for better UX
+                    onClick={handleRestaurantClick} // Handle click and pass query
+                  >
                     {restaurant.dishes.map((dish) => (
                       <Box
                         key={dish.dishId}
@@ -196,7 +209,11 @@ const SearchInput = () => {
                             variant="subtitle2"
                             sx={{
                               color: "gray",
-                              fontSize: { xs: "10px", sm: "12px", md: "14px" },
+                              fontSize: {
+                                xs: "10px",
+                                sm: "12px",
+                                md: "14px",
+                              },
                               whiteSpace: { xs: "nowrap", sm: "normal" }, // Truncate only on small screens
                               overflow: { xs: "hidden", sm: "visible" },
                               textOverflow: { xs: "ellipsis", sm: "clip" },
@@ -216,9 +233,6 @@ const SearchInput = () => {
             </>
           )}
         </Box>
-
-        <CallingRestaurantPage />
-      
       </Box>
     </Box>
   );
