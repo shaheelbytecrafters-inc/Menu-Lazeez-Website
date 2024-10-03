@@ -4,7 +4,7 @@ export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
   async () => {
     const response = await axios.get(
-      "https://lazeez-restaurant-backend.onrender.com/restaurants"
+      "https://lazeez-user-backend-kpyf.onrender.com/restaurants"
     );
     console.log("API Response:", response); 
     return response.data.data; 

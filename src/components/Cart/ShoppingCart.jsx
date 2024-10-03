@@ -102,7 +102,13 @@ const ShoppingCart = () => {
   return (
     <>
       <Container sx={{ marginTop: 4 }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom
+          fontFamily="Playwrite DE Grund, cursive"
+          fontWeight="bold"
+          marginBottom="2rem"
+        >
           Shopping Cart
         </Typography>
         <Grid container spacing={2}>
@@ -110,7 +116,7 @@ const ShoppingCart = () => {
             {products.map((product) => (
               <Paper
                 key={product.itemId}
-                variant="outlined"
+                // variant="outlined"
                 sx={{
                   padding: 2,
                   display: "flex",
@@ -118,8 +124,11 @@ const ShoppingCart = () => {
                   flexWrap: "wrap",
                   gap: 1,
                   marginBottom: 2,
+                  boxShadow:
+                    "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
                 }}
               >
+                {/* {console.log("=========+++++++++++||||||||||||||||||",products)} */}
                 <Box
                   component="img"
                   src={food}
@@ -129,9 +138,13 @@ const ShoppingCart = () => {
                     height: 80,
                     objectFit: "cover",
                     flexShrink: 0,
+                    boxShadow: "5px 3px 8px black",
+                    // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                    // boxShadow:" rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+                    borderRadius: "5px",
                   }}
                 />
-                <Box sx={{ flex: 1, minWidth: 150 }}>
+                <Box sx={{ flex: 1, minWidth: 150, marginLeft: "1rem" }}>
                   <Typography variant="h6">{product.name}</Typography>
                 </Box>
                 <Typography
@@ -214,7 +227,10 @@ const ShoppingCart = () => {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Paper variant="outlined" sx={{ padding: 2 }}>
+            <Paper
+              sx={{ padding: 2 }}
+              boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0,0.3) 0px 3px 7px -3px"
+            >
               <Box
                 display="flex"
                 flexDirection="column"
@@ -248,9 +264,7 @@ const ShoppingCart = () => {
         </Grid>
         <AddressForm />
       </Container>
-
     </>
-
   );
 };
 

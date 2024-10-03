@@ -72,12 +72,13 @@ function CardSlider() {
       >
         <Typography
           fontWeight="bold"
+          fontFamily="Playwrite DE Grund, cursive"
           sx={{
             fontSize: {
               xs: "1.4rem",
               sm: "1.5rem",
               md: "1.7rem",
-              lg: "2rem",
+              lg: "1.8rem",
             },
             pb: {
               xs: 0.8,
@@ -114,7 +115,7 @@ function CardSlider() {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     position: "relative",
-                    border:"2px solid black"
+                    border: "2px solid black",
                   }}
                 >
                   <Box

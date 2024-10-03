@@ -3,7 +3,7 @@ import SpecificRestaurant from "./SpecificRestaurant";
 import { Button, Box } from "@mui/material";
 import Dish from "./Dish";
 import { useLocation } from "react-router-dom";
-import RestaurantDetail from "./RestaurantDetail";
+// import RestaurantDetail from "./RestaurantDetail";
 
 const CallingRestaurantPage = () => {
   // State to toggle between Restaurant and Dishes
@@ -21,9 +21,9 @@ const CallingRestaurantPage = () => {
   }, [query]);
 
   return (
-    <Box sx={{ padding: "2rem"}}>
+    <Box sx={{ padding: "2rem",}}>
       {/* Buttons aligned to the left */}
-      <Box sx={{ marginBottom: "2rem" }}>
+      <Box sx={{ marginBottom: "2rem",display:"flex", justifyContent:"center", alignItems:"center" }}>
         <Button
           variant={showRestaurant ? "contained" : "none"}
           onClick={() => setShowRestaurant(true)}
@@ -35,6 +35,7 @@ const CallingRestaurantPage = () => {
             backgroundColor: showRestaurant ? "#fe0604" : "transparent",
             color: showRestaurant ? "white" : "red",
             border: showRestaurant ? "none" : "1px solid red",
+            // padding:"5px",
             "&:hover": {
               backgroundColor: "#fe0604",
               color: "white",

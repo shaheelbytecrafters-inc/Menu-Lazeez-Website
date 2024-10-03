@@ -14,7 +14,7 @@ export const postAddress = createAsyncThunk(
       const headers = { Authorization:`Bearer ${token}` };
 
       const response = await axios.post(
-        `https://lazeez-restaurant-backend.onrender.com/address`,
+        `https://lazeez-user-backend-kpyf.onrender.com/address`,
         payload,
         { headers }
       );
@@ -36,7 +36,7 @@ export const getAddress = createAsyncThunk(
       const value = JSON.parse(localStorage.getItem("token"));
       const headers = { Authorization: `Bearer ${value.token}` };
       const response = await axios.get(
-        `https://lazeez-restaurant-backend.onrender.com/address/${userId}`,
+        `https://lazeez-user-backend-kpyf.onrender.com/address/${userId}`,
         { headers }
       );
       return response.data;
@@ -57,7 +57,7 @@ export const deleteAddress = createAsyncThunk(
       const value = JSON.parse(localStorage.getItem("token"));
       const headers = { Authorization: `Bearer ${value.token}` };
       const response = await axios.delete(
-        `https://lazeez-restaurant-backend.onrender.com/address/${addressId}`,
+        `https://lazeez-user-backend-kpyf.onrender.com/address/${addressId}`,
         { headers }
       );
        toast.success("Address deleted successfully!");
@@ -86,8 +86,8 @@ export const editAddress = createAsyncThunk(
       const value = JSON.parse(localStorage.getItem("token"));
       const headers = { Authorization: `Bearer ${value.token}` };
       const response = await axios.post(
-        `https://lazeez-restaurant-backend.onrender.com/address/${addressID}`,
-        {address},
+        `https://lazeez-user-backend-kpyf.onrender.com/address/${addressID}`,
+        { address },
         { headers }
       );
       toast.success("Address updated successfully!"); 

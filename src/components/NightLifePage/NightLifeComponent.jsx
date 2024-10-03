@@ -66,6 +66,7 @@ const NightlifeComponent = () => {
               <RestaurantCard
                 key={restaurant.restaurantId}
                 restaurant={restaurant}
+                restaurantId={restaurant.restaurantId}
               />
             ))}
           </Box>

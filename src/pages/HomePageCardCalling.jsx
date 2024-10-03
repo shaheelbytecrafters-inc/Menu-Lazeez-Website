@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchRestaurants } from "../redux/restaurantSlice/Allrestaurant";
 import RestaurantCard from "../card/RestaurantCard";
+// import { useNavigate } from 'react-router-dom';
 
 const HomePageCardCalling = () => {
    const dispatch = useDispatch();
@@ -36,17 +37,19 @@ const HomePageCardCalling = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        // alignItems: "center",
         justifyContent: "center",
         width: "100%",
       }}
     >
       <Typography
+        fontFamily="Playwrite DE Grund, cursive"
         sx={{
           textAlign: "Left",
-          fontSize: { xs: "1.5rem", sm: "2rem" },
+          fontSize: { xs: "1.5rem", sm: "1.8rem" },
           fontWeight: "bold",
           marginBlock: "2rem",
+          marginLeft: "5%",
         }}
       >
         MealMate
@@ -77,6 +80,7 @@ const HomePageCardCalling = () => {
             <RestaurantCard
               key={restaurant.restaurantId}
               restaurant={restaurant}
+              restaurantId={restaurant.restaurantId}
             />
           ))}
         </Box>

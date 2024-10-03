@@ -10,7 +10,7 @@ export const signUpUser = createAsyncThunk(
     console.log("SignUp Data", userData);
     try {
       const response = await axios.post(
-        "https://lazeez-restaurant-backend.onrender.com/signup",
+        "https://lazeez-user-backend-kpyf.onrender.com/signup",
         userData
       );
       console.log("Data from signUp==================",userData)
@@ -48,7 +48,7 @@ export const loginUser = createAsyncThunk(
     try {
     console.log("Login =>",userData)
       const response = await axios.post(
-        "https://lazeez-restaurant-backend.onrender.com/login",
+        "https://lazeez-user-backend-kpyf.onrender.com/login",
         userData
       );  
       const token = { token: response.data.token };
@@ -69,8 +69,8 @@ export const verifyOtp = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        "https://lazeez-restaurant-backend.onrender.com/verify-otp",
-        payload 
+        "https://lazeez-user-backend-kpyf.onrender.com/verify-otp",
+        payload
       );
       toast.success("OTP verification Successfully");
       return response.data; 
@@ -89,7 +89,7 @@ export const resendOtp = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        "https://lazeez-restaurant-backend.onrender.com/send-otp",
+        "https://lazeez-user-backend-kpyf.onrender.com/send-otp",
         payload
       );
       // console.log("resend otp", response);

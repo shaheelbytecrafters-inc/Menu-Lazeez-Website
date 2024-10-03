@@ -11,6 +11,8 @@ import NightlifeComponent from "./components/NightLifePage/MainNightLife";
 import Profile from "./components/Profile/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import SignUp from "./components/authComponent/SignUp";
+import RestaurantCardDetails from "./components/SpecificRestaurant/RestaurantCardDetails";
+import RestroAndDishes from "./components/SearchInput/RestroAndDishes";
 
 
 function AppContent() {
@@ -24,7 +26,7 @@ function AppContent() {
         <Route path="/restaurantname" element={<RestaurantPage />} />
         <Route path="/foodDetails" element={<NightlifeComponent />} />
         <Route path="/partner" element={<PartnerPage />} />
-        <Route path="/sign" element={<SignUp/>}/>
+        <Route path="/sign" element={<SignUp />} />
         <Route
           path="/cart"
           element={
@@ -39,9 +41,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Profile />
-           </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
+        <Route
+          path="/specificDetails/:restaurantId"
+          element={<RestaurantCardDetails/>}
+        />
+        <Route path="/restroAndDishes" element={<RestroAndDishes/>}/>
       </Routes>
     </div>
   );

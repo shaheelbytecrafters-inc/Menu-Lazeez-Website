@@ -58,7 +58,6 @@ const RestaurantDetail = () => {
           {/* Rating and Price Section */}
           {/* <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}> */}
           <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-
             <Chip
               icon={<StarIcon sx={{ color: "white" }} />}
               label={`${restaurant.rating} (${restaurant.reviewsCount} ratings)`}
@@ -127,7 +126,7 @@ const RestaurantDetail = () => {
               borderRadius: "8px",
             }}
           > */}
-            {/* <Typography
+          {/* <Typography
               variant="body1"
               color="error"
               sx={{ fontWeight: "bold" }}
