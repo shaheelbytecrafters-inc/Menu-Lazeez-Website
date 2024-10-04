@@ -118,7 +118,7 @@ function Variety() {
             fontWeight: "600",
             // marginLeft:"1rem"
             // textAlign: "center",
-            fontWeight: "bold",
+            // fontWeight: "bold",
             marginLeft:"1rem",
             fontFamily:"Playwrite DE Grund, cursive"
           }}
