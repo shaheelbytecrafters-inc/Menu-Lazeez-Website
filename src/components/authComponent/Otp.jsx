@@ -118,10 +118,12 @@ export default function OTPInput({ open, handleClose }) {
         aria-label="close"
         sx={{
           position: "absolute",
-          right: 8,
+          right:25 ,
           top: 8,
-          color:"#fff"
-          // color: (theme) => theme.palette.grey[500],
+          color: "red",
+          bgcolor:"#fff",
+          fontWeight:"bold",
+          ":hover":{bgcolor:"#fff"}
         }}
       >
         <CloseIcon />

@@ -31,6 +31,7 @@ import SignUp from "../../components/authComponent/SignUp";
 import { useDispatch, useSelector } from "react-redux";
 import AccountMenu from "../AccountMenu/AccountMenu";
 import { fetchCartData } from "../../redux/cartSlice/cart";
+import { AccountCircle } from "@mui/icons-material";
 
 const style = {
   position: 'absolute',
@@ -83,13 +84,16 @@ const Navbar = () => {
   const [openModal, setOpenModal] = useState(null);
   const [showDrawer, setShowDrawer] = useState(false);
   const [scroll, setScroll] = useState(false);
+  const { cartData, status, error } = useSelector((state) => state.cart);
+  const protectedToken = localStorage.getItem("protectedToken");
+  
   const navigate = useNavigate();
   const location = useLocation();
   const homePage = location.pathname === "/";
-  const { cartData, status, error } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  console.log("Cart =>", cartData);
+  const totalItemsInCart = cartData && cartData.items?.length || "0"
 
+  console.log("cartData =>",cartData.items)
   // useEffect(() => {
   //   const storedUserData = localStorage.getItem("userData");
   //   let userData = {};
@@ -105,7 +109,7 @@ const Navbar = () => {
   //     dispatch(fetchCartData(userId));
   //   }
   // }, [dispatch]);
-  
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     let userData = {};
@@ -141,6 +145,16 @@ const Navbar = () => {
 
   }, [homePage]);
 
+  useEffect(() => {
+
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userId = userData?._id;
+    console.log("userId: ", userId);
+    if (userId) {
+      dispatch(fetchCartData(userId));
+    }
+  }, [dispatch]);
+
   const handleOpenModal = (type) => {
     setOpenModal(type);
   };
@@ -158,7 +172,11 @@ const Navbar = () => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: homePage ? (scroll ? "#fe0604" : "transparent") : "#fe0604",
+          backgroundColor: homePage
+            ? scroll
+              ? "#fe0604"
+              : "transparent"
+            : "#fe0604",
           color: "white",
           boxShadow: "none",
           padding: 0,
@@ -190,7 +208,12 @@ const Navbar = () => {
               </Typography>
             </Box>
 
-            <NavbarBox flex={1} justifyContent={"flex-end"} gap={"15px"} width={"2rem"}>
+            <NavbarBox
+              flex={1}
+              justifyContent={"flex-end"}
+              gap={"15px"}
+              width={"2rem"}
+            >
               <SearchBar>
                 <SearchIcon style={{ color: "white", fontSize: "1.7rem" }} />
                 <Typography
@@ -220,69 +243,46 @@ const Navbar = () => {
                 onClick={() => navigate("/cart")}
               >
                 <IconButton aria-label="cart">
-                  <StyledBadge badgeContent={10}>
+                  <StyledBadge badgeContent={totalItemsInCart}>
                     <ShoppingCartIcon style={{ color: "white" }} />
                   </StyledBadge>
                 </IconButton>
-                <Typography sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}>
+                <Typography
+                  sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
+                >
                   Cart
                 </Typography>
               </Box>
-              {/* <Button
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "100px",
-                  whiteSpace: "nowrap",
-                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                  color: "black",
-                  cursor: "pointer",
-                  display: "inline-block",
-                  fontFamily: "CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif",
-                  textAlign: "center",
-                  textDecoration: "none",
-                  transition: "all 250ms",
-                  border: 0,
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  textTransform: "none",
-                  userSelect: "none",
-                  WebkitUserSelect: "none",
-                  touchAction: "manipulation",
-                  "&:hover": {
-                    boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                    transform: "scale(1.05) rotate(-1deg)",
-                    backgroundColor: "white", // Keeps the button white on hover
-                  },
-                }}
-                onClick={() => handleOpenModal("signUp")}
-              >
-                Sign up
-              </Button> */}
-              <Box>
-                <AccountMenu />
-              </Box>
-              <Button
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "100px",
-                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                  color: "black",
-                  textTransform: "none",
-                  "&:hover": {
-                    transform: "scale(1.05) rotate(-1deg)",
+              {protectedToken && protectedToken !== "" ? (
+                <Box>
+                  <AccountMenu />
+                </Box>
+              ) : (
+                <Button
+                  sx={{
                     backgroundColor: "white",
-                  },
-                }}
-                onClick={() => handleOpenModal("logIn")}
-              >
-                Login
-              </Button>
+                    borderRadius: "100px",
+                    boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                    color: "black",
+                    textTransform: "none",
+                    "&:hover": {
+                      transform: "scale(1.05) rotate(-1deg)",
+                      backgroundColor: "white",
+                    },
+                  }}
+                  onClick={() => handleOpenModal("logIn")}
+                >
+                  Login
+                </Button>
+              )}
             </NavbarBox>
 
             <HamburgerOrClose>
               {!showDrawer ? (
                 <Button onClick={toggleDrawer(true)}>
-                  <MenuRoundedIcon style={{ color: "white", fontSize: "2rem" }} />
+                  <MenuRoundedIcon
+                    style={{ color: "white", fontSize: "2rem" }}
+                  />
                 </Button>
               ) : (
                 <Button onClick={toggleDrawer(false)}>
@@ -291,55 +291,131 @@ const Navbar = () => {
               )}
             </HamburgerOrClose>
 
-            <Drawer anchor="left" open={showDrawer} onClose={toggleDrawer(false)}>
+            <Drawer
+              anchor="left"
+              open={showDrawer}
+              onClose={toggleDrawer(false)}
+            >
               <Box
                 sx={{
-                  width: 250,
+                  width: 270,
                   display: "flex",
                   flexDirection: "column",
-                  marginTop: "4rem",
-                  marginInline: "2rem",
+                  marginTop: "2rem",
+                  marginInline: "1rem",
+                  borderRadius: "12px", // Smooth corners for modern look
                 }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
               >
                 <List>
                   <ListItem
-                    sx={{ borderBottom: "1px solid black" }}
-                    onClick={() => navigate("/addRestaurant")}
+                    sx={{
+                      borderBottom: "1.5px solid #ddd",
+                      padding: "0.8rem",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        "& svg": {
+                          color: "#fff", // Change icon color on hover
+                        },
+                      },
+                    }}
+                    onClick={() => navigate("/profile")}
                   >
                     <ListItemIcon>
-                      <AddBoxIcon />
+                      <AccountCircle
+                        sx={{
+                          color: "#fe0604",
+                          border: "2px solid red",
+                          borderRadius: "50%",
+                        }}
+                      />
                     </ListItemIcon>
-                    <ListItemText primary="Restaurant" />
+                    <ListItemText
+                      primary="Sana"
+                      // primaryTypographyProps={{ fontSize: "1.1rem" }} // Bold name text
+                    />
                   </ListItem>
 
                   <ListItem
-                    sx={{ borderBottom: "1px solid black" }}
+                    sx={{
+                      borderBottom: "1.5px solid #ddd",
+                      padding: "0.8rem",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow for elevation
+                        "& svg": {
+                          color: "#fff",
+                        },
+                      },
+                    }}
+                    onClick={() => navigate("/addRestaurant")}
+                  >
+                    <ListItemIcon>
+                      <AddBoxIcon sx={{ color: "#fe0604" }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Restaurant" />
+                  </ListItem>
+
+                  <ListItem
+                    sx={{
+                      borderBottom: "1.5px solid #ddd",
+                      padding: "0.8rem",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        "& svg": {
+                          color: "#fff",
+                        },
+                      },
+                    }}
                     onClick={() => navigate("/cart")}
                   >
                     <ListItemIcon>
-                      <ShoppingCartIcon />
+                      <ShoppingCartIcon sx={{ color: "#fe0604" }} />
                     </ListItemIcon>
                     <ListItemText primary="Cart" />
                   </ListItem>
 
                   <ListItem
-                    sx={{ borderBottom: "1px solid black" }}
+                    sx={{
+                      borderBottom: "1.5px solid #ddd",
+                      padding: "0.8rem",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        "& svg": {
+                          color: "#fff",
+                        },
+                      },
+                    }}
                     onClick={() => handleOpenModal("signUp")}
                   >
                     <ListItemIcon>
-                      <SignUpIcon />
+                      <SignUpIcon sx={{ color: "#fe0604" }} />
                     </ListItemIcon>
-                    <ListItemText primary="Sign up" />
+                    <ListItemText primary="Sign Up" />
                   </ListItem>
 
                   <ListItem
-                    sx={{ borderBottom: "1px solid black" }}
+                    sx={{
+                      borderBottom: "1.5px solid #ddd",
+                      padding: "0.8rem",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        "& svg": {
+                          color: "#fff",
+                        },
+                      },
+                    }}
                     onClick={() => handleOpenModal("logIn")}
                   >
                     <ListItemIcon>
-                      <LoginIcon />
+                      <LoginIcon sx={{ color: "#fe0604" }} />
                     </ListItemIcon>
                     <ListItemText primary="Login" />
                   </ListItem>
@@ -347,13 +423,27 @@ const Navbar = () => {
 
                 <Box sx={{ marginTop: "auto" }}>
                   <ListItem
-                    sx={{ border: "1px solid black", marginTop: "100%" }}
+                    sx={{
+                      border: "1px solid #fe0604",
+                      borderRadius: "8px",
+                      padding: "0.8rem",
+                      marginTop: "3rem",
+                      backgroundColor: "#fff",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "#fe0604",
+                        color: "#fff",
+                        "& svg": {
+                          color: "#fff",
+                        },
+                      },
+                    }}
                     onClick={() => {
                       /* handleLogout */
                     }}
                   >
                     <ListItemIcon>
-                      <LogoutIcon />
+                      <LogoutIcon sx={{ color: "#fe0604" }} />
                     </ListItemIcon>
                     <ListItemText primary="Logout" />
                   </ListItem>
@@ -363,12 +453,30 @@ const Navbar = () => {
           </Stack>
         </Toolbar>
       </AppBar>
-
       {/* Modals */}
-      {openModal === "logIn" && <Login open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
-      {openModal === "signUp" && <SignUp open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
-      {openModal === "otp" && <OTPInput open={true} handleClose={handleCloseModal} handleOpenModal={handleOpenModal} />}
-      {openModal === null && <></>} {/* Assuming this is always rendered based on your original structure */}
+      {openModal === "logIn" && (
+        <Login
+          open={true}
+          handleClose={handleCloseModal}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
+      {openModal === "signUp" && (
+        <SignUp
+          open={true}
+          handleClose={handleCloseModal}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
+      {openModal === "otp" && (
+        <OTPInput
+          open={true}
+          handleClose={handleCloseModal}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
+      {openModal === null && <></>}{" "}
+      {/* Assuming this is always rendered based on your original structure */}
     </>
   );
 };

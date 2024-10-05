@@ -4,10 +4,15 @@ import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import ProductCard from "./ProductCard";
 import { useParams } from "react-router-dom";
 import { fetchRestaurantById } from "../../redux/specificRestaurant/specificRestaurant";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import food from '../../assets/images/food.jpeg'
 import { postAddToCart } from "../../redux/cartSlice/cart";
+import ReviewPage from "./ReviewPage";
+
+// import { useDispatch, useSelector } from "react-redux";
+import { fetchReviews } from "../../redux/reviewSlice/reviewSlice";
+import RestaurantReview from "./RestaurantReview";
 
 const RestaurantCardDetails = () => {
   // Get all params from the URL
@@ -30,13 +35,25 @@ const RestaurantCardDetails = () => {
   const { restaurant, loading, error } = useSelector(
     (state) => state.restaurant
   );
+  const { reviews} = useSelector((state) => state.reviews);
 
+  // const [showReviews, setShowReviews] = useState(true);
+  const [showMenu, setShowMenu] = useState(true); 
+
+  // Step 2: Toggle function
+  // const toggleView = () => {
+  //   setShowReviews((prev) => !prev);
+  // };
   useEffect(() => {
     if (restaurantId) {
       console.log("restaurantId=============", restaurantId);
       dispatch(fetchRestaurantById(restaurantId));
     }
   }, [restaurantId, dispatch]);
+
+    useEffect(() => {
+      dispatch(fetchReviews({ restaurantId })); // Fetch reviews when component mounts
+    }, [dispatch, restaurantId]);
 
   console.log("Restaurant Data:", restaurant);
 
@@ -118,7 +135,7 @@ const RestaurantCardDetails = () => {
 
   return (
     <Box>
-      <Box sx={{ padding: "1rem", maxWidth: "700px", margin: "auto" }}>
+      <Box sx={{ padding: "1rem", maxWidth: "800px", margin: "auto" }}>
         {/* Breadcrumb */}
         <Typography
           variant="body2"
@@ -299,89 +316,95 @@ const RestaurantCardDetails = () => {
           </Box>
         </Box>
       </Box>
+      {console.log("++====================", restaurant)}
+      {console.log(
+        "++++++++++++||||||||||||||||||||",
+        restaurant?.restaurantId
+      )}
 
-      {/* Product Card List */}
-      <Box sx={{ maxWidth: 800, margin: "auto", padding: 1 }}>
-        {/* Loop through the products array to generate a Card for each product */}
-        {/* {console.log("menu============", restaurant.)} */}
-        {restaurant?.menu.map((dish) => (
-          <React.Fragment key={dish.dishId}>
-            {/* Top Divider */}
-            <Divider sx={{ width: "100%", marginBottom: "10px" }} />
-
-            {/* Card Section */}
-            <Card
+      {/* <ReviewPage reviews={reviews} />
+        <Box sx={{ maxWidth: 800, margin: "auto", padding: 1 }}>
+      {restaurant?.menu.map((dish) => (
+        <ProductCard
+          key={dish.dishId}
+          dish={dish}
+          restaurantId={restaurant.restaurantId}
+          handleAddToCart={handleAddToCart}
+        />
+      ))}
+    </Box> */}
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Box sx={{ padding: 2 }}>
+          {/* Step 2: Buttons to switch between views */}
+          <Box
+            sx={{ marginBottom: 2, display: "flex", justifyContent: "center" }}
+          >
+            {/* Button to show the menu */}
+            <Button
+              variant={showMenu ? "contained" : "none"}
+              onClick={() => setShowMenu(true)}
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                boxShadow: "none",
-                border: "none",
+                marginRight: "1rem",
+                textTransform: "none",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                backgroundColor: showMenu ? "#fe0604" : "transparent",
+                color: showMenu ? "white" : "red",
+                border: showMenu ? "none" : "1px solid red",
+                // padding:"5px",
+                "&:hover": {
+                  backgroundColor: "#fe0604",
+                  color: "white",
+                },
               }}
             >
-              {console.log("====================res", restaurant)}
-              <Grid container spacing={2}>
-                {/* Left Section: Text Content */}
-                <Grid item xs={8}>
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      component="div"
-                      fontWeight="bold"
-                      fontSize="18px"
-                    >
-                      {dish.name}
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      component="div"
-                      sx={{ fontWeight: "bold", fontSize: "16px", mb: 1 }}
-                    >
-                      ₹{dish.price}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {dish?.description}
-                    </Typography>
-                  </CardContent>
-                </Grid>
+              Menu
+            </Button>
 
-                {/* Right Section: Image and Button */}
-                <Grid
-                  item
-                  xs={4}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <CardMedia
-                    component="img"
-                    image={food}
-                    alt={dish.name}
-                    sx={{ width: 120, height: 120, borderRadius: 2, mb: 1 }}
-                  />
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "red",
-                      color: "white",
-                      fontWeight: "bold",
-                      borderRadius: 2,
-                      mt: -2,
-                    }}
-                    //  onClick={()=>}
-                    onClick={() => handleAddToCart(dish, restaurant.restaurantId)} // Bind onClick event
-                  >
-                    ADD
-                  </Button>
-                </Grid>
-              </Grid>
-            </Card>
+            {/* Button to show the reviews */}
+            <Button
+              variant={!showMenu ? "contained" : "none"}
+              onClick={() => setShowMenu(false)}
+              sx={{
+                marginRight: "1rem",
+                textTransform: "none",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                backgroundColor: !showMenu ? "#fe0604" : "transparent",
+                color: !showMenu? "white" : "red",
+                border: !showMenu? "none" : "1px solid red",
+                // padding:"5px",
+                "&:hover": {
+                  backgroundColor: "#fe0604",
+                  color: "white",
+                },
+              }}
+            >
+              Reviews
+            </Button>
+          </Box>
 
-            {/* Bottom Divider */}
-            <Divider sx={{ width: "100%", marginTop: "10px" }} />
-          </React.Fragment>
-        ))}
+          {/* Step 3: Conditional rendering of content based on showMenu state */}
+          {showMenu ? (
+            <Box sx={{ maxWidth: "800px", padding: 1 }}>
+              {restaurant?.menu.map((dish) => (
+                <ProductCard
+                  key={dish.dishId}
+                  dish={dish}
+                  restaurantId={restaurant.restaurantId}
+                  handleAddToCart={handleAddToCart}
+                />
+              ))}
+            </Box>
+          ) : (
+            <ReviewPage
+              reviews={reviews}
+              sx={{ maxWidth: "800px", padding: 1 }}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

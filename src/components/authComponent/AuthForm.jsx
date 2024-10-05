@@ -1,13 +1,9 @@
-
-
 import { Box } from "@mui/material";
 import Login from "./Login";
-import SignUp from "./SignIn"; 
+import SignUp from "./SignIn";
 import OTPInput from "./Otp";
 
 function AuthForm({ isAuth, setIsAuth }) {
-
-
   return (
     <Box>
       {isAuth == "logIn" ? (

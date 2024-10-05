@@ -32,11 +32,15 @@ import {
   editAddress,
   getAddress,
 } from "../../redux/profileSlice/addressSlice";
-
-import EditIcon from '@mui/icons-material/Edit';
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import EditIcon from "@mui/icons-material/Edit";
+import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
+import { Stack } from "@mui/system";
+import DeleteIcon from "@mui/icons-material/Delete";
+// import AddressGIF from "../../../src/assets/images/Address.gif";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-function Profile() { 
+function Profile() {
   const [selectedTab, setSelectedTab] = useState(0); // Track selected tab
   const [showContent, setShowContent] = useState(false); // Manage content view in small
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -49,6 +53,35 @@ function Profile() {
   const [email, setEmail] = useState("eram123@gmail.com");
   const dispatch = useDispatch();
 
+  const dummy = [
+    {
+      id: 1,
+      dishName: "Chicken Biryani",
+      price: 250,
+      totalPrice: 250,
+      quantity: 1,
+      image:
+        "https://www.licious.in/blog/wp-content/uploads/2023/01/Shutterstock_2047827035-1024x683.jpg",
+    },
+    {
+      id: 2,
+      dishName: "Mutton Biryani",
+      price: 300,
+      totalPrice: 600,
+      quantity: 2,
+      image:
+        "https://www.licious.in/blog/wp-content/uploads/2023/01/Shutterstock_2047827035-1024x683.jpg",
+    },
+    {
+      id: 3,
+      dishName: "Veg Biryani",
+      price: 200,
+      totalPrice: 400,
+      quantity: 2,
+      image:
+        "https://www.licious.in/blog/wp-content/uploads/2023/01/Shutterstock_2047827035-1024x683.jpg",
+    },
+  ];
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -56,7 +89,6 @@ function Profile() {
       setShowContent(true); // Show content when paragraph is clicked on small screens
     }
   };
-
 
   const toggleEditDialog = (addressID) => {
     const addressObject = address.find((ele) => ele._id === addressID);
@@ -72,8 +104,6 @@ function Profile() {
   const handleInputChange = (e) => {
     setInputValue(e.target.value); // Update the state with new input value
   };
-
- 
 
   // Function to open the dialog
   const handleClickOpen = () => {
@@ -99,11 +129,7 @@ function Profile() {
     setOpen(false);
   };
 
-  const {
-    profileData,
-    loading,
-    error,
-  } = useSelector((state) => state.profile);
+  const { profileData, loading, error } = useSelector((state) => state.profile);
 
   const {
     address,
@@ -111,11 +137,13 @@ function Profile() {
     error: addressError,
   } = useSelector((state) => state.address);
 
+  // console.log("address => ",address);
+
   const handlePhoneChange = () => {
     if (isEditingPhone) {
       const profileData = JSON.parse(localStorage.getItem("userData"));
       const profileId = profileData._id;
-      console.log("///////////////////",profileId)
+      console.log("///////////////////", profileId);
       dispatch(editProfile({ profileId, phoneNumber }));
     }
     setIsEditingPhone(!isEditingPhone);
@@ -124,23 +152,18 @@ function Profile() {
   // Fetching profile data
   useEffect(() => {
     const profileData = JSON.parse(localStorage.getItem("userData"));
-    console.log("====================data",profileData)
     const profileId = profileData._id;
-    // console.log("====================Id",profileId)
- 
     dispatch(fetchProfile(profileId));
   }, []);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
     const userId = user._id;
-    console.log("UserId => " , user);
-    
+
     dispatch(getAddress(userId));
   }, [dispatch]);
 
   const deleteHandleClick = (addressId) => {
-    console.log("addressIdSpecific====================", addressId);
     dispatch(deleteAddress(addressId));
   };
 
@@ -157,11 +180,11 @@ function Profile() {
   const handleSaveClick = () => {
     const address = inputValue;
     const addressID = specificAddressId;
-    console.log(
-      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
-      address,
-      addressID
-    );
+    // console.log(
+    //   "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    //   address,
+    //   addressID
+    // );
     dispatch(editAddress({ addressID, address }));
 
     setOpenEditDialog(false);
@@ -172,7 +195,7 @@ function Profile() {
       setPhoneNumber(profileData.phoneNumber);
       setEmail(profileData.email);
     }
-  console.log("Updated profile =>", profileData);
+    // console.log("Updated profile =>", profileData);
   }, [profileData]);
 
   if (loading) {
@@ -187,19 +210,15 @@ function Profile() {
     return <div>No profile data available</div>;
   }
 
-  // if (addressLoading) {
-  //   return <div>Loading address...</div>;
-  // }
-
   if (error) {
     return <div>Error loading address: {addressError}</div>;
   }
 
   return (
-    <Box bgcolor="red" width="100vw">
+    <Box width="100vw">
       <Box
         sx={{
-          backgroundColor: isSmallScreen ? "#fff" : "#fe0604", // Change background to white on small screens
+          backgroundColor: "#fff", // Change background to white on small screens
           width: "100%",
           // height: "100vh",
           display: "flex",
@@ -210,9 +229,9 @@ function Profile() {
       >
         <Box
           sx={{
-            width: "100%", // Ensure the box takes the full width
+            width: "90%", // Ensure the box takes the full width
             backgroundColor: "#fff",
-            marginLeft: isSmallScreen ? "0" : "3.8rem", // Remove margin on small screens
+            // marginLeft: isSmallScreen ? "0" : "3.8rem", // Remove margin on small screens
           }}
         >
           <Box
@@ -370,10 +389,13 @@ function Profile() {
                         width: "100%", // Make the full width
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "flex-start",
+                        justifyContent: "center",
+                        alignItems: "flex-end",
                         // padding: "1rem",
                         gap: "1rem",
                         marginTop: "1rem", // Move tabs closer to the button
+                        bgcolor: "blue",
+                        border: "1px solid red",
                       }}
                     >
                       <Typography
@@ -644,7 +666,6 @@ function Profile() {
                     Back
                   </Button>
                 )}
-
                 {selectedTab === 0 && (
                   <>
                     {/* Large screen layout */}
@@ -663,112 +684,118 @@ function Profile() {
                       >
                         Past Orders
                       </Typography>
-                      <Box
-                        sx={{
-                          height: "281px",
-                          border: "1px solid #fe0604",
-                          mt: 2, // Margin Top for Spacing
-                          "@media (min-width: 1024px) and (max-width: 1336px)":
-                            {
-                              width: "600px",
-                            },
-                          "@media (min-width: 912px) and (max-width: 1368px)": {
-                            width: "600px",
-                          },
-                        }}
-                      >
+
+                      {/* Display Loading Spinner or Error Message */}
+                      {loading && <Typography>Loading...</Typography>}
+                      {error && (
+                        <Typography color="error">Error: {error}</Typography>
+                      )}
+
+                      {!loading && !error && dummy.length === 0 && (
+                        <Typography>No past orders found.</Typography>
+                      )}
+
+                      {/* Map through the dummy orders */}
+                      {dummy.map((order) => (
                         <Box
+                          key={order.id}
                           sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "1rem",
+                            height: "220px",
+                            border: "1px solid #fe0604",
+                            mt: 2,
+                            "@media (min-width: 1024px) and (max-width: 1336px)":
+                              {
+                                width: "600px",
+                              },
+                            "@media (min-width: 912px) and (max-width: 1368px)":
+                              {
+                                width: "600px",
+                              },
                           }}
                         >
-                          {/* Image inside the Box */}
-                          <img
-                            src="https://content.jdmagicbox.com/comp/kota-rajasthan/a4/9999px744.x744.191022231804.z1a4/catalogue/jaipuri-chicken-biryani-dada-bari-kota-rajasthan-north-indian-delivery-restaurants-h36c8o0sr5.jpg"
-                            alt="Example"
-                            style={{
-                              width: "150px",
-                              height: "100px",
-                              marginLeft: "1rem",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <Box
-                            sx={{
-                              height: "100px",
-                              width: "678px",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            <Typography sx={{ fontSize: "17px" }}>
-                              Biryani By Kilo
-                            </Typography>
-                            <Typography sx={{ fontSize: "13px" }}>
-                              Marathahalli
-                            </Typography>
-                            <Typography sx={{ fontSize: "12px" }}>
-                              ORDER #165591635533314 | Tue, Jan 30, 2024, 07:10
-                              PM
-                            </Typography>
-                            <Button
-                              sx={{
-                                fontSize: "14px",
-                                color: "#fe0604",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              VIEW DETAILS
-                            </Button>
-                          </Box>
-                        </Box>
-                        <Box
-                          sx={{
-                            height: "100px",
-                            width: "828px",
-                            marginLeft: "1.8rem",
-                          }}
-                        >
-                          <Box>
-                            <Typography>Masala Dosa x 1</Typography>
-                            <Typography>Total Paid: ₹247</Typography>
-                          </Box>
                           <Box
                             sx={{
                               display: "flex",
-                              gap: "1rem",
-                              flexDirection: "row",
-                              marginTop: "2rem",
+                              justifyContent: "center",
+                              marginTop: "1rem",
                             }}
                           >
-                            <Button
+                            {/* Image */}
+                            <img
+                              src={order.image}
+                              alt={order.dishName}
+                              style={{
+                                width: "150px",
+                                height: "100px",
+                                marginLeft: "1rem",
+                                objectFit: "cover",
+                              }}
+                            />
+                            <Box
                               sx={{
-                                height: "40px",
-                                width: "120px",
-                                backgroundColor: "#fe0604",
-                                color: "#fff",
-                                "&:hover": {
+                                height: "100px",
+                                width: "678px",
+                                marginLeft: "10px",
+                              }}
+                            >
+                              <Typography sx={{ fontSize: "17px" }}>
+                                {order.dishName}
+                              </Typography>
+                              <Typography sx={{ fontSize: "17px" }}>
+                                Price: ₹{order.price}
+                              </Typography>
+                              <Typography sx={{ fontSize: "17px" }}>
+                                Total Price: ₹{order.totalPrice}
+                              </Typography>
+                              <Typography sx={{ fontSize: "17px" }}>
+                                Quantity: {order.quantity}
+                              </Typography>
+                            </Box>
+                          </Box>
+
+                          <Box
+                            sx={{
+                              height: "100px",
+                              width: "828px",
+                              marginLeft: "1.8rem",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: "flex",
+                                gap: "1rem",
+                                flexDirection: "row",
+                                marginTop: "2rem",
+                              }}
+                            >
+                              <Button
+                                sx={{
+                                  height: "40px",
+                                  width: "120px",
                                   backgroundColor: "#fe0604",
                                   color: "#fff",
-                                },
-                              }}
-                            >
-                              REORDER
-                            </Button>
-                            <Button
-                              sx={{
-                                height: "40px",
-                                width: "120px",
-                                border: "1px solid #fe0604",
-                                color: "#fe0604",
-                              }}
-                            >
-                              HELP
-                            </Button>
+                                  "&:hover": {
+                                    backgroundColor: "#fe0604",
+                                    color: "#fff",
+                                  },
+                                }}
+                              >
+                                REORDER
+                              </Button>
+                              <Button
+                                sx={{
+                                  height: "40px",
+                                  width: "120px",
+                                  border: "1px solid #fe0604",
+                                  color: "#fe0604",
+                                }}
+                              >
+                                HELP
+                              </Button>
+                            </Box>
                           </Box>
                         </Box>
-                      </Box>
+                      ))}
                     </Box>
 
                     {/* Small screen layout */}
@@ -777,7 +804,7 @@ function Profile() {
                         display: { xs: "block", md: "none" }, // Show on small screens
                         width: "100%",
                         padding: "1rem",
-                        backgroundColor: "#f8f8f8",
+                        // backgroundColor: "#f8f8f8",
                         marginTop: "1.5rem",
                         "@media (max-width: 600px)": {
                           padding: "0.5rem",
@@ -813,92 +840,145 @@ function Profile() {
                           borderRadius: "4px",
                         }}
                       >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography
-                            sx={{ fontSize: "16px", fontWeight: "bold" }}
-                          >
-                            Biryani By Kilo
-                          </Typography>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Typography
-                              sx={{
-                                fontSize: "12px",
-                                color: "#686B78",
-                                marginRight: "0.5rem",
-                              }}
-                            >
-                              Delivered
-                            </Typography>
-                            <CheckCircleIcon
-                              sx={{ color: "#28a745", fontSize: "18px" }}
-                            />
-                          </Box>
-                        </Box>
-                        <Typography
-                          sx={{
-                            fontSize: "12px",
-                            color: "#686B78",
-                            marginTop: "0.5rem",
-                          }}
-                        >
-                          Sarjapur Road
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            marginTop: "0.5rem",
-                          }}
-                        >
-                          ₹296
-                        </Typography>
-                        <Divider sx={{ margin: "1rem 0" }} />
-                        <Typography sx={{ fontSize: "12px", color: "#686B78" }}>
-                          Chicken Hyderabadi Dum Biryani [1/2 kg] (1)
-                        </Typography>
-                        <Typography sx={{ fontSize: "12px", color: "#686B78" }}>
-                          August 10, 9:49 PM
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginTop: "1rem",
-                          }}
-                        >
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              fontSize: "12px",
-                              fontWeight: "bold",
-                              borderColor: "#686B78",
-                              color: "#000",
-                              padding: "0.5rem 1rem",
-                              width: "48%",
-                            }}
-                          >
-                            REORDER
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              fontSize: "12px",
-                              fontWeight: "bold",
-                              borderColor: "#fe0604",
-                              color: "#fe0604",
-                              padding: "0.5rem 1rem",
-                              width: "48%",
-                            }}
-                          >
-                            RATE ORDER
-                          </Button>
-                        </Box>
+                        {dummy.length > 0 ? (
+                          dummy.map((order) => (
+                            <Box key={order.id} sx={{ marginBottom: "1rem" }}>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  src={order.image}
+                                  alt={order.dishName}
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    marginLeft: "1rem",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                                <Box
+                                  // sx={{
+                                  //   display: "flex",
+                                  //   justifyContent: "space-between",
+                                  //   alignItems: "center",
+                                  // }}
+                                  sx={{
+                                    height: "100px",
+                                    width: "678px",
+                                    marginLeft: "10px",
+                                  }}
+                                >
+                                  {/* <Typography
+                                  sx={{ fontSize: "16px", fontWeight: "bold" }}
+                                >
+                                  {order.restaurantName}
+                                </Typography> */}
+
+                                  <Typography sx={{ fontSize: "14px" }}>
+                                    {order.dishName}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "14px" }}>
+                                    Price: ₹{order.price}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "14px" }}>
+                                    Total Price: ₹{order.totalPrice}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "14px" }}>
+                                    Quantity: {order.quantity}
+                                  </Typography>
+                                </Box>
+                                <Box
+                                  sx={{ display: "flex", alignItems: "center" }}
+                                >
+                                  {/* <Typography
+                                    sx={{
+                                      fontSize: "12px",
+                                      color: "#686B78",
+                                      // marginRight: "0.5rem",
+                                    }}
+                                  >
+                                    Delivered
+                                  </Typography>
+                                  <CheckCircleIcon
+                                    sx={{ color: "#28a745", fontSize: "18px" }}
+                                  /> */}
+                                </Box>
+                              </Box>
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  color: "#686B78",
+                                  marginTop: "0.5rem",
+                                }}
+                              >
+                                {order.location}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontSize: "14px",
+                                  fontWeight: "bold",
+                                  marginTop: "0.5rem",
+                                }}
+                              >
+                                {/* ₹{order.totalPrice} */}
+                              </Typography>
+                              {/* <Divider sx={{ margin: "1rem 0" }} /> */}
+                              <Typography
+                                sx={{ fontSize: "12px", color: "#686B78" }}
+                              >
+                                {/* {order.dishName} [{order.quantity}] */}
+                              </Typography>
+                              <Typography
+                                sx={{ fontSize: "12px", color: "#686B78" }}
+                              >
+                                {order.date}
+                              </Typography>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  marginTop: "1rem",
+                                  gap: "1rem",
+                                }}
+                              >
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    color: "#fe0604",
+                                    padding: "0.5rem 1rem",
+                                    width: "30%",
+                                    border: "1px solid red", // Ensure border is within sx prop
+                                  }}
+                                >
+                                  REORDER
+                                </Button>
+
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    borderColor: "#fe0604",
+                                    color: "#fe0604",
+                                    padding: "0.5rem 1rem",
+                                    width: "39%",
+                                  }}
+                                >
+                                  RATE ORDER
+                                </Button>
+                              </Box>
+                              <Divider sx={{ margin: "1rem 0" }} />
+                            </Box>
+                          ))
+                        ) : (
+                          <Typography>No past orders found.</Typography>
+                        )}
                       </Box>
                     </Box>
                   </>
@@ -906,7 +986,7 @@ function Profile() {
 
                 {selectedTab === 1 && (
                   <>
-                    <Typography
+                    <Box
                       sx={{
                         fontSize: "24px",
                         fontWeight: "bold",
@@ -915,144 +995,115 @@ function Profile() {
                         marginBottom: "1rem",
                       }}
                     >
-                      <Typography
-                        sx={{
-                          fontSize: "24px",
-                          fontWeight: "bold",
-                          fontFamily: "poppins",
-                          marginTop: "3rem",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        Manage Address
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: "2rem",
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        {address.map((addressData) => (
-                          <Box
-                            key={addressData._id}
-                            sx={{
-                              height: "134px",
-                              width: "400px",
-                              border: "1px solid black",
-                              padding: "1rem",
-                              borderRadius: "5px",
-                              "@media (min-width: 375px) and (max-width: 667px)":
-                                {
-                                  width: "300px",
-                                },
-                            }}
-                          >
-                            {/* Left side: Icon and address information */}
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <PlaceIcon sx={{ fontSize: "2rem" }} />
-                              <Box sx={{ marginLeft: "1rem" }}>
-                                <Typography
-                                  sx={{ fontSize: "17px", fontWeight: "bold" }}
-                                >
-                                  {addressData.title}
-                                </Typography>
-                                <Typography
-                                  sx={{ fontSize: "13px", color: "#535665" }}
-                                >
-                                  {addressData.address}
-                                </Typography>
-                                <Typography
-                                  sx={{ fontSize: "13px", color: "#535665" }}
-                                >
-                                  {addressData.contactNumber}
-                                </Typography>
-                              </Box>
-                            </Box>
-
-                            {/* Right side: Edit and Delete buttons */}
+                      {address.length === 0 ? (
+                        // Display the GIF when address data is empty
+                        <Box sx={{ border: "1px solid blue" }}>
+                          {/* <img src={AddressGIF} alt="No Address Available" /> */}
+                          <h1>Getting Address</h1>
+                        </Box>
+                      ) : (
+                        address.map((addressData) => (
+                          <>
+                            <Typography
+                              sx={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                fontFamily: "poppins",
+                                marginTop: "3rem",
+                                marginBottom: "1rem",
+                              }}
+                            >
+                              Manage Address
+                            </Typography>
                             <Box
                               sx={{
                                 display: "flex",
-                                gap: "1rem",
-                                marginTop: "1rem",
+                                gap: "2rem",
+                                flexWrap: "wrap",
                               }}
                             >
-                              <Button
-                                sx={{
-                                  fontSize: "14px",
-                                  fontWeight: "bold",
-                                  color: "#fe0604",
-                                  "&:hover": {
-                                    color: "black",
-                                    cursor: "pointer",
-                                  },
-                                }}
-                                onClick={() =>
-                                  toggleEditDialog(addressData._id)
-                                }
-                              >
-                                EDIT
-                              </Button>
-
-                              <Button
-                                sx={{
-                                  fontSize: "14px",
-                                  fontWeight: "bold",
-                                  color: "#fe0604",
-                                  "&:hover": {
-                                    color: "black",
-                                    cursor: "pointer",
-                                  },
-                                }}
-                                onClick={() => {
-                                  deleteHandleClick(addressData._id);
-                                }}
-                              >
-                                DELETE
-                              </Button>
+                              <Box className="card" key={addressData._id}>
+                                <Box className="header">
+                                  <Box>
+                                    <LocationOnIcon
+                                      sx={{
+                                        fontSize: "35px",
+                                        color: "#ff0000",
+                                      }}
+                                    />
+                                  </Box>
+                                  <Box>
+                                    <p className="name">Address</p>
+                                  </Box>
+                                </Box>
+                                <p className="message">{addressData.address}</p>
+                                <Stack spacing={2} direction={"row"}>
+                                  <IconButton
+                                    sx={{
+                                      bgcolor: "#ff0000",
+                                      ":hover": { bgcolor: "#ff0000" },
+                                    }}
+                                    onClick={() =>
+                                      toggleEditDialog(addressData._id)
+                                    }
+                                  >
+                                    <EditLocationAltIcon
+                                      sx={{ color: "#fff" }}
+                                    />
+                                  </IconButton>
+                                  <IconButton
+                                    sx={{
+                                      bgcolor: "#ff0000",
+                                      ":hover": { bgcolor: "#ff0000" },
+                                    }}
+                                    onClick={() =>
+                                      deleteHandleClick(addressData._id)
+                                    }
+                                  >
+                                    <DeleteIcon sx={{ color: "#fff" }} />
+                                  </IconButton>
+                                </Stack>
+                              </Box>
                             </Box>
-                          </Box>
+                          </>
+                        ))
+                      )}
 
-                        ))}
-                        {/* Edit Dialog */}
-                        <Dialog
-                          open={openEditDialog}
-                          onClose={toggleEditDialog}
-                        >
-                          <DialogTitle>Edit Address</DialogTitle>
-                          <DialogContent>
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              label="Edit address"
-                              type="text"
-                              fullWidth
-                              variant="outlined"
-                              value={inputValue}
-                              onChange={handleInputChange}
-                              placeholder="Enter your address"
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              onClick={() => toggleEditDialog()}
-                              color="primary"
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                toggleEditDialog(); // First function
-                                handleSaveClick(); // Second function
-                                // {console.log("==========================++++++++++++++++++++++",addressData._id)}
-                              }}
-                            >
-                              Save
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </Box>
+                      {/* Edit Dialog */}
+                      <Dialog open={openEditDialog} onClose={toggleEditDialog}>
+                        <DialogTitle>Edit Address</DialogTitle>
+                        <DialogContent>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Edit address"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            placeholder="Enter your address"
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={() => toggleEditDialog()}
+                            color="primary"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              toggleEditDialog(); // First function
+                              handleSaveClick(); // Second function
+                              // {console.log("==========================++++++++++++++++++++++",addressData._id)}
+                            }}
+                          >
+                            Save
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+
                       {isSmallScreen && (
                         <Box>
                           <Button
@@ -1103,7 +1154,7 @@ function Profile() {
                           </Dialog>
                         </Box>
                       )}
-                    </Typography>
+                    </Box>
                   </>
                 )}
 

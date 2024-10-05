@@ -35,6 +35,8 @@ export const postAddToCart = createAsyncThunk(
 export const fetchCartData = createAsyncThunk(
   "cart/fetchCartData",
   async (userId, { rejectWithValue }) => {
+    console.log("userId", userId);
+    
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       const headers = { Authorization: `Bearer ${token}` };
@@ -122,7 +124,7 @@ const cartSlice = createSlice({
   initialState: {
     cartData: {},
     cartItems: [],
-    status: "idle",
+    isLoading: false,
     error: null,
   },
   reducers: {},
@@ -130,42 +132,50 @@ const cartSlice = createSlice({
     builder
 
       .addCase(postAddToCart.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(postAddToCart.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.cartItems.push(action.payload); // Add the item to the cart
         state.error = null;
       })
       .addCase(postAddToCart.rejected, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.error = action.payload || "Failed to add item to cart.";
       })
 
       .addCase(fetchCartData.pending, (state) => {
-        state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(fetchCartData.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.isLoading = false;
         state.cartData = action.payload;
       })
       .addCase(fetchCartData.rejected, (state, action) => {
-        state.status = "failed";
+        state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(updateCartQuantity.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(updateCartQuantity.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.cartData = action.payload;
       })
       .addCase(updateCartQuantity.rejected, (state, action) => {
-        state.status = "failed";
+        state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(removeCartItem.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(removeCartItem.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.cartData = action.payload;
       })
       .addCase(removeCartItem.rejected, (state, action) => {
-        state.status = "failed";
+        state.isLoading = false;
         state.error = action.payload;
       });
   },

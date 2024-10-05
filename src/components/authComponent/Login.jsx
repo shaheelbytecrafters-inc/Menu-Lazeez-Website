@@ -98,10 +98,13 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           aria-label="close"
           onClick={handleClose}
           sx={{
-            color: "white",
+            color: "red",
             position: "absolute",
             right: 16,
             top: 16,
+            bgcolor:"#fff",
+            fontWeight:"bold",
+            ":hover":{bgcolor:"#fff"}
           }}
         >
           <CloseIcon />
@@ -216,29 +219,6 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           )}
         </Box>
       </DialogContent>
-
-      {/* Dialog Actions */}
-      {/* <DialogActions
-        sx={{
-          justifyContent: "center",
-          padding: "1rem 2rem",
-          backgroundColor: "#f9f9f9",
-        }}
-      >
-        <Button
-          onClick={handleClose}
-          sx={{
-            color: "#fe0604",
-            textTransform: "none",
-            fontSize: "1rem",
-            "&:hover": {
-              color: "#d90404",
-            },
-          }}
-        >
-          Close
-        </Button>
-      </DialogActions> */}
     </Dialog>
   );
 };

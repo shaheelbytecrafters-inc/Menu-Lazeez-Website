@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 
 export const ProtectedRoute = ({ children }) => {
   // Retrieve token from localStorage
-  const isAuthenticated = JSON.parse(localStorage.getItem("token")) || false;
-
+  const isAuthenticated =
+    JSON.parse(localStorage.getItem("protectedToken")) || false;
   const navigate = useNavigate();
 
   useEffect(() => {

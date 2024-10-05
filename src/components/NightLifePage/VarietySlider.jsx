@@ -115,10 +115,10 @@ function Variety() {
           sx={{
             fontSize: "1.6rem",
             marginBottom: "1rem",
-            fontWeight: "600",
+            // fontWeight: "600",
             // marginLeft:"1rem"
             // textAlign: "center",
-            // fontWeight: "bold",
+            fontWeight: "bold",
             marginLeft:"1rem",
             fontFamily:"Playwrite DE Grund, cursive"
           }}

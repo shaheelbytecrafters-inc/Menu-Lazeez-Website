@@ -121,7 +121,7 @@ function SearchBarSlider() {
             // textAlign: "center",
             marginTop:"1rem",
             fontFamily:"Playwrite DE Grund, cursive",
-            // fontWeight:"bold"
+            fontWeight:"bold"
           }}
         >
           Inspiration for your first order

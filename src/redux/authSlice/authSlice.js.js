@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 
 
 export const signUpUser = createAsyncThunk(
@@ -13,12 +13,12 @@ export const signUpUser = createAsyncThunk(
         "https://lazeez-user-backend-kpyf.onrender.com/signup",
         userData
       );
-      console.log("Data from signUp==================",userData)
+      console.log("Data from signUp==================", userData)
       const token = { token: response.data.token };
       localStorage.setItem("token", JSON.stringify(token));
       // localStorage.setItem(JSON.stringify(userData))
-      toast.success("Sign Up Successful!");
-      console.log("===========================================response",response.data)
+      toast.success("OTP Send Successfully!");
+      console.log("===========================================response", response.data)
       return response.data;
     } catch (error) {
       // Handle specific error scenarios
@@ -36,7 +36,6 @@ export const signUpUser = createAsyncThunk(
 
       // Return the error response to handle it elsewhere in your app\
 
-      
       return rejectWithValue(error.response.data);
     }
   }
@@ -46,17 +45,17 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
-    console.log("Login =>",userData)
+      console.log("Login =>", userData)
       const response = await axios.post(
         "https://lazeez-user-backend-kpyf.onrender.com/login",
         userData
-      );  
+      );
       const token = { token: response.data.token };
       localStorage.setItem("token", JSON.stringify(token));
       toast.success("OTP Send Successfully!");
       return response.data;
     } catch (error) {
-      toast.error("Login Failed!"); 
+      toast.error("Login Failed!");
       return rejectWithValue(error.response?.data || "Error during login");
     }
   }
@@ -73,7 +72,7 @@ export const verifyOtp = createAsyncThunk(
         payload
       );
       toast.success("OTP verification Successfully");
-      return response.data; 
+      return response.data;
     } catch (error) {
       console.log(error)
 
@@ -85,7 +84,7 @@ export const verifyOtp = createAsyncThunk(
 export const resendOtp = createAsyncThunk(
   "auth/verifyOtp",
   async (payload, { rejectWithValue }) => {
-  
+
 
     try {
       const response = await axios.post(
@@ -115,74 +114,73 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("userData");
+      localStorage.removeItem("protectedToken");
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(signUpUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(signUpUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload.data;
-        state.token = action.payload.token;
-        const mobileNumber = {
-          phoneNumber: action.payload.phoneNumber,
-        };
-  
-        localStorage.setItem("phoneNumber", JSON.stringify(mobileNumber));
-        console.log("===================userData===========",state.user)
-        localStorage.setItem("userData", JSON.stringify(state.user));
-      })
-      .addCase(signUpUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.error;
-      })
+  },   
+    extraReducers: (builder) => {
+      builder
+        .addCase(signUpUser.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(signUpUser.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.user = action.payload.data;
+          state.token = action.payload.token;
+          const mobileNumber = {
+            phoneNumber: action.payload.phoneNumber,
+          };
 
-      //Login
+          localStorage.setItem("userData", JSON.stringify(state.user));
+        })
+        .addCase(signUpUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload.error;
+        })
 
-      .addCase(loginUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-    
+        //Login
 
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload;
-        // state.error = action.payload.data.status || false;
-        console.log("Payload from loginUser.fulfilled:", action.payload.data);
-        localStorage.setItem("userData", JSON.stringify(state.user));
-      })
+        .addCase(loginUser.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
 
-      .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false;
-        console.log("Rejected =>",action.payload);
-        state.error = action.payload.error;
-      })
 
-      // OTP Verification
-      .addCase(verifyOtp.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-        state.otpVerificationMessage = null;
-      })
-      .addCase(verifyOtp.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.otpVerificationMessage = action.payload.message;
-        state.user = { phoneNumber: action.meta.arg.phoneNumber };
-        const myToken = localStorage.getItem("token");
-        
-        console.log("======================myToken",myToken);
-      })
-      .addCase(verifyOtp.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-        state.otpVerificationMessage = "OTP verification failed";
-      });
-  },
-});
+        .addCase(loginUser.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.user = action.payload;
+          // state.error = action.payload.data.status || false;
+          console.log("Payload from loginUser.fulfilled:", action.payload.data);
+          localStorage.setItem("userData", JSON.stringify(state.user));
+        })
+
+        .addCase(loginUser.rejected, (state, action) => {
+          state.isLoading = false;
+          console.log("Rejected =>", action.payload);
+          state.error = action.payload.error;
+        })
+
+        // OTP Verification
+        .addCase(verifyOtp.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+          state.otpVerificationMessage = null;
+        })
+        .addCase(verifyOtp.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.otpVerificationMessage = action.payload.message;
+          state.user = { phoneNumber: action.meta.arg.phoneNumber };
+          const protectedToken = localStorage.getItem("token");
+          localStorage.setItem("protectedToken", JSON.stringify(protectedToken));
+        })
+        .addCase(verifyOtp.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+          state.otpVerificationMessage = "OTP verification failed";
+        });
+    },
+  });
 
 
 export const { logout } = authSlice.actions;

@@ -54,11 +54,11 @@ const Hero = () => {
           </Typography>
           <Typography
             sx={{
-              fontFamily: "Poppins, sans-serif",
+              // fontFamily: "Poppins, sans-serif",
               color: "black",
               fontSize: { xs: 25, sm: 35 },
               fontWeight: "bold",
-              // fontFamily:"Playwrite DE Grund, cursive"
+              fontFamily:"Playwrite DE Grund, cursive"
             }}
             
           >
