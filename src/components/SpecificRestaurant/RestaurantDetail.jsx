@@ -15,7 +15,7 @@ const RestaurantDetail = () => {
   const searchQuery = searchParams.get("query")?.toLowerCase() || "";
   const dispatch = useDispatch();
 
-  const { results, status, error } = useSelector((state) => state.search);
+  const { results, isLoading, error } = useSelector((state) => state.search);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -25,11 +25,11 @@ const RestaurantDetail = () => {
   }, [dispatch, searchQuery]);
 
   // Render loading, error, or empty states
-  if (status === "loading") {
+  if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  if (status === "failed") {
+  if (isLoading) {
     return <Typography>Error: {error}</Typography>;
   }
 

@@ -198,7 +198,7 @@ const ReviewPage = ({ reviews }) => {
   const [myReviewsMode, setMyReviewsMode] = useState(false); // State to toggle between all reviews and my reviews
   const dispatch = useDispatch();
   const { reviews: allReviews, loading, error } = useSelector((state) => state.reviews); // Get all reviews from the Redux store
-  const { myReviews } = useSelector((state) => state.reviews); // Get my reviews from the Redux store
+  const { myReviews } = useSelector((state) => state.reviews); 
 
   // Open and close modal handlers
   const handleOpen = () => setOpen(true);
@@ -251,7 +251,7 @@ const ReviewPage = ({ reviews }) => {
   return (
     <Grid container spacing={2} padding={2}>
       {/* Buttons to toggle between "All Reviews" and "My Reviews" */}
-      <Box display="flex" justifyContent="center" mb={2}>
+      <Box display="flex" justifyContent="center" mb={2} alignItems="center" width="100%">
         <Button
           variant="contained"
           onClick={handleOpen}
@@ -308,7 +308,7 @@ const ReviewPage = ({ reviews }) => {
               p={2}
               sx={{
                 borderRadius: "12px",
-                width: "70%",
+                width: "70vw",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
               }}
             >

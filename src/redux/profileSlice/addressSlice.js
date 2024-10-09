@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const postAddress = createAsyncThunk(
   "profile/postAddress",
   async ({payload}, { rejectWithValue }) => {
-    console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}",payload)
+    // console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}",payload)
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       const headers = { Authorization:`Bearer ${token}` };
@@ -18,12 +18,12 @@ export const postAddress = createAsyncThunk(
         payload,
         { headers }
       );
-      console.log("===================================Solve",response)
+      // console.log("===================================Solve",response)
        toast.success("Address posted successfully!");
       return response.data;
     } catch (error) {
-      console.log("error=====================",error)
-      toast.error("Failed to post address."); 
+      // console.log("error=====================",error)
+      // toast.error("Failed to post address."); 
       return rejectWithValue(error.response?.data || "Error posting address");
     }
   }
@@ -41,7 +41,7 @@ export const getAddress = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      toast.error("Failed to fetch address data.");
+      // toast.error("Failed to fetch address data.");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -75,14 +75,14 @@ export const deleteAddress = createAsyncThunk(
 export const editAddress = createAsyncThunk(
   "address/editAddress",
   async ({ addressID, address }, { rejectWithValue }) => {
-      console.log(
-        "addressID and address from editAddresss=========",
-        addressID,
-        address
-      );
+      // console.log(
+      //   "addressID and address from editAddresss=========",
+      //   addressID,
+      //   address
+      // );
 
     try {
-      console.log("addressID and address from editAddresss=========",addressID,address)
+      // console.log("addressID and address from editAddresss=========",addressID,address)
       const value = JSON.parse(localStorage.getItem("token"));
       const headers = { Authorization: `Bearer ${value.token}` };
       const response = await axios.post(
@@ -97,7 +97,7 @@ export const editAddress = createAsyncThunk(
       toast.error("Failed to update address."); 
       return rejectWithValue(
 
-        console.log("erorr=============",error),
+        // console.log("erorr=============",error),
         
         error.response ? error.response.data : "Something went wrong"
       );
@@ -146,7 +146,7 @@ const addressSlice = createSlice({
       })
       // Handle rejected state for getting address
       .addCase(getAddress.rejected, (state, action) => {
-        state.error = action.payload || "Failed to fetch address data";
+        state.error = action.payload;
         state.loading = false;
       })
       // Handle pending state for deleting address
@@ -162,7 +162,7 @@ const addressSlice = createSlice({
       })
       // Handle rejected state for deleting address
       .addCase(deleteAddress.rejected, (state, action) => {
-        state.error = action.payload || "Failed to delete address";
+        state.error = action.payload ;
         state.loading = false;
       })
       // Handle pending state for editing/updating address
@@ -178,7 +178,7 @@ const addressSlice = createSlice({
       })
       // Handle rejected state for editing/updating address
       .addCase(editAddress.rejected, (state, action) => {
-        state.error = action.payload || "Failed to update address";
+        state.error = action.payload ;
         state.loading = false;
       });
   },

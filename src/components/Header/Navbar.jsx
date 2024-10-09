@@ -181,6 +181,7 @@ const Navbar = () => {
           boxShadow: "none",
           padding: 0,
           margin: 0,
+          // width:"100vw"
         }}
       >
         <Toolbar

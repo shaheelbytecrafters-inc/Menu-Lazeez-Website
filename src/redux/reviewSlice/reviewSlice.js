@@ -12,21 +12,21 @@ export const fetchReviews = createAsyncThunk(
       }
 
       const headers = { Authorization: `Bearer ${token}` };
-      console.log("Token:", token);
-      console.log("Restaurant ID:", restaurantId);
+      // console.log("Token:", token);
+      // console.log("Restaurant ID:", restaurantId);
 
       const response = await axios.get(
         `https://lazeez-user-backend-kpyf.onrender.com/review/restaurant/${restaurantId}`,
         { headers }
       );
 
-      console.log("Response data:+++++++++++++++++", response.data);
+      // console.log("Response data:+++++++++++++++++", response.data);
       return response.data; // Successfully return data
     } catch (error) {
-      console.log("Error:", error);
+      // console.log("Error:", error);
 
       if (error.response) {
-        console.log("====================", error);
+        // console.log("====================", error);
         return rejectWithValue({ message: error.message });
       }
     }
@@ -50,14 +50,14 @@ export const postReview = createAsyncThunk(
         { headers }
       );
 
-      console.log("Posted Review Response:", response.data);
+      // console.log("Posted Review Response:", response.data);
 
       return response.data; 
     } catch (error) {
-      console.log("Post Review Error:", error);
+      // console.log("Post Review Error:", error);
 
       if (error.response) {
-        console.log("====================", error);
+        // console.log("====================", error);
         return rejectWithValue({ message: error.message });
       }
     }
@@ -68,7 +68,7 @@ export const postReview = createAsyncThunk(
 export const fetchMyReviews = createAsyncThunk(
   "reviews/fetchMyReviews",
   async (restaurantId, { rejectWithValue }) => {
-    console.log("restaurandjhfeurhefjhjgekjfffffffff=========",restaurantId)
+    // console.log("restaurandjhfeurhefjhjgekjfffffffff=========",restaurantId)
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       if (!token) {
@@ -81,7 +81,7 @@ export const fetchMyReviews = createAsyncThunk(
         { headers }
       );
 
-      console.log("My Reviews Response:======================", response.data);
+      // console.log("My Reviews Response:======================", response.data);
       return response.data; 
     } catch (error) {
       console.log("Error fetching my reviews:", error);
@@ -110,7 +110,7 @@ const reviewsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
-        console.log("Fetched Reviews: ", action.payload);
+        // console.log("Fetched Reviews: ", action.payload);
         state.loading = false;
         state.reviews = Array.isArray(action.payload) ? action.payload : [];
       })
@@ -124,7 +124,7 @@ const reviewsSlice = createSlice({
         state.error = null;
       })
       .addCase(postReview.fulfilled, (state, action) => {
-        console.log("Posted Review: ", action.payload);
+        // console.log("Posted Review: ", action.payload);
         state.loading = false;
         // Optionally, add the new review to the state (if needed)
         state.reviews.push(action.payload);
@@ -141,7 +141,7 @@ const reviewsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMyReviews.fulfilled, (state, action) => {
-        console.log("Fetched My Reviews: ", action.payload);
+        // console.log("Fetched My Reviews: ", action.payload);
         state.loading = false;
         state.myReviews = Array.isArray(action.payload) ? action.payload : [];
       })

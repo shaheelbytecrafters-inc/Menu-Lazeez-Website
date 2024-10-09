@@ -9,11 +9,11 @@ export const fetchSearchResults = createAsyncThunk(
       const response = await axios.get(
         `https://lazeez-user-backend-kpyf.onrender.com/search?query=${query}`
       );
-      console.log("}}}}}}}}}}}}}}}}}}}}}",response)
+      // console.log("}}}}}}}}}}}}}}}}}}}}}",response)
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        console.log("=========================++++++++++++++++++++++++",error),
+        // console.log("=========================++++++++++++++++++++++++",error),
         error.response ? error.response.data : error.message
       );
     }
@@ -25,7 +25,7 @@ const searchSlice = createSlice({
   initialState: {
     query: "",
     results: [],
-    status: "idle",
+    isLoading:false,
     error: null,
   },
   reducers: {
@@ -36,14 +36,17 @@ const searchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSearchResults.pending, (state) => {
-        state.status = "loading";
+         state.isLoading = true;
+         state.error = null;
       })
       .addCase(fetchSearchResults.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.isLoading = false;
+        // state.status = "succeeded";
         state.results = action.payload.results; // Update search results when API call succeeds
       })
       .addCase(fetchSearchResults.rejected, (state, action) => {
-        state.status = "failed";
+        state.isLoading = false;
+        // state.status = "failed";
         state.error = action.error.message;
       });
   },

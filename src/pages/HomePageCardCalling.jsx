@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchRestaurants } from "../redux/restaurantSlice/Allrestaurant";
 import RestaurantCard from "../card/RestaurantCard";
+import ShimmerCardUi from "./ShimmerCardUi";
 // import { useNavigate } from 'react-router-dom';
 
 const HomePageCardCalling = () => {
    const dispatch = useDispatch();
-   const { restaurants, status, error } = useSelector(
+   const { restaurants, isLoading, error } = useSelector(
      (state) => state.restaurants
    );
   const navigate = useNavigate();
@@ -17,19 +18,19 @@ const HomePageCardCalling = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate("/foodDetails");
   };
-    useEffect(() => {
-      if (status === "idle") {
-        dispatch(fetchRestaurants());
-      }
-    }, [dispatch, status]);
+     useEffect(() => {
+       if (!restaurants.length) {
+         dispatch(fetchRestaurants());
+       }
+     }, [dispatch, restaurants.length]);
 
-    if (status === "loading") {
-      return <div>Loading...</div>;
-    }
+  if (isLoading) {
+    return <ShimmerCardUi />;
+  }
 
-    if (status === "failed") {
-      return <div>Error: {error}</div>;
-    }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
 
   return (
@@ -85,7 +86,7 @@ const HomePageCardCalling = () => {
           ))}
         </Box>
       </Box>
-
+       {/* <ShimmerCardUi/> */}
       <Box sx={{ textAlign: "center", marginBlock: "20px" }}>
         <Button
           variant="contained"

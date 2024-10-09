@@ -15,6 +15,8 @@ import {
   DialogTitle,
   IconButton,
   TextField,
+  Grid,
+  Stack,
 } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -35,8 +37,9 @@ import {
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EditIcon from "@mui/icons-material/Edit";
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
-import { Stack } from "@mui/system";
+// import { Grid, Stack } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ProfileShimmer from "./ProfileShimmer";
 // import AddressGIF from "../../../src/assets/images/Address.gif";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -129,11 +132,11 @@ function Profile() {
     setOpen(false);
   };
 
-  const { profileData, loading, error } = useSelector((state) => state.profile);
+  const { profileData, isLoading, error } = useSelector((state) => state.profile);
 
   const {
     address,
-    loading: addressLoading,
+    isLoading: addressLoading,
     error: addressError,
   } = useSelector((state) => state.address);
 
@@ -198,8 +201,8 @@ function Profile() {
     // console.log("Updated profile =>", profileData);
   }, [profileData]);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <ProfileShimmer/>;
   }
 
   if (error) {
@@ -224,312 +227,67 @@ function Profile() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          bgcolor: "#fe0604",
         }}
       >
         <Box
           sx={{
-            width: "90%", // Ensure the box takes the full width
+            width: "85%", // Ensure the box takes the full width
             backgroundColor: "#fff",
-            // marginLeft: isSmallScreen ? "0" : "3.8rem", // Remove margin on small screens
+            // marginLeft: isSmallScreen ? "0" : "5rem", // Remove margin on small screens
           }}
         >
           <Box
             sx={{
-              height: "100vh",
+              // height: "100vh",
               display: "flex",
               marginLeft: isSmallScreen ? "0.4rem" : "-1rem", // Remove left margin on small screens
               marginTop: isSmallScreen ? "0" : "2rem", // Remove top margin on small screens
             }}
           >
-            {/* Navbar converted into a paragraph on small screens */}
-            {isSmallScreen ? (
-              !showContent && (
-                <Box sx={{ padding: "1rem", marginTop: "0" }}>
-                  {/* Remove top margin */}
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontFamily: "poppins",
-                      color: "#000",
-                      fontSize: isSmallScreen ? "16px" : "24px", // Decrease font size on small screens
-                    }}
-                  >
-                    {Object.keys(profileData).length > 1 &&
-                      profileData.data.username}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "#000" }}>
-                    {Object.keys(profileData).length > 1 &&
-                      profileData.data.phoneNumber}
-                  </Typography>
-                  <Button
-                    sx={{
-                      color: "#fe0604",
-                      border: "1px solid #fe0604",
-                      fontWeight: "bold",
-                      marginTop: "0.5rem",
-                      fontSize: isSmallScreen ? "10px" : "24px",
-                    }}
-                    onClick={handleOpen}
-                  >
-                    Edit Profile
-                  </Button>
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    fullWidth
-                    maxWidth="sm"
-                  >
-                    <DialogTitle>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography variant="h6">Edit profile</Typography>
-                        <IconButton onClick={handleClose}>
-                          <CloseIcon />
-                        </IconButton>
-                      </Box>
-                    </DialogTitle>
-
-                    {/* Profile Details */}
-                    <Box sx={{ padding: "0.5rem" }}>
-                      {/* Phone Number Section */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: "0.5rem",
-                        }}
-                      >
-                        <Box>
-                          <Typography variant="subtitle1" gutterBottom>
-                            Phone number
-                          </Typography>
-                          {isEditingPhone ? (
-                            <TextField
-                              value={phoneNumber}
-                              onChange={(e) => setPhoneNumber(e.target.value)}
-                              variant="outlined"
-                              size="small"
-                            />
-                          ) : (
-                            <Typography
-                              variant="body1"
-                              sx={{ fontSize: "0.7rem" }}
-                            >
-                              {phoneNumber}
-                            </Typography>
-                          )}
-                        </Box>
-                        <Button
-                          sx={{
-                            color: "#fe0604",
-                            fontWeight: "bold",
-                            fontSize: "0.7rem",
-                          }}
-                          onClick={handlePhoneChange}
-                        >
-                          {isEditingPhone ? "SAVE" : "CHANGE"}
-                        </Button>
-                      </Box>
-
-                      {/* Email Section */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Box>
-                          <Typography variant="subtitle1" gutterBottom>
-                            Email id
-                          </Typography>
-                          {isEditingEmail ? (
-                            <TextField
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              variant="outlined"
-                              size="small"
-                              height="1rem"
-                            />
-                          ) : (
-                            <Typography
-                              variant="body1"
-                              sx={{ fontSize: "0.7rem" }}
-                            >
-                              {email}
-                            </Typography>
-                          )}
-                        </Box>
-                        <Button
-                          sx={{
-                            color: "#fe0604",
-                            fontWeight: "bold",
-                            fontSize: "0.7rem",
-                          }}
-                          onClick={handleEmailChange}
-                        >
-                          {isEditingEmail ? "SAVE" : "CHANGE"}
-                        </Button>
-                      </Box>
-                    </Box>
-                  </Dialog>
-                  <Divider sx={{ width: "100%", marginTop: "10px" }} />{" "}
-                  {/* Full width horizontal line */}
-                  {/* Tabs (paragraphs) below the "Edit Profile" button */}
-                  {!showContent && isSmallScreen && (
-                    <Box
+            {/* Main Content with Sidebar */}
+            <Box
+              sx={{
+                boxShadow: isSmallScreen
+                  ? "none"
+                  : "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
+                // border:"1px solid red",
+                marginTop: isSmallScreen ? "0rem" : "-2rem",
+                display: "flex",
+                width: "100%",
+              }}
+            >
+              {/* Navbar converted into a paragraph on small screens */}
+              {isSmallScreen ? (
+                !showContent && (
+                  <Box sx={{ padding: "1rem", marginTop: "0" }}>
+                    {/* Remove top margin */}
+                    <Typography
+                      variant="h6"
                       sx={{
-                        width: "100%", // Make the full width
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                        // padding: "1rem",
-                        gap: "1rem",
-                        marginTop: "1rem", // Move tabs closer to the button
-                        bgcolor: "blue",
-                        border: "1px solid red",
+                        fontFamily: "poppins",
+                        color: "#000",
+                        fontSize: isSmallScreen ? "16px" : "24px", // Decrease font size on small screens
                       }}
                     >
-                      <Typography
-                        onClick={(event) => handleTabChange(event, 0)}
-                        sx={{
-                          cursor: "pointer",
-                          color: "#fe0604",
-                          width: "81vw", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                          // backgroundColor:"pink"
-                        }}
-                      >
-                        Orders
-                      </Typography>
-                      <Divider sx={{ width: "100%" }} />{" "}
-                      {/* Full width horizontal line */}
-                      <Typography
-                        onClick={(event) => handleTabChange(event, 1)}
-                        sx={{
-                          cursor: "pointer",
-                          color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                        }}
-                      >
-                        Address
-                      </Typography>
-                      <Divider sx={{ width: "100%" }} />{" "}
-                      {/* Full width horizontal line */}
-                      <Typography
-                        onClick={(event) => handleTabChange(event, 2)}
-                        sx={{
-                          cursor: "pointer",
-                          color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                        }}
-                      >
-                        Setting
-                      </Typography>
-                      <Divider sx={{ width: " 100%" }} />{" "}
-                      {/* Full width horizontal line */}
-                      <Typography
-                        sx={{
-                          cursor: "pointer",
-                          color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                        }}
-                      >
-                        Privacy Policy
-                      </Typography>
-                      <Divider sx={{ width: "100%" }} />{" "}
-                      <Typography
-                        sx={{
-                          cursor: "pointer",
-                          color: "#fe0604",
-                          width: "100%", // Full width
-                          textAlign: "left", // Left align text
-                          padding: "0.5rem 0", // Add some vertical padding
-                        }}
-                      >
-                        Istallation
-                      </Typography>
-                      <Divider sx={{ width: "100%" }} />{" "}
-                    </Box>
-                  )}
-                </Box>
-              )
-            ) : (
-              <AppBar
-                sx={{
-                  backgroundColor: "#fe0604",
-                  zIndex: 1201,
-                  padding: "0.5rem",
-                  marginTop: "4.5rem",
-                }}
-              >
-                <Toolbar>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between", // Align the name, phone number, and button in one line
-                      alignItems: "center",
-                      flexGrow: 1,
-                    }}
-                  >
-                    <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontFamily: "poppins",
-                          color: "#fff",
-                          fontSize: "32px",
-                        }}
-                      >
-                        {Object.keys(profileData).length > 1 &&
-                          profileData.data.username}
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: "1rem",
-                          fontSize: "16px",
-                          color: "#fff",
-                        }}
-                      >
-                        <Typography variant="body2">
-                          {Object.keys(profileData).length > 1 &&
-                            profileData.data.phoneNumber}
-                        </Typography>
-                        <Typography>
-                          {Object.keys(profileData).length > 1 &&
-                            profileData.data.email}
-                        </Typography>
-                      </Box>
-                    </Box>
-
-                    {/* Align button in the same row */}
+                      {Object.keys(profileData).length > 1 &&
+                        profileData.username}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#000" }}>
+                      {Object.keys(profileData).length > 1 &&
+                        profileData.phoneNumber}
+                    </Typography>
                     <Button
                       sx={{
-                        color: "#fff",
-                        border: "1.5px solid #fff",
+                        color: "#fe0604",
+                        border: "1px solid #fe0604",
                         fontWeight: "bold",
+                        marginTop: "0.5rem",
+                        fontSize: isSmallScreen ? "10px" : "24px",
                       }}
                       onClick={handleOpen}
                     >
                       Edit Profile
                     </Button>
-
                     <Dialog
                       open={open}
                       onClose={handleClose}
@@ -552,6 +310,267 @@ function Profile() {
                       </DialogTitle>
 
                       {/* Profile Details */}
+                      <Box sx={{ padding: "0.5rem" }}>
+                        {/* Phone Number Section */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "0.5rem",
+                          }}
+                        >
+                          <Box>
+                            <Typography variant="subtitle1" gutterBottom>
+                              Phone number
+                            </Typography>
+                            {isEditingPhone ? (
+                              <TextField
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                variant="outlined"
+                                size="small"
+                              />
+                            ) : (
+                              <Typography
+                                variant="body1"
+                                sx={{ fontSize: "0.7rem" }}
+                              >
+                                {phoneNumber}
+                              </Typography>
+                            )}
+                          </Box>
+                          <Button
+                            sx={{
+                              color: "#fe0604",
+                              fontWeight: "bold",
+                              fontSize: "0.7rem",
+                            }}
+                            onClick={handlePhoneChange}
+                          >
+                            {isEditingPhone ? "SAVE" : "CHANGE"}
+                          </Button>
+                        </Box>
+
+                        {/* Email Section */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box>
+                            <Typography variant="subtitle1" gutterBottom>
+                              Email id
+                            </Typography>
+                            {isEditingEmail ? (
+                              <TextField
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                variant="outlined"
+                                size="small"
+                                height="1rem"
+                              />
+                            ) : (
+                              <Typography
+                                variant="body1"
+                                sx={{ fontSize: "0.7rem" }}
+                              >
+                                {email}
+                              </Typography>
+                            )}
+                          </Box>
+                          <Button
+                            sx={{
+                              color: "#fe0604",
+                              fontWeight: "bold",
+                              fontSize: "0.7rem",
+                            }}
+                            onClick={handleEmailChange}
+                          >
+                            {isEditingEmail ? "SAVE" : "CHANGE"}
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Dialog>
+                    <Divider sx={{ width: "90%", marginTop: "10px" }} />{" "}
+                    {/* Full width horizontal line */}
+                    {/* Tabs (paragraphs) below the "Edit Profile" button */}
+                    {!showContent && isSmallScreen && (
+                      <Box
+                        sx={{
+                          width: "90%", // Make the full width
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "flex-end",
+                          // padding: "1rem",
+                          gap: "1rem",
+                          marginTop: "1rem", // Move tabs closer to the button
+                        }}
+                      >
+                        <Typography
+                          onClick={(event) => handleTabChange(event, 0)}
+                          sx={{
+                            cursor: "pointer",
+                            color: "#fe0604",
+                            width: "81vw", // Full width
+                            textAlign: "left", // Left align text
+                            padding: "0.5rem 0", // Add some vertical padding
+                            marginLeft: "3rem",
+                            // backgroundColor:"pink"
+                          }}
+                        >
+                          Orders
+                        </Typography>
+                        <Divider sx={{ width: "100%" }} />{" "}
+                        {/* Full width horizontal line */}
+                        <Typography
+                          onClick={(event) => handleTabChange(event, 1)}
+                          sx={{
+                            cursor: "pointer",
+                            color: "#fe0604",
+                            width: "100%", // Full width
+                            textAlign: "left", // Left align text
+                            padding: "0.5rem 0", // Add some vertical padding
+                          }}
+                        >
+                          Address
+                        </Typography>
+                        <Divider sx={{ width: "100%" }} />{" "}
+                        {/* Full width horizontal line */}
+                        <Typography
+                          onClick={(event) => handleTabChange(event, 2)}
+                          sx={{
+                            cursor: "pointer",
+                            color: "#fe0604",
+                            width: "100%", // Full width
+                            textAlign: "left", // Left align text
+                            padding: "0.5rem 0", // Add some vertical padding
+                          }}
+                        >
+                          Setting
+                        </Typography>
+                        <Divider sx={{ width: " 100%" }} />{" "}
+                        {/* Full width horizontal line */}
+                        <Typography
+                          sx={{
+                            cursor: "pointer",
+                            color: "#fe0604",
+                            width: "100%", // Full width
+                            textAlign: "left", // Left align text
+                            padding: "0.5rem 0", // Add some vertical padding
+                          }}
+                        >
+                          Privacy Policy
+                        </Typography>
+                        <Divider sx={{ width: "100%" }} />{" "}
+                        <Typography
+                          sx={{
+                            cursor: "pointer",
+                            color: "#fe0604",
+                            width: "100%", // Full width
+                            textAlign: "left", // Left align text
+                            padding: "0.5rem 0", // Add some vertical padding
+                          }}
+                        >
+                          Istallation
+                        </Typography>
+                        <Divider sx={{ width: "100%" }} />{" "}
+                      </Box>
+                    )}
+                  </Box>
+                )
+              ) : (
+                <Box
+                  sx={{
+                    backgroundColor: "transparent", // Remove background color
+                    // bgcolor:"blue",
+                    color: "black", // Set text color to black
+                    marginTop: "5rem",
+                    padding: "1rem",
+                    position: "absolute", // Makes it behave like a navbar
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "80%",
+                      marginLeft: "6rem",
+                      // bgcolor: "pink",
+                      display: "flex",
+                      justifyContent: "space-between", // Align name, phone number, and button in one line
+                      alignItems: "center",
+                      flexGrow: 1,
+                    }}
+                  >
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontFamily: "Poppins",
+                          color: "black", // Text color is black
+                          fontSize: "32px",
+                        }}
+                      >
+                        {Object.keys(profileData).length > 1 &&
+                          profileData.data.username}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "1rem",
+                          fontSize: "16px",
+                          color: "black", // Text color is black
+                        }}
+                      >
+                        <Typography variant="body2">
+                          {Object.keys(profileData).length > 1 &&
+                            profileData.data.phoneNumber}
+                        </Typography>
+                        <Typography>
+                          {Object.keys(profileData).length > 1 &&
+                            profileData.data.email}
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    <Button
+                      sx={{
+                        color: "black", // Button text color is black
+                        border: "1.5px solid black", // Button border color is black
+                        fontWeight: "bold",
+                        marginRight: "2rem",
+                      }}
+                      onClick={handleOpen}
+                    >
+                      Edit Profile
+                    </Button>
+
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      fullWidth
+                      maxWidth="sm"
+                    >
+                      <DialogTitle>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography variant="h6">Edit Profile</Typography>
+                          <IconButton onClick={handleClose}>
+                            <CloseIcon />
+                          </IconButton>
+                        </Box>
+                      </DialogTitle>
+
                       <Box sx={{ padding: "1rem" }}>
                         {/* Phone Number Section */}
                         <Box
@@ -564,7 +583,7 @@ function Profile() {
                         >
                           <Box>
                             <Typography variant="subtitle1" gutterBottom>
-                              Phone number
+                              Phone Number
                             </Typography>
                             {isEditingPhone ? (
                               <TextField
@@ -620,96 +639,729 @@ function Profile() {
                       </Box>
                     </Dialog>
                   </Box>
-                </Toolbar>
-              </AppBar>
-            )}
-
-            {/* Main Content with Sidebar */}
-            <Box sx={{ display: "flex", height: "100vh", width: "100%" }}>
-              {/* Tabs in Sidebar for larger screens */}
-              {!isSmallScreen && (
-                <Box sx={{ width: "20%", marginTop: "5rem" }}>
-                  <Tabs
-                    orientation="vertical"
-                    value={selectedTab}
-                    onChange={handleTabChange}
-                    textColor="secondary"
-                    indicatorColor="secondary"
-                  >
-                    <Tab label="Orders" />
-                    <Tab label="Address" />
-                    <Tab label="Setting" />
-                    <Tab label="Privacy Policy" />
-                    <Tab label="Installation" />
-                  </Tabs>
                 </Box>
               )}
 
-              {/* Content Area */}
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  p: 2,
-                  display: showContent || !isSmallScreen ? "block" : "none",
-                  // bgcolor: "pink",
-                  marginRight: "2rem",
-                  marginLeft: isSmallScreen ? "0" : "2rem",
-                  width: "90%", // Ensure proper content width
-                }}
-              >
-                {isSmallScreen && showContent && (
-                  <Button
-                    onClick={handleBackClick}
-                    startIcon={<ArrowBackIcon />}
-                    sx={{ color: "#fe0604" }}
-                  >
-                    Back
-                  </Button>
-                )}
-                {selectedTab === 0 && (
-                  <>
-                    {/* Large screen layout */}
-                    <Box
+              {/* Tabs in Sidebar for larger screens */}
+              <Box sx={{ display: "flex", width: "100%" }}>
+                {!isSmallScreen && (
+                  <Box sx={{ marginTop: "6rem" }}>
+                    <Tabs
+                      orientation="vertical"
+                      value={selectedTab}
+                      onChange={handleTabChange}
+                      textColor="red"
+                      indicatorColor="red"
                       sx={{
-                        display: { xs: "none", md: "block" }, // Show on tablet and larger screens
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start", // Ensures the tabs are aligned to the left
+                        alignItems: "start",
                       }}
                     >
-                      <Typography
+                      <Tab
+                        label="Orders"
+                        sx={{
+                          color: "gray",
+                          // justifyContent: "flex-start",
+                          // textAlign: "left",
+                          "&:hover": {
+                            color: "#fe0604",
+                          },
+                        }}
+                      />
+                      <Tab
+                        label="Address"
+                        sx={{
+                          color: "gray",
+                          // justifyContent: "flex-start",
+                          // textAlign: "left",
+                          "&:hover": {
+                            color: "#fe0604",
+                          },
+                        }}
+                      />
+                      <Tab
+                        label="Setting"
+                        sx={{
+                          color: "gray",
+                          // justifyContent: "flex-start",
+                          // textAlign: "left",
+                          "&:hover": {
+                            color: "#fe0604",
+                          },
+                        }}
+                      />
+                      <Tab
+                        label="Privacy Policy"
+                        sx={{
+                          color: "gray",
+                          // justifyContent: "flex-start",
+                          // textAlign: "left",
+                          "&:hover": {
+                            color: "#fe0604",
+                          },
+                        }}
+                      />
+                      <Tab
+                        label="Installation"
+                        sx={{
+                          color: "gray",
+                          // justifyContent: "flex-start",
+                          // textAlign: "left",
+                          "&:hover": {
+                            color: "#fe0604",
+                          },
+                        }}
+                      />
+                    </Tabs>
+                  </Box>
+                )}
+
+                {/* Content Area */}
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    p: 2,
+                    display: showContent || !isSmallScreen ? "block" : "none",
+                    // bgcolor: "pink",
+                    marginRight: "2rem",
+                    marginLeft: isSmallScreen ? "0" : "2rem",
+                    width: "90%", // Ensure proper content width
+                  }}
+                >
+                  {isSmallScreen && showContent && (
+                    <Button
+                      onClick={handleBackClick}
+                      startIcon={<ArrowBackIcon />}
+                      sx={{ color: "#fe0604" }}
+                    >
+                      Back
+                    </Button>
+                  )}
+                  {selectedTab === 0 && (
+                    <>
+                      {/* Large screen layout */}
+
+                      <Box
+                        sx={{
+                          display: { xs: "none", md: "block" }, // Show on tablet and larger screens
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                            fontFamily: "poppins",
+                            marginTop: "5rem",
+                            ml: "3rem",
+                          }}
+                        >
+                          Past Orders
+                        </Typography>
+
+                        {/* Display Loading Spinner or Error Message */}
+                        {isLoading && <ProfileShimmer />}
+                        {error && (
+                          <Typography color="error">Error: {error}</Typography>
+                        )}
+
+                        {!isLoading && !error && dummy.length === 0 && (
+                          <Typography>No past orders found.</Typography>
+                        )}
+
+                        {/* Map through the dummy orders */}
+                        <Box
+                          sx={{
+                            display: "flex", // Flex container for multiple cards
+                            flexWrap: "wrap", // Allows cards to wrap to the next line if needed
+                            gap: "1.5rem", // Space between cards
+                            marginLeft: "2rem",
+                          }}
+                        >
+                          {dummy.map((order) => (
+                            <Box
+                              key={order.id}
+                              sx={{
+                                height: "220px",
+                                boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                                mt: 2,
+                                display: "flex",
+                                flexDirection: "column", // Ensures items stack vertically
+                                justifyContent: "space-between",
+                                "@media (min-width: 1024px) and (max-width: 1336px)":
+                                  {
+                                    width: "400px",
+                                  },
+                                "@media (min-width: 912px) and (max-width: 1368px)":
+                                  {
+                                    width: "400px",
+                                  },
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  marginTop: "1rem",
+                                }}
+                              >
+                                {/* Image */}
+                                <img
+                                  src={order.image}
+                                  alt={order.dishName}
+                                  style={{
+                                    width: "150px",
+                                    height: "100px",
+                                    marginLeft: "1rem",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                                <Box
+                                  sx={{
+                                    height: "100px",
+                                    width: "678px",
+                                    marginLeft: "10px",
+                                  }}
+                                >
+                                  <Typography sx={{ fontSize: "17px" }}>
+                                    {order.dishName}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "17px" }}>
+                                    Price: ₹{order.price}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "17px" }}>
+                                    Total Price: ₹{order.totalPrice}
+                                  </Typography>
+                                  <Typography sx={{ fontSize: "17px" }}>
+                                    Quantity: {order.quantity}
+                                  </Typography>
+                                </Box>
+                              </Box>
+
+                              <Box
+                                sx={{
+                                  height: "100px",
+                                  width: "828px",
+                                  marginLeft: "1.8rem",
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    gap: "1rem",
+                                    flexDirection: "row",
+                                    marginTop: "2rem",
+                                  }}
+                                >
+                                  <Button
+                                    sx={{
+                                      // height: "40px",
+                                      // width: "120px",
+                                      backgroundColor: "#fe0604",
+                                      color: "#fff",
+                                      "&:hover": {
+                                        backgroundColor: "#fe0604",
+                                        color: "#fff",
+                                      },
+                                    }}
+                                  >
+                                    REORDER
+                                  </Button>
+                                  <Button
+                                    sx={{
+                                      // height: "40px",
+                                      // width: "120px",
+                                      border: "1px solid #fe0604",
+                                      color: "#fe0604",
+                                    }}
+                                  >
+                                    HELP
+                                  </Button>
+                                </Box>
+                              </Box>
+                            </Box>
+                          ))}
+                        </Box>
+                      </Box>
+
+                      {/* Small screen layout */}
+                      <Box
+                        sx={{
+                          display: { xs: "block", md: "none" }, // Show on small screens
+                          width: "100%",
+                          padding: "1rem",
+                          // backgroundColor: "#f8f8f8",
+                          marginTop: "1.5rem",
+                          "@media (max-width: 600px)": {
+                            padding: "0.5rem",
+                          },
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: "1rem",
+                          }}
+                        >
+                          {/* <Typography
+                          sx={{ fontSize: "14px", fontWeight: "bold" }}
+                        >
+                          Restaurants
+                        </Typography> */}
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              color: "#686B78",
+                              marginTop: "3rem",
+                            }}
+                          >
+                            Past Orders
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            backgroundColor: "white",
+                            padding: "1rem",
+                            borderRadius: "4px",
+                            display: "flex", // Flex container for multiple cards
+                            flexWrap: "wrap", // Allows cards to wrap to the next line if needed
+                            gap: "1.5rem", // Space between cards
+                          }}
+                        >
+                          {dummy.length > 0 ? (
+                            dummy.map((order) => (
+                              <Box key={order.id} sx={{ marginBottom: "1rem" }}>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <img
+                                    src={order.image}
+                                    alt={order.dishName}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      marginLeft: "1rem",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                  <Box
+                                    // sx={{
+                                    //   display: "flex",
+                                    //   justifyContent: "space-between",
+                                    //   alignItems: "center",
+                                    // }}
+                                    sx={{
+                                      // height: "100px",
+                                      // width: "678px",
+                                      marginLeft: "10px",
+                                    }}
+                                  >
+                                    {/* <Typography
+                                  sx={{ fontSize: "16px", fontWeight: "bold" }}
+                                >
+                                  {order.restaurantName}
+                                </Typography> */}
+
+                                    <Typography sx={{ fontSize: "14px" }}>
+                                      {order.dishName}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: "14px" }}>
+                                      Price: ₹{order.price}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: "14px" }}>
+                                      Total Price: ₹{order.totalPrice}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: "14px" }}>
+                                      Quantity: {order.quantity}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                                <Typography
+                                  sx={{
+                                    fontSize: "12px",
+                                    color: "#686B78",
+                                    marginTop: "0.5rem",
+                                  }}
+                                >
+                                  {order.location}
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    fontSize: "14px",
+                                    fontWeight: "bold",
+                                    marginTop: "0.5rem",
+                                  }}
+                                >
+                                  {/* ₹{order.totalPrice} */}
+                                </Typography>
+                                {/* <Divider sx={{ margin: "1rem 0" }} /> */}
+                                <Typography
+                                  sx={{ fontSize: "12px", color: "#686B78" }}
+                                >
+                                  {/* {order.dishName} [{order.quantity}] */}
+                                </Typography>
+                                <Typography
+                                  sx={{ fontSize: "12px", color: "#686B78" }}
+                                >
+                                  {order.date}
+                                </Typography>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: "1rem",
+                                    gap: "1rem",
+                                  }}
+                                >
+                                  <Button
+                                    variant="outlined"
+                                    sx={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                      color: "#fe0604",
+                                      padding: "0.5rem 1rem",
+                                      // width: "30%",
+                                      border: "1px solid red", // Ensure border is within sx prop
+                                    }}
+                                  >
+                                    REORDER
+                                  </Button>
+
+                                  <Button
+                                    variant="outlined"
+                                    sx={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                      borderColor: "#fe0604",
+                                      color: "#fe0604",
+                                      padding: "0.5rem 1rem",
+                                      // width: "45%",
+                                    }}
+                                  >
+                                    RATE ORDER
+                                  </Button>
+                                </Box>
+                                <Divider sx={{ margin: "1rem 0" }} />
+                              </Box>
+                            ))
+                          ) : (
+                            <Typography>No past orders found.</Typography>
+                          )}
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+
+                  {selectedTab === 1 && (
+                    <>
+                      <Box
                         sx={{
                           fontSize: "24px",
                           fontWeight: "bold",
                           fontFamily: "poppins",
                           marginTop: "3rem",
+                          marginBottom: "1rem",
                         }}
                       >
-                        Past Orders
-                      </Typography>
+                        {false ? (
+                          // Display the GIF when address data is empty
+                          <Box sx={{ border: "1px solid blue" }}>
+                            {/* <img src={AddressGIF} alt="No Address Available" /> */}
+                            <h1>Getting Address</h1>
+                          </Box>
+                        ) : (
+                          <>
+                            <Typography
+                              sx={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                fontFamily: "poppins",
+                                marginTop: "5rem",
+                                marginBottom: "1rem",
+                              }}
+                            >
+                              Manage Address
+                            </Typography>
+                            <Grid
+                              container
+                              justifyContent="center"
+                              spacing={2}
+                              sx={{ width: "100%", border: "1px solid blue" }} // Ensure it takes the full width
+                            >
+                              {address.map((addressData) => (
+                                <>
+                                  <Grid
+                                    item
+                                    xs={12} // Takes full width on extra-small screens
+                                    sm={6} // Half-width on small screens
+                                    md={4} // Third-width on medium screens
+                                    // sx={{ border: "1px solid blue" }}
+                                  >
+                                    <Box
+                                      sx={{
+                                        backgroundColor: "#fff",
+                                        padding: { xs: "1rem", md: "2rem" }, // Responsive padding
+                                        width: "300px", // Set max width for consistency across cards
+                                        borderRadius: "10px",
+                                        boxShadow:
+                                          "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;",
+                                      }}
+                                    >
+                                      <Box
+                                        className="card"
+                                        key={addressData._id}
+                                      >
+                                        <Box
+                                          className="header"
+                                          sx={{
+                                            display: "flex",
+                                            justifyContent: "flex-start",
+                                            alignItems: "center",
+                                            ml: "-10px",
+                                            gap: "5px",
+                                          }}
+                                        >
+                                          <LocationOnIcon
+                                            sx={{
+                                              fontSize: {
+                                                xs: "25px",
+                                                md: "30px",
+                                              }, // Responsive icon size
+                                              color: "#ff0000",
+                                            }}
+                                          />
+                                          <Typography
+                                            variant="body1"
+                                            sx={{
+                                              overflow: "hidden",
+                                              display: "-webkit-box",
+                                              WebkitBoxOrient: "vertical",
+                                              marginTop: "0.25rem",
+                                              fontSize: {
+                                                xs: "1rem",
+                                                md: "1.185rem",
+                                              }, // Responsive font size
+                                              lineHeight: {
+                                                xs: "1.5rem",
+                                                md: "1.75rem",
+                                              }, // Responsive line height
+                                              fontWeight: 600,
+                                              color:
+                                                "rgba(55, 65, 81, var(--tw-text-opacity))",
+                                            }}
+                                          >
+                                            Address
+                                          </Typography>
+                                        </Box>
+                                        <Typography
+                                          variant="body1"
+                                          sx={{
+                                            overflow: "hidden", // Hide overflow text
+                                            textOverflow: "ellipsis", // Add ellipsis when text is too long
+                                            whiteSpace: "nowrap", // Prevent the text from wrapping to the next line
+                                            marginTop: "1rem",
+                                            color: "rgba(107, 114, 128, 1)",
+                                          }}
+                                        >
+                                          {addressData.address
+                                            .split(" ")
+                                            .slice(0, 10)
+                                            .join(" ") +
+                                            (addressData.address.split(" ")
+                                              .length > 10
+                                              ? "..."
+                                              : "")}
+                                        </Typography>
 
-                      {/* Display Loading Spinner or Error Message */}
-                      {loading && <Typography>Loading...</Typography>}
-                      {error && (
-                        <Typography color="error">Error: {error}</Typography>
-                      )}
+                                        <Stack
+                                          spacing={2}
+                                          direction={"row"}
+                                          sx={{ mt: 2 }}
+                                        >
+                                          <IconButton
+                                            sx={{
+                                              bgcolor: "#ff0000",
+                                              ":hover": { bgcolor: "#ff0000" },
+                                            }}
+                                            onClick={() =>
+                                              toggleEditDialog(addressData._id)
+                                            }
+                                          >
+                                            <EditLocationAltIcon
+                                              sx={{ color: "#fff" }}
+                                            />
+                                          </IconButton>
+                                          <IconButton
+                                            sx={{
+                                              bgcolor: "#ff0000",
+                                              ":hover": { bgcolor: "#ff0000" },
+                                            }}
+                                            onClick={() =>
+                                              deleteHandleClick(addressData._id)
+                                            }
+                                          >
+                                            <DeleteIcon
+                                              sx={{ color: "#fff" }}
+                                            />
+                                          </IconButton>
+                                        </Stack>
+                                      </Box>
+                                    </Box>
+                                  </Grid>
+                                </>
+                              ))}
+                            </Grid>
+                          </>
+                        )}
 
-                      {!loading && !error && dummy.length === 0 && (
-                        <Typography>No past orders found.</Typography>
-                      )}
+                        {/* Edit Dialog */}
+                        <Dialog
+                          open={openEditDialog}
+                          onClose={toggleEditDialog}
+                        >
+                          <DialogTitle>Edit Address</DialogTitle>
+                          <DialogContent>
+                            <TextField
+                              autoFocus
+                              margin="dense"
+                              label="Edit address"
+                              type="text"
+                              fullWidth
+                              variant="outlined"
+                              value={inputValue}
+                              onChange={handleInputChange}
+                              placeholder="Enter your address"
+                            />
+                          </DialogContent>
+                          <DialogActions>
+                            <Button
+                              onClick={() => toggleEditDialog()}
+                              color="primary"
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                toggleEditDialog(); // First function
+                                handleSaveClick(); // Second function
+                                // {console.log("==========================++++++++++++++++++++++",addressData._id)}
+                              }}
+                            >
+                              Save
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
 
-                      {/* Map through the dummy orders */}
-                      {dummy.map((order) => (
-                        <Box
-                          key={order.id}
+                        {isSmallScreen && (
+                          <Box>
+                            <Button
+                              sx={{
+                                marginTop: "1rem",
+                                border: "1px solid #fe0604",
+                                color: "#fe0604",
+                                "&:hover": {
+                                  cursor: "pointer",
+                                },
+                              }}
+                              onClick={handleClickOpen}
+                            >
+                              ADD NEW ADDRESS
+                            </Button>
+
+                            {/* Dialog (popup) for adding address */}
+                            <Dialog open={open} onClose={handleClose}>
+                              <DialogTitle>Add New Address</DialogTitle>
+                              <DialogContent>
+                                <TextField
+                                  label="Phone Number"
+                                  variant="outlined"
+                                  fullWidth
+                                  margin="normal"
+                                />
+                                <TextField
+                                  label="Address"
+                                  variant="outlined"
+                                  fullWidth
+                                  margin="normal"
+                                />
+                              </DialogContent>
+                              <DialogActions>
+                                <Button
+                                  onClick={handleClickClose}
+                                  color="primary"
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  onClick={handleClickClose}
+                                  color="primary"
+                                >
+                                  Save
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
+                          </Box>
+                        )}
+                      </Box>
+                    </>
+                  )}
+
+                  {selectedTab === 2 && (
+                    <>
+                      {/* Large screen layout */}
+                      <Box
+                        sx={{
+                          display: { xs: "none", md: "block" }, // Hide on small screens, show on medium and large screens
+                        }}
+                      >
+                        <Typography
                           sx={{
-                            height: "220px",
-                            border: "1px solid #fe0604",
-                            mt: 2,
-                            "@media (min-width: 1024px) and (max-width: 1336px)":
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                            fontFamily: "Poppins",
+                            marginTop: "5rem",
+                          }}
+                        >
+                          SMS Preferences
+                        </Typography>
+                        <Box
+                          sx={{
+                            height: "50px",
+                            width: "860px",
+                            border: "1px solid #686B78",
+                            display: "flex",
+                            alignItems: "center",
+                            marginTop: "2rem",
+                            "@media (min-width: 768px) and (max-width: 1024px)":
                               {
-                                width: "600px",
+                                width: "530px",
                               },
-                            "@media (min-width: 912px) and (max-width: 1368px)":
+                          }}
+                        >
+                          <Typography
+                            sx={{ fontSize: "14px", marginLeft: "1rem" }}
+                          >
+                            Order related SMS cannot be disabled as they are
+                            critical to provide service
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            height: "93px",
+                            width: "860px",
+                            border: "1px solid #686B78",
+                            marginTop: "1.5rem",
+                            display: "flex",
+                            "@media (min-width: 768px) and (max-width: 1024px)":
                               {
-                                width: "600px",
+                                width: "530px",
                               },
                           }}
                         >
@@ -717,523 +1369,137 @@ function Profile() {
                             sx={{
                               display: "flex",
                               justifyContent: "center",
-                              marginTop: "1rem",
+                              alignItems: "center",
+                              marginLeft: "1.5rem",
+                              "@media (min-width: 375px) and (max-width: 667px)":
+                                {
+                                  marginLeft: "5px",
+                                },
                             }}
                           >
-                            {/* Image */}
-                            <img
-                              src={order.image}
-                              alt={order.dishName}
-                              style={{
-                                width: "150px",
-                                height: "100px",
-                                marginLeft: "1rem",
-                                objectFit: "cover",
-                              }}
-                            />
-                            <Box
+                            <Typography
                               sx={{
-                                height: "100px",
-                                width: "678px",
-                                marginLeft: "10px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                                "@media (min-width: 375px) and (max-width: 667px)":
+                                  {
+                                    fontSize: "10px",
+                                  },
                               }}
                             >
-                              <Typography sx={{ fontSize: "17px" }}>
-                                {order.dishName}
-                              </Typography>
-                              <Typography sx={{ fontSize: "17px" }}>
-                                Price: ₹{order.price}
-                              </Typography>
-                              <Typography sx={{ fontSize: "17px" }}>
-                                Total Price: ₹{order.totalPrice}
-                              </Typography>
-                              <Typography sx={{ fontSize: "17px" }}>
-                                Quantity: {order.quantity}
-                              </Typography>
-                            </Box>
+                              Recommendations & Reminders
+                            </Typography>
+
+                            <div>
+                              <Switch
+                                {...label}
+                                defaultChecked
+                                sx={{
+                                  "& .MuiSwitch-switchBase.Mui-checked": {
+                                    color: "#fe0604",
+                                  },
+                                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                                    {
+                                      backgroundColor: "#fe0604",
+                                    },
+                                }}
+                              />
+                            </div>
                           </Box>
 
                           <Box
                             sx={{
-                              height: "100px",
-                              width: "828px",
-                              marginLeft: "1.8rem",
+                              width: "1px",
+                              backgroundColor: "#686B78",
+                              margin: "1rem 1rem",
+                            }}
+                          />
+
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                gap: "1rem",
-                                flexDirection: "row",
-                                marginTop: "2rem",
-                              }}
-                            >
-                              <Button
-                                sx={{
-                                  height: "40px",
-                                  width: "120px",
-                                  backgroundColor: "#fe0604",
-                                  color: "#fff",
-                                  "&:hover": {
-                                    backgroundColor: "#fe0604",
-                                    color: "#fff",
-                                  },
-                                }}
-                              >
-                                REORDER
-                              </Button>
-                              <Button
-                                sx={{
-                                  height: "40px",
-                                  width: "120px",
-                                  border: "1px solid #fe0604",
-                                  color: "#fe0604",
-                                }}
-                              >
-                                HELP
-                              </Button>
-                            </Box>
-                          </Box>
-                        </Box>
-                      ))}
-                    </Box>
-
-                    {/* Small screen layout */}
-                    <Box
-                      sx={{
-                        display: { xs: "block", md: "none" }, // Show on small screens
-                        width: "100%",
-                        padding: "1rem",
-                        // backgroundColor: "#f8f8f8",
-                        marginTop: "1.5rem",
-                        "@media (max-width: 600px)": {
-                          padding: "0.5rem",
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        <Typography
-                          sx={{ fontSize: "14px", fontWeight: "bold" }}
-                        >
-                          Restaurants
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            color: "#686B78",
-                          }}
-                        >
-                          Past Orders
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          backgroundColor: "white",
-                          padding: "1rem",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        {dummy.length > 0 ? (
-                          dummy.map((order) => (
-                            <Box key={order.id} sx={{ marginBottom: "1rem" }}>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <img
-                                  src={order.image}
-                                  alt={order.dishName}
-                                  style={{
-                                    width: "100px",
-                                    height: "100px",
-                                    marginLeft: "1rem",
-                                    objectFit: "cover",
-                                  }}
-                                />
-                                <Box
-                                  // sx={{
-                                  //   display: "flex",
-                                  //   justifyContent: "space-between",
-                                  //   alignItems: "center",
-                                  // }}
-                                  sx={{
-                                    height: "100px",
-                                    width: "678px",
-                                    marginLeft: "10px",
-                                  }}
-                                >
-                                  {/* <Typography
-                                  sx={{ fontSize: "16px", fontWeight: "bold" }}
-                                >
-                                  {order.restaurantName}
-                                </Typography> */}
-
-                                  <Typography sx={{ fontSize: "14px" }}>
-                                    {order.dishName}
-                                  </Typography>
-                                  <Typography sx={{ fontSize: "14px" }}>
-                                    Price: ₹{order.price}
-                                  </Typography>
-                                  <Typography sx={{ fontSize: "14px" }}>
-                                    Total Price: ₹{order.totalPrice}
-                                  </Typography>
-                                  <Typography sx={{ fontSize: "14px" }}>
-                                    Quantity: {order.quantity}
-                                  </Typography>
-                                </Box>
-                                <Box
-                                  sx={{ display: "flex", alignItems: "center" }}
-                                >
-                                  {/* <Typography
-                                    sx={{
-                                      fontSize: "12px",
-                                      color: "#686B78",
-                                      // marginRight: "0.5rem",
-                                    }}
-                                  >
-                                    Delivered
-                                  </Typography>
-                                  <CheckCircleIcon
-                                    sx={{ color: "#28a745", fontSize: "18px" }}
-                                  /> */}
-                                </Box>
-                              </Box>
-                              <Typography
-                                sx={{
-                                  fontSize: "12px",
-                                  color: "#686B78",
-                                  marginTop: "0.5rem",
-                                }}
-                              >
-                                {order.location}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontSize: "14px",
-                                  fontWeight: "bold",
-                                  marginTop: "0.5rem",
-                                }}
-                              >
-                                {/* ₹{order.totalPrice} */}
-                              </Typography>
-                              {/* <Divider sx={{ margin: "1rem 0" }} /> */}
-                              <Typography
-                                sx={{ fontSize: "12px", color: "#686B78" }}
-                              >
-                                {/* {order.dishName} [{order.quantity}] */}
-                              </Typography>
-                              <Typography
-                                sx={{ fontSize: "12px", color: "#686B78" }}
-                              >
-                                {order.date}
-                              </Typography>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  marginTop: "1rem",
-                                  gap: "1rem",
-                                }}
-                              >
-                                <Button
-                                  variant="outlined"
-                                  sx={{
-                                    fontSize: "12px",
-                                    fontWeight: "bold",
-                                    color: "#fe0604",
-                                    padding: "0.5rem 1rem",
-                                    width: "30%",
-                                    border: "1px solid red", // Ensure border is within sx prop
-                                  }}
-                                >
-                                  REORDER
-                                </Button>
-
-                                <Button
-                                  variant="outlined"
-                                  sx={{
-                                    fontSize: "12px",
-                                    fontWeight: "bold",
-                                    borderColor: "#fe0604",
-                                    color: "#fe0604",
-                                    padding: "0.5rem 1rem",
-                                    width: "39%",
-                                  }}
-                                >
-                                  RATE ORDER
-                                </Button>
-                              </Box>
-                              <Divider sx={{ margin: "1rem 0" }} />
-                            </Box>
-                          ))
-                        ) : (
-                          <Typography>No past orders found.</Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  </>
-                )}
-
-                {selectedTab === 1 && (
-                  <>
-                    <Box
-                      sx={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        fontFamily: "poppins",
-                        marginTop: "3rem",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      {address.length === 0 ? (
-                        // Display the GIF when address data is empty
-                        <Box sx={{ border: "1px solid blue" }}>
-                          {/* <img src={AddressGIF} alt="No Address Available" /> */}
-                          <h1>Getting Address</h1>
-                        </Box>
-                      ) : (
-                        address.map((addressData) => (
-                          <>
                             <Typography
                               sx={{
-                                fontSize: "24px",
-                                fontWeight: "bold",
-                                fontFamily: "poppins",
-                                marginTop: "3rem",
-                                marginBottom: "1rem",
+                                fontSize: "14px",
+                                "@media (min-width: 375px) and (max-width: 667px)":
+                                  {
+                                    fontSize: "10px",
+                                  },
                               }}
                             >
-                              Manage Address
+                              Keep this on to receive offer recommendations &
+                              timely reminders based on your interests
                             </Typography>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                gap: "2rem",
-                                flexWrap: "wrap",
-                              }}
-                            >
-                              <Box className="card" key={addressData._id}>
-                                <Box className="header">
-                                  <Box>
-                                    <LocationOnIcon
-                                      sx={{
-                                        fontSize: "35px",
-                                        color: "#ff0000",
-                                      }}
-                                    />
-                                  </Box>
-                                  <Box>
-                                    <p className="name">Address</p>
-                                  </Box>
-                                </Box>
-                                <p className="message">{addressData.address}</p>
-                                <Stack spacing={2} direction={"row"}>
-                                  <IconButton
-                                    sx={{
-                                      bgcolor: "#ff0000",
-                                      ":hover": { bgcolor: "#ff0000" },
-                                    }}
-                                    onClick={() =>
-                                      toggleEditDialog(addressData._id)
-                                    }
-                                  >
-                                    <EditLocationAltIcon
-                                      sx={{ color: "#fff" }}
-                                    />
-                                  </IconButton>
-                                  <IconButton
-                                    sx={{
-                                      bgcolor: "#ff0000",
-                                      ":hover": { bgcolor: "#ff0000" },
-                                    }}
-                                    onClick={() =>
-                                      deleteHandleClick(addressData._id)
-                                    }
-                                  >
-                                    <DeleteIcon sx={{ color: "#fff" }} />
-                                  </IconButton>
-                                </Stack>
-                              </Box>
-                            </Box>
-                          </>
-                        ))
-                      )}
-
-                      {/* Edit Dialog */}
-                      <Dialog open={openEditDialog} onClose={toggleEditDialog}>
-                        <DialogTitle>Edit Address</DialogTitle>
-                        <DialogContent>
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            label="Edit address"
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            placeholder="Enter your address"
-                          />
-                        </DialogContent>
-                        <DialogActions>
-                          <Button
-                            onClick={() => toggleEditDialog()}
-                            color="primary"
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              toggleEditDialog(); // First function
-                              handleSaveClick(); // Second function
-                              // {console.log("==========================++++++++++++++++++++++",addressData._id)}
-                            }}
-                          >
-                            Save
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-
-                      {isSmallScreen && (
-                        <Box>
-                          <Button
-                            sx={{
-                              marginTop: "1rem",
-                              border: "1px solid #fe0604",
-                              color: "#fe0604",
-                              "&:hover": {
-                                cursor: "pointer",
-                              },
-                            }}
-                            onClick={handleClickOpen}
-                          >
-                            ADD NEW ADDRESS
-                          </Button>
-
-                          {/* Dialog (popup) for adding address */}
-                          <Dialog open={open} onClose={handleClose}>
-                            <DialogTitle>Add New Address</DialogTitle>
-                            <DialogContent>
-                              <TextField
-                                label="Phone Number"
-                                variant="outlined"
-                                fullWidth
-                                margin="normal"
-                              />
-                              <TextField
-                                label="Address"
-                                variant="outlined"
-                                fullWidth
-                                margin="normal"
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                onClick={handleClickClose}
-                                color="primary"
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={handleClickClose}
-                                color="primary"
-                              >
-                                Save
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
+                          </Box>
                         </Box>
-                      )}
-                    </Box>
-                  </>
-                )}
-
-                {selectedTab === 2 && (
-                  <>
-                    {/* Large screen layout */}
-                    <Box
-                      sx={{
-                        display: { xs: "none", md: "block" }, // Hide on small screens, show on medium and large screens
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "24px",
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          marginTop: "3rem",
-                        }}
-                      >
-                        SMS Preferences
-                      </Typography>
-                      <Box
-                        sx={{
-                          height: "50px",
-                          width: "860px",
-                          border: "1px solid #686B78",
-                          display: "flex",
-                          alignItems: "center",
-                          marginTop: "2rem",
-                          "@media (min-width: 768px) and (max-width: 1024px)": {
-                            width: "530px",
-                          },
-                        }}
-                      >
-                        <Typography
-                          sx={{ fontSize: "14px", marginLeft: "1rem" }}
-                        >
-                          Order related SMS cannot be disabled as they are
-                          critical to provide service
-                        </Typography>
                       </Box>
+
+                      {/* Small screen layout */}
                       <Box
                         sx={{
-                          height: "93px",
-                          width: "860px",
-                          border: "1px solid #686B78",
-                          marginTop: "1.5rem",
-                          display: "flex",
-                          "@media (min-width: 768px) and (max-width: 1024px)": {
-                            width: "530px",
-                          },
+                          display: { xs: "block", md: "none" }, // Show on small screens, hide on medium and large screens
+                          width: "100%",
+                          padding: "1rem",
+                          // backgroundColor: "#f8f8f8",
                         }}
                       >
+                        {/* SMS Preferences */}
                         <Box
                           sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginLeft: "1.5rem",
-                            "@media (min-width: 375px) and (max-width: 667px)":
-                              {
-                                marginLeft: "5px",
-                              },
+                            backgroundColor: "white",
+                            padding: "1rem",
+                            borderRadius: "4px",
+                            marginBottom: "1rem",
                           }}
                         >
                           <Typography
                             sx={{
-                              fontSize: "16px",
+                              fontSize: "12px",
                               fontWeight: "bold",
-                              "@media (min-width: 375px) and (max-width: 667px)":
-                                {
-                                  fontSize: "10px",
-                                },
+                              textTransform: "uppercase",
+                              color: "#686B78",
+                              marginBottom: "0.5rem",
+                              marginTop: "4rem",
                             }}
                           >
-                            Recommendations & Reminders
+                            SMS Preferences
                           </Typography>
+                          <Typography
+                            sx={{ fontSize: "12px", color: "#686B78" }}
+                          >
+                            Order related SMS cannot be disabled as they are
+                            critical to provide service
+                          </Typography>
+                        </Box>
 
-                          <div>
+                        {/* Recommendations & Reminders */}
+                        <Box
+                          sx={{
+                            backgroundColor: "white",
+                            padding: "1rem",
+                            borderRadius: "4px",
+                            display: "flex",
+                            flexDirection: "column",
+                            marginBottom: "1rem",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "0.5rem",
+                            }}
+                          >
+                            <Typography
+                              sx={{ fontSize: "14px", fontWeight: "bold" }}
+                            >
+                              Recommendations & Reminders
+                            </Typography>
                             <Switch
                               {...label}
                               defaultChecked
@@ -1247,152 +1513,49 @@ function Profile() {
                                   },
                               }}
                             />
-                          </div>
-                        </Box>
-
-                        <Box
-                          sx={{
-                            width: "1px",
-                            backgroundColor: "#686B78",
-                            margin: "1rem 1rem",
-                          }}
-                        />
-
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
+                          </Box>
                           <Typography
-                            sx={{
-                              fontSize: "14px",
-                              "@media (min-width: 375px) and (max-width: 667px)":
-                                {
-                                  fontSize: "10px",
-                                },
-                            }}
+                            sx={{ fontSize: "12px", color: "#686B78" }}
                           >
                             Keep this on to receive offer recommendations &
                             timely reminders based on your interests
                           </Typography>
                         </Box>
-                      </Box>
-                    </Box>
 
-                    {/* Small screen layout */}
-                    <Box
-                      sx={{
-                        display: { xs: "block", md: "none" }, // Show on small screens, hide on medium and large screens
-                        width: "100%",
-                        padding: "1rem",
-                        backgroundColor: "#f8f8f8",
-                      }}
-                    >
-                      {/* SMS Preferences */}
-                      <Box
-                        sx={{
-                          backgroundColor: "white",
-                          padding: "1rem",
-                          borderRadius: "4px",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            textTransform: "uppercase",
-                            color: "#686B78",
-                            marginBottom: "0.5rem",
-                          }}
-                        >
-                          SMS Preferences
-                        </Typography>
-                        <Typography sx={{ fontSize: "12px", color: "#686B78" }}>
-                          Order related SMS cannot be disabled as they are
-                          critical to provide service
-                        </Typography>
-                      </Box>
-
-                      {/* Recommendations & Reminders */}
-                      <Box
-                        sx={{
-                          backgroundColor: "white",
-                          padding: "1rem",
-                          borderRadius: "4px",
-                          display: "flex",
-                          flexDirection: "column",
-                          marginBottom: "1rem",
-                        }}
-                      >
+                        {/* Account Deletion */}
                         <Box
                           sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginBottom: "0.5rem",
+                            backgroundColor: "white",
+                            padding: "1rem",
+                            borderRadius: "4px",
                           }}
                         >
                           <Typography
-                            sx={{ fontSize: "14px", fontWeight: "bold" }}
-                          >
-                            Recommendations & Reminders
-                          </Typography>
-                          <Switch
-                            {...label}
-                            defaultChecked
                             sx={{
-                              "& .MuiSwitch-switchBase.Mui-checked": {
-                                color: "#fe0604",
-                              },
-                              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
-                                {
-                                  backgroundColor: "#fe0604",
-                                },
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                              color: "#686B78",
+                              marginBottom: "0.5rem",
                             }}
-                          />
+                          >
+                            Account Deletion
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              color: "#fe0604",
+                              fontWeight: "bold",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Delete account
+                          </Typography>
                         </Box>
-                        <Typography sx={{ fontSize: "12px", color: "#686B78" }}>
-                          Keep this on to receive offer recommendations & timely
-                          reminders based on your interests
-                        </Typography>
                       </Box>
-
-                      {/* Account Deletion */}
-                      <Box
-                        sx={{
-                          backgroundColor: "white",
-                          padding: "1rem",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            textTransform: "uppercase",
-                            color: "#686B78",
-                            marginBottom: "0.5rem",
-                          }}
-                        >
-                          Account Deletion
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            color: "#fe0604",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Delete account
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </>
-                )}
+                    </>
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>

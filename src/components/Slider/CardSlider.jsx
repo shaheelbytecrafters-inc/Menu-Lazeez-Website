@@ -2,14 +2,19 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Card, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import res from "../../../src/assets/images/res.jpeg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CardShimmer from "./CardShimmer";
+import { useEffect } from "react";
+import { fetchRestaurants } from "../../redux/restaurantSlice/Allrestaurant";
 function CardSlider() {
-    const navigate = useNavigate();
- 
-  const { restaurants } = useSelector((state) => state.restaurants);
-
+  const dispatch = useDispatch();
+  const { restaurants, isLoading } = useSelector((state) => state.restaurants);
+  const navigate=useNavigate()
+  useEffect(() => {
+    dispatch(fetchRestaurants());
+  }, [dispatch]);
 
   const settings = {
     dots: false,
@@ -45,10 +50,13 @@ function CardSlider() {
     ],
   };
 
-  const handleRedirect = () => {
-    navigate("/restaurantname");
+  const handleRedirect = (id) => {
+    navigate(`/specificDetails/${id}`);
   };
-  
+
+  if (isLoading) {
+    return <CardShimmer />;
+  }
 
   return (
     <Box
@@ -94,7 +102,7 @@ function CardSlider() {
         <Slider {...settings}>
           {restaurants.map((card, index) => (
             <Box
-              onClick={handleRedirect}
+              onClick={() => handleRedirect(card.restaurantId)}
               key={index}
               sx={{
                 padding: "0 5px",
