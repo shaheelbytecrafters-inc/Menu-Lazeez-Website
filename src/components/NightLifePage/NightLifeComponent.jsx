@@ -4,29 +4,31 @@ import RestaurantCard from "../../card/RestaurantCard";
 import { fetchRestaurants } from "../../redux/restaurantSlice/Allrestaurant";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import ShimmerUiCard from "./ShimmerUiCrad";
 // import HoverFilterButton from "../Delivery/HoverFilterButton";
 
 const NightlifeComponent = () => {
   const dispatch = useDispatch();
-  const { restaurants, status, error } = useSelector(
+  const { restaurants, isLoading, error } = useSelector(
     (state) => state.restaurants
 
   );
 
   // Fetch data when component mounts
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchRestaurants());
-    }
-  }, [dispatch, status]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
+   useEffect(() => {
+     if (!restaurants.length) {
+       dispatch(fetchRestaurants());
+     }
+   }, [dispatch, restaurants.length]);
+  
+  if (isLoading) {
+    return <ShimmerUiCard />;
   }
 
-  if (status === "failed") {
+  if (error) {
     return <div>Error: {error}</div>;
   }
+
 
   return (
     <Box>

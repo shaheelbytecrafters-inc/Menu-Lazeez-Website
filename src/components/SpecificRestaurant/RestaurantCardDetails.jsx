@@ -12,7 +12,8 @@ import ReviewPage from "./ReviewPage";
 
 // import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews } from "../../redux/reviewSlice/reviewSlice";
-import RestaurantReview from "./RestaurantReview";
+
+import ShimmerSpecific from "./ShimmerSpecific";
 
 const RestaurantCardDetails = () => {
   // Get all params from the URL
@@ -32,7 +33,7 @@ const RestaurantCardDetails = () => {
   // );
 
   const dispatch = useDispatch();
-  const { restaurant, loading, error } = useSelector(
+  const { restaurant, isLoading, error } = useSelector(
     (state) => state.restaurant
   );
   const { reviews} = useSelector((state) => state.reviews);
@@ -57,16 +58,11 @@ const RestaurantCardDetails = () => {
 
   console.log("Restaurant Data:", restaurant);
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
-      >
-        <CircularProgress />
-      </Box>
+     
+        <ShimmerSpecific />
+    
     );
   }
 
@@ -103,40 +99,11 @@ const RestaurantCardDetails = () => {
     );
   }
 
-  // const products = [
-  //   {
-  //     id: 1,
-  //     name: "Sizzled Falafel Shawarma",
-  //     price: 179,
-  //     description:
-  //       "Experience Turkish magic wrapped in warm kuboos or rumali, loaded with fun toppings and crispy veg falafels.",
-  //     image:
-  //       "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/FOOD_CATALOG/IMAGES/CMS/2024/9/11/f46d948c-2447-49a7-b045-98da7790475d_ba58be1e-fce8-40c7-ae9a-361f3331ddb5.jpeg",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Chicken Shawarma",
-  //     price: 199,
-  //     description:
-  //       "Grilled chicken served with sauces wrapped in kuboos or rumali.",
-  //     image:
-  //       "https://media.gettyimages.com/id/157472912/photo/ice-cream-composition-on-a-bowl.jpg?s=612x612&w=gi&k=20&c=AniWX1OhaarUxCkgjUoKiA3bKVllK0upCylW6Z0PCMQ=",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Paneer Tikka Shawarma",
-  //     price: 169,
-  //     description:
-  //       "Delicious paneer tikka with fresh veggies wrapped in kuboos or rumali.",
-  //     image:
-  //       "https://img.freepik.com/premium-photo/collection-ice-cream-cones-with-strawberries-strawberries_960117-309.jpg",
-  //   },
-  // ];
-
   return (
     <Box>
-      <Box sx={{ padding: "1rem", maxWidth: "800px", margin: "auto" }}>
+      <Box sx={{ padding: "1rem", maxWidth: "800px", margin: "auto"  }}>
         {/* Breadcrumb */}
+        {/* <ShimmerSpecific/> */}
         <Typography
           variant="body2"
           color="textSecondary"
@@ -358,6 +325,7 @@ const RestaurantCardDetails = () => {
                   backgroundColor: "#fe0604",
                   color: "white",
                 },
+
               }}
             >
               Menu
@@ -388,20 +356,21 @@ const RestaurantCardDetails = () => {
 
           {/* Step 3: Conditional rendering of content based on showMenu state */}
           {showMenu ? (
-            <Box sx={{ maxWidth: "800px", padding: 1 }}>
+            <Box sx={{ width: "100%", padding: 1 }}>
               {restaurant?.menu.map((dish) => (
                 <ProductCard
                   key={dish.dishId}
                   dish={dish}
                   restaurantId={restaurant.restaurantId}
                   handleAddToCart={handleAddToCart}
+                  
                 />
               ))}
             </Box>
           ) : (
             <ReviewPage
               reviews={reviews}
-              sx={{ maxWidth: "800px", padding: 1 }}
+              sx={{ width: "100%", padding: 1 }}
             />
           )}
         </Box>

@@ -40,14 +40,14 @@ const SpecificRestaurant = () => {
   return (
     <Box
       height="100%"
-      width="100%"
+      width="100vw"
       display="flex"
       justifyContent="center"
       alignItems="center"
     >
       <Box
         height="auto"
-        width="860px"
+        // width="860px"
         display="flex"
         flexWrap="wrap"
         gap="2rem"
@@ -61,11 +61,11 @@ const SpecificRestaurant = () => {
             sx={{
               display: "flex",
               borderRadius: "8px",
-              maxWidth: 400,
+              width: 500,
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               position: "relative",
               height: "7rem",
-              padding: "0.4rem",
+              padding: "1rem",
               textAlign: "left",
             }}
             // onClick=(()=>navigate("/"))
@@ -94,7 +94,7 @@ const SpecificRestaurant = () => {
               {/* Card Image */}
               <CardMedia
                 component="img"
-                sx={{ width: 110, height: 110, borderRadius: "8px" }}
+                sx={{ width: 150, height: 110, borderRadius: "8px" }}
                 image={food}
                 alt={restaurant.name}
               />

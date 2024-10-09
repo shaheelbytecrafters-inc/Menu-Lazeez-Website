@@ -17,7 +17,7 @@ const Hero = () => {
         margin: 0,
         padding: 0,
         // overflow: "hidden",
-        bgcolor:"Blue"
+        // bgcolor:"Blue"
       }}
     >
       <Box
@@ -54,7 +54,7 @@ const Hero = () => {
           </Typography>
           <Typography
             sx={{
-              // fontFamily: "Poppins, sans-serif",
+              fontFamily: "Poppins, sans-serif",
               color: "black",
               fontSize: { xs: 25, sm: 35 },
               fontWeight: "bold",

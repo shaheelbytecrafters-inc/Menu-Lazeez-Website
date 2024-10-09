@@ -20,6 +20,8 @@ import {
 import { removeCartItem } from "../../redux/cartSlice/cart";
 import food from "../../../src/assets/images/food.jpeg";
 import AddToCart from "../../../src/assets/images/AddToCart.gif";
+// import ShimmerCardUi from "../../pages/ShimmerCardUi";
+import ShimmerCart from "./ShimmerCart";
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();
@@ -33,13 +35,13 @@ const ShoppingCart = () => {
     }
   }, [dispatch]);
 
-  const { cartData, status, error } = useSelector((state) => state.cart);
+  const { cartData, isLoading, error } = useSelector((state) => state.cart);
 
-  if (status === "loading") {
-    return <Typography>Loading...</Typography>;
+  if (isLoading) {
+    return <ShimmerCart/>;
   }
 
-  if (status === "failed") {
+  if (isLoading) {
     return (
       <Typography>
         Error: {error?.message || "An unknown error occurred."}
@@ -262,6 +264,7 @@ const ShoppingCart = () => {
             </Paper>
           </Grid>
         </Grid>
+        {/* <ShimmerCart/> */}
         <AddressForm />
       </Container>
     </>

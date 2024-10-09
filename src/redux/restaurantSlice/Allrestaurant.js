@@ -6,7 +6,7 @@ export const fetchRestaurants = createAsyncThunk(
     const response = await axios.get(
       "https://lazeez-user-backend-kpyf.onrender.com/restaurants"
     );
-    console.log("API Response:", response); 
+    // console.log("API Response:", response); 
     return response.data.data; 
   }
 );
@@ -15,22 +15,26 @@ const restaurantSlice = createSlice({
   name: "restaurants",
   initialState: {
     restaurants: [],
-    status: "idle",
+    // status: "idle",
+    isLoading:false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchRestaurants.pending, (state) => {
-        state.status = "loading";
+        state.status = true;
+        state.isLoading = true;
+        state.error = null;
+        
       })
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.isLoading = false;
         state.restaurants = action.payload; 
-        console.log("Fetched Restaurants:", state.restaurants); 
+        // console.log("Fetched Restaurants:", state.restaurants); 
       })
       .addCase(fetchRestaurants.rejected, (state, action) => {
-        state.status = "failed";
+        state.isLoading= true;
         state.error = action.error.message;
       });
   },

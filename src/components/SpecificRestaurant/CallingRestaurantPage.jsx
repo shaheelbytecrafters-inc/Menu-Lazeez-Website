@@ -21,50 +21,59 @@ const CallingRestaurantPage = () => {
   }, [query]);
 
   return (
-    <Box sx={{ padding: "2rem",}}>
+    <Box sx={{display:"flex",justifyContent:"center",alignItems:"center", width:"100vw" }}>
       {/* Buttons aligned to the left */}
-      <Box sx={{ marginBottom: "2rem",display:"flex", justifyContent:"center", alignItems:"center" }}>
-        <Button
-          variant={showRestaurant ? "contained" : "none"}
-          onClick={() => setShowRestaurant(true)}
+      <Box>
+        <Box
           sx={{
-            marginRight: "1rem",
-            textTransform: "none",
-            fontSize: "1rem",
-            fontWeight: "bold",
-            backgroundColor: showRestaurant ? "#fe0604" : "transparent",
-            color: showRestaurant ? "white" : "red",
-            border: showRestaurant ? "none" : "1px solid red",
-            // padding:"5px",
-            "&:hover": {
-              backgroundColor: "#fe0604",
-              color: "white",
-            },
+            marginBottom: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          Restaurant
-        </Button>
-        <Button
-          variant={!showRestaurant ? "contained" : "none"}
-          onClick={() => setShowRestaurant(false)}
-          sx={{
-            textTransform: "none",
-            fontSize: "1rem",
-            fontWeight: "bold",
+          <Button
+            variant={showRestaurant ? "contained" : "none"}
+            onClick={() => setShowRestaurant(true)}
+            sx={{
+              marginRight: "1rem",
+              textTransform: "none",
+              fontSize: "1rem",
+              fontWeight: "bold",
+              backgroundColor: showRestaurant ? "#fe0604" : "transparent",
+              color: showRestaurant ? "white" : "red",
+              border: showRestaurant ? "none" : "1px solid red",
+              // padding:"5px",
+              "&:hover": {
+                backgroundColor: "#fe0604",
+                color: "white",
+              },
+            }}
+          >
+            Restaurant
+          </Button>
+          <Button
+            variant={!showRestaurant ? "contained" : "none"}
+            onClick={() => setShowRestaurant(false)}
+            sx={{
+              textTransform: "none",
+              fontSize: "1rem",
+              fontWeight: "bold",
 
-            backgroundColor: !showRestaurant ? "#fe0604" : "transparent",
-            color: !showRestaurant ? "white" : "red",
-            border: !showRestaurant ? "none" : "1px solid red",
-            "&:hover": {
-              backgroundColor: "red",
-              color: "white",
-            },
-          }}
-        >
-          Dishes
-        </Button>
+              backgroundColor: !showRestaurant ? "#fe0604" : "transparent",
+              color: !showRestaurant ? "white" : "red",
+              border: !showRestaurant ? "none" : "1px solid red",
+              "&:hover": {
+                backgroundColor: "red",
+                color: "white",
+              },
+            }}
+          >
+            Dishes
+          </Button>
+        </Box>
+        <Box>{showRestaurant ? <SpecificRestaurant /> : <Dish />}</Box>
       </Box>
-      <Box>{showRestaurant ? <SpecificRestaurant /> : <Dish />}</Box>
     </Box>
   );
 };

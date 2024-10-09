@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Fetching profile
 export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
-  console.log("Fetching =>", profileId);
+  // console.log("Fetching =>", profileId);
 
   try {
     const token = JSON.parse(localStorage.getItem("token"))?.token;
@@ -17,7 +17,6 @@ export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
     );
     return response.data;
   } catch (error) {
-    toast.error("Failed to fetch profile!");
     throw new Error(
       error.response ? error.response.data : "Something went wrong"
     );
@@ -55,8 +54,7 @@ const profileSlice = createSlice({
   initialState: {
     profileData: [], // Holds profile information
     loading: false, // To track loading state
-    error: null, // To hold error messages
-    status: "idle", // For tracking the status of editProfile
+    error: null, 
     user: {}, // Holds user details for editProfile
     address: [], // Holds address details
   },
