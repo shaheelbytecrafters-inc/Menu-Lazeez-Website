@@ -62,6 +62,35 @@ const RestaurantReview = ({ open, handleClose, handleSubmit }) => {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                height: 50,
+                borderRadius: "12px", // Rounded corners
+                backgroundColor: "white",
+                "& fieldset": {
+                  borderColor: "#ccc", // Soft border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bbb", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#bbb", // Brand color when focused
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                "&.Mui-focused": {
+                  color: "#FF5A5F",
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "#4A4A4A",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px white inset", // Ensures the background remains white
+                WebkitTextFillColor: "#4A4A4A", // Ensures the text color stays consistent
+              },
+            }}
           />
           <TextField
             label="Rating"
@@ -70,6 +99,35 @@ const RestaurantReview = ({ open, handleClose, handleSubmit }) => {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                height: 50,
+                borderRadius: "12px", // Rounded corners
+                backgroundColor: "white",
+                "& fieldset": {
+                  borderColor: "#ccc", // Soft border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bbb", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#bbb", // Brand color when focused
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                "&.Mui-focused": {
+                  color: "#FF5A5F",
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "#4A4A4A",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px white inset", // Ensures the background remains white
+                WebkitTextFillColor: "#4A4A4A", // Ensures the text color stays consistent
+              },
+            }}
           />
           <TextField
             label="Review"
@@ -78,8 +136,37 @@ const RestaurantReview = ({ open, handleClose, handleSubmit }) => {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                height: 50,
+                borderRadius: "12px", // Rounded corners
+                backgroundColor: "white",
+                "& fieldset": {
+                  borderColor: "#ccc", // Soft border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bbb", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#bbb", // Brand color when focused
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                "&.Mui-focused": {
+                  color: "#FF5A5F",
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "#4A4A4A",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px white inset", // Ensures the background remains white
+                WebkitTextFillColor: "#4A4A4A", // Ensures the text color stays consistent
+              },
+            }}
           />
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" gutterBottom >
             Upload an image (optional):
           </Typography>
           <input
