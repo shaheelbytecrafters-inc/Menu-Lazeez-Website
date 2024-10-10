@@ -250,8 +250,7 @@ const Dish = () => {
                           onClick={() => handleAddToCart(dish, restaurantId)}
                           sx={{
                             fontFamily: "Poppins, sans-serif",
-                            bgcolor: "#ff0000",
-                            ":hover": { bgcolor: "#ff0000" },
+                            bgcolor: "red",
                             fontSize: "14px",
                             fontWeight: 600,
                             px: 2,

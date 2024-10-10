@@ -105,8 +105,7 @@ const ProductCard = ({ dish, restaurantId, handleAddToCart }) => {
                 <Button
                   variant="contained"
                   sx={{
-                    bgcolor: "#ff0000",
-                    ":hover": { bgcolor: "#ff0000" },
+                    bgcolor: "red",
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: 2,
