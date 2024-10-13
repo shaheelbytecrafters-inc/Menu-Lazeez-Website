@@ -5,16 +5,12 @@ import axios from "axios";
 export const fetchRestaurantById = createAsyncThunk(
   "restaurant/fetchRestaurantById",
   async (restaurantId, { rejectWithValue }) => {
-    // console.log("rest}|{}}}|{{}}}++++++", restaurantId);
     try {
       const response = await axios.get(
         `https://lazeez-user-backend-kpyf.onrender.com/restaurant/${restaurantId}`
       );
-      // console.log("dataResponse================", response);
       return response.data;
     } catch (error) {
-      // Return the error as rejected action with a value
-      // console.log("eroor+++++++++++++++++++++++++++++++++++++++", error);
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
   }

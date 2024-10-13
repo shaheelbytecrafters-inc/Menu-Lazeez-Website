@@ -18,17 +18,18 @@ const ShimmerDish = () => {
               display: "flex",
               alignItems: "center",
               padding: "8px",
-              borderBottom: "1px solid #ccc",
+              border: "2px solid #ccc",
               backgroundColor: "white",
               marginBottom: "1rem",
+              borderRadius:"1rem",
               width: "100%",
             }}
           >
             {/* Skeleton for image */}
             <Skeleton
               variant="rectangular"
-              width="7.4rem"
-              height="5rem"
+              width="9rem"
+              height="6rem"
               sx={{ marginRight: "10px", borderRadius: "5px" }}
             />
             {/* Skeleton for text content */}

@@ -67,54 +67,101 @@ const ShimmerSpecific = () => {
       </Stack>
 
       {/* Multiple shimmer cards for products */}
-      {shimmerArray.map((_, index) => (
-        <Box key={index} sx={{ width: "100%" }}>
-          <Divider
-            sx={{ width: "100%", marginBottom: "10px"  }}
-          />
-          <Card
+      <Grid container spacing={2}>
+        {shimmerArray.map((_, index) => (
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            lg={6}
             sx={{
               display: "flex",
-              justifyContent: "space-between",
-              boxShadow: "none",
-              border: "none",
-            //   bgcolor: "red",
+              justifyContent: "center",
+              alignItems: "center",
+              width:"90vw"
             }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <CardContent>
-                  <Skeleton variant="text" width="40%" height={30} />
-                  <Skeleton
-                    variant="text"
-                    width="20%"
-                    height={25}
-                    sx={{ mb: 1 }}
-                  />
-                  <Skeleton variant="text" width="80%" height={20} />
-                </CardContent>
-              </Grid>
-              <Grid
-                item
-                xs={4}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
+            <Box
+              sx={{
+                marginBottom: "10px",
+                width: { xs: "100%", sm: "80%", md: "90%", lg: "95%" },
+              }}
+            >
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "row", md: "row" }, // Keep row layout for all sizes
+                  justifyContent: "space-between",
+                  boxShadow:
+                    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+                  width: "100%",
+                }}
               >
-                <Skeleton
-                  variant="rectangular"
-                  width={120}
-                  height={120}
-                  sx={{ borderRadius: 2, mb: 1 }}
-                />
-                <Skeleton variant="rectangular" width={80} height={40} />
-              </Grid>
-            </Grid>
-          </Card>
-          <Divider sx={{ width: "100%", marginTop: "10px" }} />
-        </Box>
-      ))}
+                <Grid
+                  container
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  width={"100%"}
+                  padding={"10px"}
+                >
+                  <Grid
+                    item
+                    xs={4}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    sx={{ mt: { xs: 2, sm: 0 } }}
+                  >
+                    {/* Image Shimmer */}
+                    <Skeleton
+                      variant="rectangular"
+                      width={{ xs: 110, sm: 170, md: 130, lg: 170 }}
+                      height={{ xs: 80, sm: 120, md: 100, lg: 120 }}
+                      sx={{ borderRadius: "1rem" }}
+                    />
+                    {/* Button Shimmer */}
+                    <Skeleton
+                      variant="rectangular"
+                      width={80}
+                      height={30}
+                      sx={{ mt: 1, borderRadius: 2 }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={8}>
+                    <CardContent>
+                      {/* Title Shimmer */}
+                      <Skeleton
+                        variant="text"
+                        width="60%"
+                        height={30}
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      {/* Price Shimmer */}
+                      <Skeleton
+                        variant="text"
+                        width="40%"
+                        height={25}
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      {/* Description Shimmer */}
+                      <Skeleton
+                        variant="text"
+                        width="80%"
+                        height={20}
+                        sx={{ marginBottom: "10px" }}
+                      />
+                    </CardContent>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

@@ -16,7 +16,6 @@ const SpecificRestaurant = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { results, status, error } = useSelector((state) => state.search);
-  console.log("results======", results);
   useEffect(() => {
     if (searchQuery.length > 0) {
       dispatch(fetchSearchResults(searchQuery));

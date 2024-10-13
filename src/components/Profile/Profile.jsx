@@ -37,9 +37,10 @@ import {
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EditIcon from "@mui/icons-material/Edit";
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
-
+// import { Grid, Stack } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ProfileShimmer from "./ProfileShimmer";
+import EditModal from "./EditModal/EditModal";
 
 // import AddressGIF from "../../../src/assets/images/Address.gif";
 const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -141,13 +142,11 @@ function Profile() {
     error: addressError,
   } = useSelector((state) => state.address);
 
-  // console.log("address => ",address);
-
+  
+  const userProfileData = JSON.parse(localStorage.getItem("userData"));
   const handlePhoneChange = () => {
     if (isEditingPhone) {
-      const profileData = JSON.parse(localStorage.getItem("userData"));
-      const profileId = profileData._id;
-      console.log("///////////////////", profileId);
+      const profileId = userProfileData._id;
       dispatch(editProfile({ profileId, phoneNumber }));
     }
     setIsEditingPhone(!isEditingPhone);
@@ -184,11 +183,6 @@ function Profile() {
   const handleSaveClick = () => {
     const address = inputValue;
     const addressID = specificAddressId;
-    // console.log(
-    //   "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
-    //   address,
-    //   addressID
-    // );
     dispatch(editAddress({ addressID, address }));
 
     setOpenEditDialog(false);
@@ -199,7 +193,6 @@ function Profile() {
       setPhoneNumber(profileData.phoneNumber);
       setEmail(profileData.email);
     }
-    // console.log("Updated profile =>", profileData);
   }, [profileData]);
 
   if (isLoading) {
@@ -270,12 +263,12 @@ function Profile() {
                         fontSize: isSmallScreen ? "16px" : "24px", // Decrease font size on small screens
                       }}
                     >
-                      {Object.keys(profileData).length > 1 &&
-                        profileData.username}
+                      {Object.keys(userProfileData).length > 1 &&
+                        userProfileData.username}
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#000" }}>
-                      {Object.keys(profileData).length > 1 &&
-                        profileData.phoneNumber}
+                      {Object.keys(userProfileData).length > 1 &&
+                        userProfileData.phoneNumber}
                     </Typography>
                     <Button
                       sx={{
@@ -518,7 +511,7 @@ function Profile() {
                         }}
                       >
                         {Object.keys(profileData).length > 1 &&
-                          profileData.data.username}
+                          userProfileData?.username}
                       </Typography>
                       <Box
                         sx={{
@@ -530,11 +523,12 @@ function Profile() {
                       >
                         <Typography variant="body2">
                           {Object.keys(profileData).length > 1 &&
-                            profileData.data.phoneNumber}
+                            userProfileData?.phoneNumber}
                         </Typography>
                         <Typography>
+                          {console.log("pdjiiiiiiii", profileData)}
                           {Object.keys(profileData).length > 1 &&
-                            profileData.data.email}
+                            userProfileData?.email}
                         </Typography>
                       </Box>
                     </Box>
@@ -1084,7 +1078,7 @@ function Profile() {
                                 fontSize: "24px",
                                 fontWeight: "bold",
                                 fontFamily: "poppins",
-                                marginTop: "5rem",
+                                marginTop: "3rem",
                                 marginBottom: "1rem",
                               }}
                             >
@@ -1094,7 +1088,7 @@ function Profile() {
                               container
                               justifyContent="center"
                               spacing={2}
-                              sx={{ width: "100%", border: "1px solid blue" }} // Ensure it takes the full width
+                              sx={{ width: "100%" }} // Ensure it takes the full width
                             >
                               {address.map((addressData) => (
                                 <>
@@ -1223,42 +1217,13 @@ function Profile() {
                         )}
 
                         {/* Edit Dialog */}
-                        <Dialog
-                          open={openEditDialog}
-                          onClose={toggleEditDialog}
-                        >
-                          <DialogTitle>Edit Address</DialogTitle>
-                          <DialogContent>
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              label="Edit address"
-                              type="text"
-                              fullWidth
-                              variant="outlined"
-                              value={inputValue}
-                              onChange={handleInputChange}
-                              placeholder="Enter your address"
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              onClick={() => toggleEditDialog()}
-                              color="primary"
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                toggleEditDialog(); // First function
-                                handleSaveClick(); // Second function
-                                // {console.log("==========================++++++++++++++++++++++",addressData._id)}
-                              }}
-                            >
-                              Save
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
+                        <EditModal
+                          inputValue={inputValue}
+                          handleInputChange={handleInputChange}
+                          handleSaveClick={handleSaveClick}
+                          openEditDialog={openEditDialog}
+                          toggleEditDialog={toggleEditDialog}
+                        />
 
                         {isSmallScreen && (
                           <Box>

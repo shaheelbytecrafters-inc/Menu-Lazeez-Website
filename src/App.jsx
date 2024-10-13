@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import RestaurantPage from "./pages/RestaurantPage";
+// import RestaurantPage from "./pages/RestaurantPage";
 import Footer from "./components/footer/Footer";
 import PartnerPage from "./components/Partner/PartnerPage";
 import Navbar from "./components/Header/Navbar";
@@ -13,6 +13,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import SignUp from "./components/authComponent/SignUp";
 import RestaurantCardDetails from "./components/SpecificRestaurant/RestaurantCardDetails";
 import RestroAndDishes from "./components/SearchInput/RestroAndDishes";
+import AddressForm from "./components/Cart/AddressForm";
 
 
 function AppContent() {
@@ -23,7 +24,7 @@ function AppContent() {
     <div style={{ padding: isHomePage ? "0" : "90px 0" }}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/restaurantname" element={<RestaurantPage />} />
+        {/* <Route path="/restaurantname" element={<RestaurantPage />} /> */}
         <Route path="/foodDetails" element={<NightlifeComponent />} />
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/sign" element={<SignUp />} />
@@ -35,6 +36,8 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
+        <Route path="/checkout" element={<AddressForm />} />
+
         <Route path="/searchBar" element={<SearchInput />} />
         <Route
           path="/profile"
@@ -46,9 +49,9 @@ function AppContent() {
         />
         <Route
           path="/specificDetails/:restaurantId"
-          element={<RestaurantCardDetails/>}
+          element={<RestaurantCardDetails />}
         />
-        <Route path="/restroAndDishes" element={<RestroAndDishes/>}/>
+        <Route path="/restroAndDishes" element={<RestroAndDishes />} />
       </Routes>
     </div>
   );

@@ -63,7 +63,7 @@ const NightlifeComponent = () => {
               justifyItems: "center",
             }}
           >
-            {console.log("++++++++++++++", restaurants)}
+            {/* {console.log("++++++++++++++", restaurants)} */}
             {restaurants.map((restaurant) => (
               <RestaurantCard
                 key={restaurant.restaurantId}

@@ -53,7 +53,6 @@ const Login = ({ open, handleClose, handleOpenModal }) => {
           loginUser.fulfilled.match(resultAction) &&
           resultAction.payload.status
         ) {
-          console.log("resultAction: ", resultAction);
           handleOpenModal("otp");
         } else {
           handleOpenModal("signUp");

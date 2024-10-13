@@ -9,11 +9,9 @@ export const fetchSearchResults = createAsyncThunk(
       const response = await axios.get(
         `https://lazeez-user-backend-kpyf.onrender.com/search?query=${query}`
       );
-      // console.log("}}}}}}}}}}}}}}}}}}}}}",response)
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        // console.log("=========================++++++++++++++++++++++++",error),
         error.response ? error.response.data : error.message
       );
     }
@@ -30,7 +28,7 @@ const searchSlice = createSlice({
   },
   reducers: {
     setQuery: (state, action) => {
-      state.query = action.payload; // Update query state in Redux
+      state.query = action.payload; 
     },
   },
   extraReducers: (builder) => {
@@ -41,18 +39,14 @@ const searchSlice = createSlice({
       })
       .addCase(fetchSearchResults.fulfilled, (state, action) => {
         state.isLoading = false;
-        // state.status = "succeeded";
-        state.results = action.payload.results; // Update search results when API call succeeds
+        state.results = action.payload.results; 
       })
       .addCase(fetchSearchResults.rejected, (state, action) => {
         state.isLoading = false;
-        // state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
-
-// Export the action to set query
 export const { setQuery } = searchSlice.actions;
 
 export default searchSlice.reducer;

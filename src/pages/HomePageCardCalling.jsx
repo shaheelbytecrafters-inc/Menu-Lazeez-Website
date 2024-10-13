@@ -69,9 +69,9 @@ const HomePageCardCalling = () => {
             gap: "3rem",
             gridTemplateColumns: {
               xs: "1fr",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              lg: "repeat(4,1fr)",
+              sm: "repeat(1, 1fr)",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(3,1fr)",
             },
             width: "90%",
             justifyItems: "center",

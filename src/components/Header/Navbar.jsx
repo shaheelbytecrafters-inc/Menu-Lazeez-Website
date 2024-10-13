@@ -15,6 +15,7 @@ import {
   ListItemText,
   Box,
   Modal,
+  Divider,
 } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseIcon from "@mui/icons-material/Close";
@@ -93,7 +94,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const totalItemsInCart = cartData && cartData.items?.length || "0"
 
-  console.log("cartData =>",cartData.items)
+  // console.log("cartData =>",cartData.items)
   // useEffect(() => {
   //   const storedUserData = localStorage.getItem("userData");
   //   let userData = {};
@@ -149,7 +150,7 @@ const Navbar = () => {
 
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const userId = userData?._id;
-    console.log("userId: ", userId);
+    // console.log("userId: ", userId);
     if (userId) {
       dispatch(fetchCartData(userId));
     }
@@ -296,29 +297,68 @@ const Navbar = () => {
               anchor="left"
               open={showDrawer}
               onClose={toggleDrawer(false)}
+              transitionDuration={600} // Smooth transition
+              PaperProps={{
+                sx: {
+                  width: 270,
+                  animation: showDrawer ? "slideIn 0.6s ease-out" : "none", // Custom animation
+                },
+              }}
             >
               <Box
                 sx={{
-                  width: 270,
                   display: "flex",
                   flexDirection: "column",
                   marginTop: "2rem",
                   marginInline: "1rem",
-                  borderRadius: "12px", // Smooth corners for modern look
+                  borderRadius: "12px",
                 }}
                 role="presentation"
                 onClick={toggleDrawer(false)}
               >
+                <Box display="flex" alignItems="center" gap="0.75rem">
+                  <Box
+                    sx={{
+                      border: "2px solid #fe0604",
+                      backgroundColor: "red",
+                      color: "#fff",
+                      width: "2.3rem",
+                      height: "2rem",
+                      display: "flex",
+                      justifyContent: "center",
+                      borderRadius: "0.5rem",
+                      alignItems: "center",
+                      fontWeight: "bold",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    ML
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#fe0604",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    MenuLazeez
+                  </Typography>
+                </Box>
+
                 <List>
                   <ListItem
                     sx={{
-                      borderBottom: "1.5px solid #ddd",
-                      padding: "0.8rem",
+                      padding: "0.6rem",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
+                      mt: "1rem",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
+                        transform: "scale(1.05)",
                         "& svg": {
-                          color: "#fff", // Change icon color on hover
+                          color: "#fff",
                         },
                       },
                     }}
@@ -328,25 +368,29 @@ const Navbar = () => {
                       <AccountCircle
                         sx={{
                           color: "#fe0604",
-                          border: "2px solid red",
-                          borderRadius: "50%",
+                          fontSize: "1.8rem",
                         }}
                       />
                     </ListItemIcon>
                     <ListItemText
                       primary="Sana"
-                      // primaryTypographyProps={{ fontSize: "1.1rem" }} // Bold name text
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
                     />
                   </ListItem>
 
                   <ListItem
                     sx={{
-                      borderBottom: "1.5px solid #ddd",
-                      padding: "0.8rem",
+                      padding: "0.6rem",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
+                      mt: "0.5rem",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow for elevation
+                        transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
                         },
@@ -355,18 +399,26 @@ const Navbar = () => {
                     onClick={() => navigate("/addRestaurant")}
                   >
                     <ListItemIcon>
-                      <AddBoxIcon sx={{ color: "#fe0604" }} />
+                      <AddBoxIcon sx={{ color: "#fe0604", fontSize: "2rem" }} />
                     </ListItemIcon>
-                    <ListItemText primary="Add Restaurant" />
+                    <ListItemText
+                      primary="Add Restaurant"
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
+                    />
                   </ListItem>
-
                   <ListItem
                     sx={{
-                      borderBottom: "1.5px solid #ddd",
-                      padding: "0.8rem",
+                      padding: "0.6rem",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
+                      mt: "0.5rem",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
+                        transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
                         },
@@ -375,18 +427,29 @@ const Navbar = () => {
                     onClick={() => navigate("/cart")}
                   >
                     <ListItemIcon>
-                      <ShoppingCartIcon sx={{ color: "#fe0604" }} />
+                      <ShoppingCartIcon
+                        sx={{ color: "#fe0604", fontSize: "2rem" }}
+                      />
                     </ListItemIcon>
-                    <ListItemText primary="Cart" />
+                    <ListItemText
+                      primary="Cart"
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
+                    />
                   </ListItem>
 
                   <ListItem
                     sx={{
-                      borderBottom: "1.5px solid #ddd",
-                      padding: "0.8rem",
+                      padding: "0.6rem",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
+                      mt: "0.5rem",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
+                        transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
                         },
@@ -395,19 +458,27 @@ const Navbar = () => {
                     onClick={() => handleOpenModal("signUp")}
                   >
                     <ListItemIcon>
-                      <SignUpIcon sx={{ color: "#fe0604" }} />
+                      <SignUpIcon sx={{ color: "#fe0604", fontSize: "2rem" }} />
                     </ListItemIcon>
-                    <ListItemText primary="Sign Up" />
+                    <ListItemText
+                      primary="Sign Up"
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
+                    />
                   </ListItem>
 
                   <ListItem
                     sx={{
-                      borderBottom: "1.5px solid #ddd",
-                      padding: "0.8rem",
-                      transition: "all 0.3s ease",
+                      padding: "0.6rem",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
+                      mt: "0.5rem",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
+                        transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
                         },
@@ -416,24 +487,34 @@ const Navbar = () => {
                     onClick={() => handleOpenModal("logIn")}
                   >
                     <ListItemIcon>
-                      <LoginIcon sx={{ color: "#fe0604" }} />
+                      <LoginIcon sx={{ color: "#fe0604", fontSize: "2rem" }} />
                     </ListItemIcon>
-                    <ListItemText primary="Login" />
+                    <ListItemText
+                      primary="Login"
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
+                    />
                   </ListItem>
                 </List>
+
+                <Divider sx={{ margin: "1rem", marginTop: "3rem" }} />
 
                 <Box sx={{ marginTop: "auto" }}>
                   <ListItem
                     sx={{
                       border: "1px solid #fe0604",
                       borderRadius: "8px",
-                      padding: "0.8rem",
-                      marginTop: "3rem",
+                      padding: "0.6rem",
+                      marginTop: "2.5rem",
                       backgroundColor: "#fff",
-                      transition: "all 0.3s ease",
+                      transition:
+                        "transform 0.3s ease, background-color 0.3s ease",
                       "&:hover": {
                         backgroundColor: "#fe0604",
+                        borderRadius: "0.5rem",
                         color: "#fff",
+                        transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
                         },
@@ -444,9 +525,14 @@ const Navbar = () => {
                     }}
                   >
                     <ListItemIcon>
-                      <LogoutIcon sx={{ color: "#fe0604" }} />
+                      <LogoutIcon sx={{ color: "#fe0604", fontSize: "2rem" }} />
                     </ListItemIcon>
-                    <ListItemText primary="Logout" />
+                    <ListItemText
+                      primary="Logout"
+                      primaryTypographyProps={{
+                        fontSize: "1.2rem", // Increase the font size
+                      }}
+                    />
                   </ListItem>
                 </Box>
               </Box>

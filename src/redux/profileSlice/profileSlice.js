@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Fetching profile
 export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
-  // console.log("Fetching =>", profileId);
 
   try {
     const token = JSON.parse(localStorage.getItem("token"))?.token;
@@ -52,11 +51,11 @@ export const editProfile = createAsyncThunk(
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    profileData: [], // Holds profile information
-    loading: false, // To track loading state
+    profileData: [],
+    loading: false,
     error: null, 
-    user: {}, // Holds user details for editProfile
-    address: [], // Holds address details
+    user: {},
+    address: [], 
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -78,12 +77,12 @@ const profileSlice = createSlice({
       // Edit Profile
       .addCase(editProfile.pending, (state) => {
         state.status = "loading";
-        state.error = null; // Reset error when starting to edit
+        state.error = null; 
       })
       .addCase(editProfile.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = { ...state.user, ...action.payload }; // Update user with new data
-        state.profileData = { ...state.profileData, ...action.payload }; // Optionally update profileData as well
+        state.user = { ...state.user, ...action.payload }; 
+        state.profileData = { ...state.profileData, ...action.payload }; 
       })
       .addCase(editProfile.rejected, (state, action) => {
         state.status = "failed";

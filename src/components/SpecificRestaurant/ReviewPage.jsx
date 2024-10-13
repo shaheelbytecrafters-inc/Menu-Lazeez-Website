@@ -1,25 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Grid, Typography, Avatar, Rating } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Grid, Typography, Avatar, Rating, IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchReviews,
   postReview,
+  updateReview,
   fetchMyReviews,
 } from "../../redux/reviewSlice/reviewSlice";
 import RestaurantReview from "./RestaurantReview";
+import ShimmerReview from "./ShimmerReview";
+import { EditNotifications } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ReviewPage = ({ reviews }) => {
   const [open, setOpen] = useState(false);
-  const [myReviewsMode, setMyReviewsMode] = useState(false); // State to toggle between all reviews and my reviews
-  const dispatch = useDispatch();
-  const { reviews: allReviews, loading, error } = useSelector((state) => state.reviews); // Get all reviews from the Redux store
-  const { myReviews } = useSelector((state) => state.reviews); 
+  const [myReviewsMode, setMyReviewsMode] = useState(false);
+  const [editMode, setEditMode] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    userName: "",
+    rating: 0,
+    reviewText: "",
+    image: null,
+  });
 
-  // Open and close modal handlers
+  const dispatch = useDispatch();
+  const {
+    reviews: allReviews,
+    isLoading,
+    error,
+  } = useSelector((state) => state.reviews);
+  const { myReviews } = useSelector((state) => state.reviews);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // Handle form submission and dispatch action
   const handleSubmit = async (formData) => {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
     const userId = userData?._id;
@@ -33,15 +47,21 @@ const ReviewPage = ({ reviews }) => {
     };
 
     if (formData.image) {
-      payload.image = formData.image; // Add image if available
+      payload.image = formData.image;
     }
 
     try {
-      // Post the review
-      await dispatch(postReview(payload));
+      if (editMode) {
+        const reviewId = editMode;
+        await dispatch(updateReview({ payload, reviewId }));
+      } else {
+        await dispatch(postReview(payload));
+      }
+
       setOpen(false);
-      
-      // Fetch reviews after posting
+      setEditMode(null);
+      setEditFormData({ userName: "", rating: 0, reviewText: "", image: null });
+
       const restaurantId = payload.restaurantId;
       dispatch(fetchReviews({ restaurantId }));
       dispatch(fetchMyReviews(restaurantId));
@@ -50,70 +70,100 @@ const ReviewPage = ({ reviews }) => {
     }
   };
 
-  // Handle fetching "My Reviews"
   const handleMyReviews = (restaurantId) => {
-    setMyReviewsMode(true); // Enable myReviewsMode
-    dispatch(fetchMyReviews(restaurantId)); // Dispatch action to fetch my reviews
+    setMyReviewsMode(true);
+    dispatch(fetchMyReviews(restaurantId));
   };
 
-  // Handle showing all reviews
   const handleAllReviews = (restaurantId) => {
-    setMyReviewsMode(false); // Disable myReviewsMode
-    dispatch(fetchReviews({ restaurantId })); // Dispatch action to fetch all reviews
+    setMyReviewsMode(false);
+    dispatch(fetchReviews({ restaurantId }));
+  };
+
+  const handleEdit = (review) => {
+    setEditMode(review._id);
+    setEditFormData({
+      userName: review.userName,
+      rating: review.rating,
+      reviewText: review.reviewText,
+      image: review.image || null,
+    });
+    setOpen(true);
   };
 
   const displayedReviews = myReviewsMode ? myReviews : allReviews;
 
-  return (
-    <Grid container spacing={2} padding={2}>
-      {/* Buttons to toggle between "All Reviews" and "My Reviews" */}
-      <Box display="flex" justifyContent="center" mb={2} alignItems="center" width="100%">
-        <Button
-          variant="contained"
-          onClick={handleOpen}
-          sx={{
-            marginRight: "1rem",
-            textTransform: "none",
-            fontSize: "1rem",
-            fontWeight: "bold",
-            backgroundColor: "#fe0604",
-            color: "white",
-            border: "1px solid red",
-            "&:hover": {
-              backgroundColor: "#fe0604",
-              color: "white",
-            },
-          }}
-        >
-          Add Review
-        </Button>
+  if (isLoading) {
+    return <ShimmerReview />;
+  }
 
-        <Button
-          variant="contained"
-          onClick={() =>
-            myReviewsMode ? handleAllReviews(reviews[0].restaurantId) : handleMyReviews(reviews[0].restaurantId)
-          }
-          sx={{
-            textTransform: "none",
-            fontSize: "1rem",
-            fontWeight: "bold",
-            backgroundColor: "#fe0604",
-            color: "white",
-            border: "1px solid red",
-            "&:hover": {
-              backgroundColor: "#fe0604",
+  return (
+    <Grid container spacing={3} paddingTop={4}>
+      <RestaurantReview
+        open={open}
+        handleClose={handleClose}
+        handleSubmit={handleSubmit}
+        formData={editFormData}
+        setFormData={setEditFormData}
+      />
+
+      <Box display="flex" justifyContent="center" mb={4} width="100%">
+        <Box width="70vw" display="flex" flexDirection="row" flexWrap="nowrap">
+          <Button
+            variant="contained"
+            onClick={handleOpen}
+            sx={{
+              marginRight: "1rem",
+              textTransform: "none",
+              fontSize: { xs: "0.8rem", sm: "1rem" }, // Decrease font size on small screens
+              fontWeight: "bold",
+              background: "linear-gradient(45deg, #fe0604 30%, #d50000 90%)", // Gradient background
               color: "white",
-            },
-          }}
-        >
-          {myReviewsMode ? "All Reviews" : "My Reviews"}
-        </Button>
+              borderRadius: "24px",
+              padding: "10px 20px",
+              boxShadow: "0 3px 5px 2px rgba(254, 6, 4, .3)", // Subtle shadow
+              "&:hover": {
+                background: "linear-gradient(45deg, #d50000 30%, #9e0000 90%)", // Darker gradient on hover
+              },
+              transition: "background 0.3s, transform 0.2s", // Smooth transition
+              "&:active": {
+                transform: "scale(0.95)", // Slight scale effect on click
+              },
+            }}
+          >
+            Add Review
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() =>
+              myReviewsMode
+                ? handleAllReviews(reviews[0].restaurantId)
+                : handleMyReviews(reviews[0].restaurantId)
+            }
+            sx={{
+              textTransform: "none",
+              fontSize: { xs: "0.8rem", sm: "1rem" }, // Decrease font size on small screens
+              fontWeight: "bold",
+              background: "linear-gradient(45deg, #fe0604 30%, #d50000 90%)", // Gradient background
+              color: "white",
+              borderRadius: "24px",
+              padding: "10px 20px",
+              boxShadow: "0 3px 5px 2px rgba(254, 6, 4, .3)", // Subtle shadow
+              "&:hover": {
+                background: "linear-gradient(45deg, #d50000 30%, #9e0000 90%)", // Darker gradient on hover
+              },
+              transition: "background 0.3s, transform 0.2s", // Smooth transition
+              "&:active": {
+                transform: "scale(0.95)", // Slight scale effect on click
+              },
+            }}
+          >
+            {myReviewsMode ? "All Reviews" : "My Reviews"}
+          </Button>
+        </Box>
       </Box>
 
-      {/* Render the RestaurantReview component */}
-      <RestaurantReview open={open} handleClose={handleClose} handleSubmit={handleSubmit} />
-
-      {/* Loop through and render each review */}
       {displayedReviews?.map((review) => (
         <Grid item xs={12} key={review._id}>
           <Box display="flex" justifyContent="center">
@@ -128,8 +178,7 @@ const ReviewPage = ({ reviews }) => {
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
               }}
             >
-              {/* Avatar for user profile */}
-              <Avatar
+              {/* <Avatar
                 src={review.image}
                 alt={review.userName}
                 sx={{
@@ -138,16 +187,35 @@ const ReviewPage = ({ reviews }) => {
                   fontSize: "1rem",
                   fontWeight: "bold",
                 }}
-              />
+              /> */}
+              <Avatar
+                src={review.image ? review.image : undefined} // Use undefined if image is not present
+                alt={review.userName ? review.userName : "User"} // Fallback to "User" if userName is undefined
+                sx={{
+                  bgcolor: review.image ? "transparent" : "red",
+                  mr: 2,
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                }}
+              >
+                {!review.image && review.userName
+                  ? review.userName.charAt(0)
+                  : "?"}{" "}
+                {/* Fallback to '?' if userName is undefined */}
+              </Avatar>
 
-              {/* Review Details */}
               <Box width="100%">
-                <Box display="flex" alignItems="center" mb={1} width="100%">
-                  <Box>
-                    <Typography variant="h6" fontWeight="bold" mr="1rem">
-                      {review.userName}
-                    </Typography>
-                  </Box>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  mb={1}
+                  width="100%"
+                  justifyContent="space-between"
+                >
+                  <Typography variant="h6" fontWeight="bold" mr="1rem">
+                    {review.userName}
+                  </Typography>
+                  <Box></Box>
                   <Box display="flex" alignItems="center">
                     <Rating
                       name="read-only"
@@ -165,15 +233,13 @@ const ReviewPage = ({ reviews }) => {
                     </Typography>
                   </Box>
                 </Box>
-
-                {/* Review Text */}
                 <Typography
                   variant="body1"
                   sx={{
                     backgroundColor: "#fff",
-                    padding: "10px 15px",
+                    // padding: "10px 15px",
                     borderRadius: "10px",
-                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                    // boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
                   }}
                 >
                   {review.reviewText}
@@ -185,6 +251,21 @@ const ReviewPage = ({ reviews }) => {
                 >
                   {new Date(review.datePosted).toLocaleString()}
                 </Typography>
+                {myReviewsMode && (
+                  <Box display="flex" width="100%" justifyContent="flex-end">
+                    <IconButton
+                      onClick={() => handleEdit(review)}
+                      sx={{
+                        mt: 2,
+                        color: "#fe0604",
+                        border: "2px solid #fe0604",
+                      }}
+                    >
+                      Edit
+                      <EditIcon />
+                    </IconButton>
+                  </Box>
+                )}
               </Box>
             </Box>
           </Box>
@@ -195,4 +276,3 @@ const ReviewPage = ({ reviews }) => {
 };
 
 export default ReviewPage;
-

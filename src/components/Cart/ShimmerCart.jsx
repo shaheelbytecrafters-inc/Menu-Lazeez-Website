@@ -1,13 +1,27 @@
 import React from "react";
-import { Container, Grid, Paper, Skeleton, Box } from "@mui/material";
+import { Container, Grid, Paper, Skeleton, Box, Typography } from "@mui/material";
 
 const ShimmerCart = () => {
   return (
     <Container sx={{ marginTop: 4 }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        // fontFamily="'Poppins', sans-serif"
+        fontFamily="Playwrite DE Grund, cursive"
+        fontWeight="bold"
+        sx={{
+          textAlign: "center",
+          color: "black",
+          marginBottom: "2rem",
+        }}
+      >
+        Your Shopping Cart
+      </Typography>
       <Grid container spacing={2}>
         {/* Placeholder for the Cart Items */}
         <Grid item xs={12} md={8}>
-          {[1, 2, 3 ].map((_, index) => (
+          {[1, 2, 3].map((_, index) => (
             <Paper
               key={index}
               sx={{
@@ -22,6 +36,7 @@ const ShimmerCart = () => {
               }}
             >
               {/* Placeholder for Image */}
+
               <Skeleton
                 variant="rectangular"
                 width={80}
@@ -61,8 +76,12 @@ const ShimmerCart = () => {
                   ml: "auto",
                 }}
               >
-                <Skeleton variant="text" width="60%" height={28}  boxShadow=
-                  "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px" />
+                <Skeleton
+                  variant="text"
+                  width="60%"
+                  height={28}
+                  boxShadow="rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+                />
               </Box>
             </Paper>
           ))}
@@ -105,6 +124,7 @@ const ShimmerCart = () => {
                   <Skeleton variant="text" width="30%" height={28} />
                   <Skeleton variant="text" width="20%" height={28} />
                 </Box>
+                <Skeleton variant="text" width="100%" height={45} />
               </Box>
             </Box>
           </Paper>
