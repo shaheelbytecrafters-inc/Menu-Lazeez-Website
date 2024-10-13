@@ -1,4 +1,4 @@
-import { Box, Typography, Chip, Stack, Divider, CircularProgress, Alert, Card, Grid, CardContent, CardMedia, Button } from "@mui/material";
+import { Box, Typography, Chip, Stack, Divider, Button, Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import ProductCard from "./ProductCard";
@@ -6,85 +6,142 @@ import { useParams } from "react-router-dom";
 import { fetchRestaurantById } from "../../redux/specificRestaurant/specificRestaurant";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import food from '../../assets/images/food.jpeg'
-import { postAddToCart } from "../../redux/cartSlice/cart";
+import food from "../../assets/images/food.jpeg";
+import { fetchCartData, postAddToCart } from "../../redux/cartSlice/cart";
 import ReviewPage from "./ReviewPage";
-
+import Modal from "@mui/material/Modal";
 // import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews } from "../../redux/reviewSlice/reviewSlice";
 
 import ShimmerSpecific from "./ShimmerSpecific";
 
-const RestaurantCardDetails = () => {
-  // Get all params from the URL
-  // const params = useParams(); // This will store all parameters from the URL
-  // console.log(
-  //   "Params=====================================",
-  //   params.restaurantId
-  // );
-  // const { restaurant, loading, error } = useSelector(
-  //   (state) => state.restaurant
-  // );
-  // console.log("|||||||||||||||||||||||||||", restaurant);
-  const { restaurantId } = useParams();
-  // console.log(
-  //   "Params=====================================",
-  //   restaurantId
-  // );
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
+const RestaurantCardDetails = () => {
+  const { restaurantId } = useParams();
   const dispatch = useDispatch();
-  const { restaurant, isLoading, error } = useSelector(
+  const { restaurant, loading, error } = useSelector(
     (state) => state.restaurant
   );
-  const { reviews} = useSelector((state) => state.reviews);
+  const { cartData, isLoading } = useSelector((state) => state.cart);
+  const totalCartItems = cartData?.items || [];
 
-  // const [showReviews, setShowReviews] = useState(true);
-  const [showMenu, setShowMenu] = useState(true); 
+  const { reviews } = useSelector((state) => state.reviews);
+  const [showMenu, setShowMenu] = useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [newRestaurantData, setNewRestaurantData] = React.useState(null);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Step 2: Toggle function
   // const toggleView = () => {
   //   setShowReviews((prev) => !prev);
   // };
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userId = userData?._id;
+    if (userId) {
+      dispatch(fetchCartData(userId));
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     if (restaurantId) {
-      console.log("restaurantId=============", restaurantId);
       dispatch(fetchRestaurantById(restaurantId));
     }
   }, [restaurantId, dispatch]);
 
-    useEffect(() => {
-      dispatch(fetchReviews({ restaurantId })); // Fetch reviews when component mounts
-    }, [dispatch, restaurantId]);
+  useEffect(() => {
+    dispatch(fetchReviews({ restaurantId })); // Fetch reviews when component mounts
+  }, [dispatch, restaurantId]);
 
-  console.log("Restaurant Data:", restaurant);
-
-  if (isLoading) {
-    return (
-     
-        <ShimmerSpecific />
-    
-    );
-  }
-
-  // Handle the submit action for adding items to the cart
-  const handleAddToCart = (dish, restaurantId) => {
+  const handleAddToCart = async (dish, restaurantId) => {
     // Accept restaurantId as a parameter
     const userId = JSON.parse(localStorage.getItem("userData"))?._id;
-    const payload = {
+    let payload = {};
+
+    payload = {
       userId,
       restaurantId, // Use the restaurantId passed in from the map function
       itemId: dish.dishId,
       productName: dish.name,
       quantity: 1, // You can adjust the quantity dynamically
       price: dish.price,
-      resetCart: false, // Set resetCart as a boolean
+      resetCart: false,
     };
-    console.log("Payload for Add to Cart:=====================", payload);
-    dispatch(postAddToCart({ payload }));
+
+    const response = await dispatch(postAddToCart({ payload }));
+
+    if (response?.error?.message === "Rejected") {
+      handleOpen();
+      setMessage(response.payload.message);
+
+      payload = {
+        userId,
+        restaurantId, // Use the restaurantId passed in from the map function
+        itemId: dish.dishId,
+        productName: dish.name,
+        quantity: 1, // You can adjust the quantity dynamically
+        price: dish.price,
+        resetCart: true,
+      };
+      setNewRestaurantData(payload);
+    }
+
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userid = userData?._id;
+
+    if (userid) {
+      dispatch(fetchCartData(userid));
+    }
   };
 
+  const handleNewRestaurantData = async () => {
+    await dispatch(postAddToCart({ payload: newRestaurantData }));
+
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userid = userData?._id;
+
+    if (userid) {
+      dispatch(fetchCartData(userid));
+    }
+
+    setNewRestaurantData(null);
+    handleClose();
+  };
+
+  if (isLoading) {
+    return <ShimmerSpecific />;
+  }
+
   // If there's an error, display an error message
-  if (error) {
+  if (newRestaurantData) {
+      const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 300,
+        bgcolor: "background.paper",
+        boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.2)", // Softer and larger shadow for depth
+        borderRadius: "12px", // Smoother and modern rounded corners
+        p: 4,
+        textAlign: "center", // Center align content
+        backgroundImage: "linear-gradient(135deg, #c62e3e, #fe0604)", // Gradient background for a vibrant look
+      };
     return (
       <Box
         display="flex"
@@ -92,16 +149,77 @@ const RestaurantCardDetails = () => {
         alignItems="center"
         height="100vh"
       >
-        <Alert severity="error">
-          Error fetching restaurant details: {error}
-        </Alert>
+        {/* <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={{ ...style, width: 200 }}>
+            <h2 id="child-modal-title">Items already in cart</h2>
+            <p id="child-modal-description">{message}</p>
+            <Button onClick={handleNewRestaurantData}>Refresh</Button>
+          </Box>
+        </Modal> */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="child-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{
+                fontWeight: "bold",
+                color: "#fff", // White text to contrast with the vibrant background
+                marginBottom: "1rem",
+              }}
+            >
+              Items already in cart
+            </Typography>
+            <Typography
+              id="child-modal-description"
+              variant="body1"
+              sx={{
+                color: "#f3f3f3", // Lighter text for contrast
+                marginBottom: "1.5rem",
+                fontSize: "15px",
+                lineHeight: "1.6",
+              }}
+            >
+              {message}
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={handleNewRestaurantData}
+              sx={{
+                backgroundColor: "#fff", // White button for contrast
+                color: "#fe0604", // Same color as background for consistency
+                fontWeight: "bold",
+                padding: "0.6rem 2rem", // Slightly larger button for emphasis
+                borderRadius: "20px", // Rounded button for a modern look
+                boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.15)", // Subtle shadow for button
+                transition: "background-color 0.3s ease", // Smooth transition
+                "&:hover": {
+                  backgroundColor: "#f3f3f3", // Light hover effect
+                  color: "#fe0604",
+                },
+              }}
+            >
+              Refresh
+            </Button>
+          </Box>
+        </Modal>
       </Box>
     );
   }
 
   return (
     <Box>
-      <Box sx={{ padding: "1rem", maxWidth: "800px", margin: "auto"  }}>
+      <Box sx={{ padding: "1rem", maxWidth: "800px", margin: "auto" }}>
         {/* Breadcrumb */}
         {/* <ShimmerSpecific/> */}
         <Typography
@@ -123,7 +241,6 @@ const RestaurantCardDetails = () => {
           }}
         >
           {restaurant?.name || "Restaurant Name"}
-          {/* {console.log(restaurant)} */}
         </Typography>
 
         {/* Rating and Pricing Section */}
@@ -283,23 +400,7 @@ const RestaurantCardDetails = () => {
           </Box>
         </Box>
       </Box>
-      {console.log("++====================", restaurant)}
-      {console.log(
-        "++++++++++++||||||||||||||||||||",
-        restaurant?.restaurantId
-      )}
 
-      {/* <ReviewPage reviews={reviews} />
-        <Box sx={{ maxWidth: 800, margin: "auto", padding: 1 }}>
-      {restaurant?.menu.map((dish) => (
-        <ProductCard
-          key={dish.dishId}
-          dish={dish}
-          restaurantId={restaurant.restaurantId}
-          handleAddToCart={handleAddToCart}
-        />
-      ))}
-    </Box> */}
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
@@ -310,22 +411,29 @@ const RestaurantCardDetails = () => {
           >
             {/* Button to show the menu */}
             <Button
-              variant={showMenu ? "contained" : "none"}
+              variant={showMenu ? "contained" : "outlined"}
               onClick={() => setShowMenu(true)}
               sx={{
                 marginRight: "1rem",
                 textTransform: "none",
-                fontSize: "1rem",
+                fontSize: { xs: "0.8rem", sm: "1rem" }, // Responsive font size
                 fontWeight: "bold",
                 backgroundColor: showMenu ? "#fe0604" : "transparent",
                 color: showMenu ? "white" : "red",
                 border: showMenu ? "none" : "1px solid red",
-                // padding:"5px",
+                borderRadius: "24px", // Rounded corners
+                padding: "10px 20px", // Consistent padding
+                boxShadow: showMenu ? "0 3px 5px rgba(254, 6, 4, 0.3)" : "none", // Subtle shadow when active
+                transition:
+                  "background-color 0.3s, color 0.3s, border 0.3s, transform 0.2s", // Smooth transition
                 "&:hover": {
-                  backgroundColor: "#fe0604",
+                  backgroundColor: "#d50000", // Darker red on hover
                   color: "white",
+                  transform: "scale(1.05)", // Slightly enlarge button on hover
                 },
-
+                "&:active": {
+                  transform: "scale(0.95)", // Scale down slightly on click
+                },
               }}
             >
               Menu
@@ -333,20 +441,30 @@ const RestaurantCardDetails = () => {
 
             {/* Button to show the reviews */}
             <Button
-              variant={!showMenu ? "contained" : "none"}
+              variant={!showMenu ? "contained" : "outlined"}
               onClick={() => setShowMenu(false)}
               sx={{
                 marginRight: "1rem",
                 textTransform: "none",
-                fontSize: "1rem",
+                fontSize: { xs: "0.8rem", sm: "1rem" }, // Responsive font size
                 fontWeight: "bold",
                 backgroundColor: !showMenu ? "#fe0604" : "transparent",
-                color: !showMenu? "white" : "red",
-                border: !showMenu? "none" : "1px solid red",
-                // padding:"5px",
+                color: !showMenu ? "white" : "red",
+                border: !showMenu ? "none" : "1px solid red",
+                borderRadius: "24px", // Rounded corners
+                padding: "10px 20px", // Consistent padding
+                boxShadow: !showMenu
+                  ? "0 3px 5px rgba(254, 6, 4, 0.3)"
+                  : "none", // Subtle shadow when active
+                transition:
+                  "background-color 0.3s, color 0.3s, border 0.3s, transform 0.2s", // Smooth transition
                 "&:hover": {
-                  backgroundColor: "#fe0604",
+                  backgroundColor: "#d50000", // Darker red on hover
                   color: "white",
+                  transform: "scale(1.05)", // Slightly enlarge button on hover
+                },
+                "&:active": {
+                  transform: "scale(0.95)", // Scale down slightly on click
                 },
               }}
             >
@@ -356,21 +474,28 @@ const RestaurantCardDetails = () => {
 
           {/* Step 3: Conditional rendering of content based on showMenu state */}
           {showMenu ? (
-            <Box sx={{ width: "100%", padding: 1 }}>
+            <Grid
+              container
+              spacing={3}
+              sx={{
+                padding: 1,
+                width: { xs: "100vw", sm: "100vw", md: "100vw", lg: "90vw" }, // Full width for small and medium screens
+              }}
+            >
               {restaurant?.menu.map((dish) => (
                 <ProductCard
                   key={dish.dishId}
                   dish={dish}
                   restaurantId={restaurant.restaurantId}
                   handleAddToCart={handleAddToCart}
-                  
+                  totalCartItems={totalCartItems}
                 />
               ))}
-            </Box>
+            </Grid>
           ) : (
             <ReviewPage
               reviews={reviews}
-              sx={{ width: "100%", padding: 1 }}
+              sx={{ width: "100%", bgcolor: "black" }}
             />
           )}
         </Box>

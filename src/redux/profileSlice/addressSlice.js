@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const postAddress = createAsyncThunk(
   "profile/postAddress",
   async ({payload}, { rejectWithValue }) => {
-    // console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}",payload)
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       const headers = { Authorization:`Bearer ${token}` };
@@ -18,12 +17,9 @@ export const postAddress = createAsyncThunk(
         payload,
         { headers }
       );
-      // console.log("===================================Solve",response)
        toast.success("Address posted successfully!");
       return response.data;
     } catch (error) {
-      // console.log("error=====================",error)
-      // toast.error("Failed to post address."); 
       return rejectWithValue(error.response?.data || "Error posting address");
     }
   }
@@ -41,7 +37,6 @@ export const getAddress = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      // toast.error("Failed to fetch address data.");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -61,7 +56,7 @@ export const deleteAddress = createAsyncThunk(
         { headers }
       );
        toast.success("Address deleted successfully!");
-      return response.data.data; // Returning the success message
+      return response.data.data; 
     } catch (error) {
        toast.error("Failed to delete address."); 
       return rejectWithValue(
@@ -70,19 +65,10 @@ export const deleteAddress = createAsyncThunk(
     }
   }
 );
-
-// Async thunk to edit/update address
 export const editAddress = createAsyncThunk(
   "address/editAddress",
   async ({ addressID, address }, { rejectWithValue }) => {
-      // console.log(
-      //   "addressID and address from editAddresss=========",
-      //   addressID,
-      //   address
-      // );
-
     try {
-      // console.log("addressID and address from editAddresss=========",addressID,address)
       const value = JSON.parse(localStorage.getItem("token"));
       const headers = { Authorization: `Bearer ${value.token}` };
       const response = await axios.post(
@@ -91,14 +77,10 @@ export const editAddress = createAsyncThunk(
         { headers }
       );
       toast.success("Address updated successfully!"); 
-      // console.log("=======================response",response)
       return response.data;
     } catch (error) {
       toast.error("Failed to update address."); 
       return rejectWithValue(
-
-        // console.log("erorr=============",error),
-        
         error.response ? error.response.data : "Something went wrong"
       );
     }
@@ -108,25 +90,22 @@ export const editAddress = createAsyncThunk(
 const addressSlice = createSlice({
   name: "address",
   initialState: {
-    address: [], // Holds address details
-    loading: false, // To track loading state
-    error: null, // To hold error messages
-    deleteSuccess: null, // To track deletion success message
-    updateSuccess: null, // To track update success message
+    address: [],
+    loading: false, 
+    error: null, 
+    deleteSuccess: null, 
+    updateSuccess: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-
-    //post address
-      // Handle postAddress pending state
       .addCase(postAddress.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       // Handle postAddress fulfilled state
       .addCase(postAddress.fulfilled, (state, action) => {
-        state.address = action.payload; // Use 'address' for consistency
+        state.address = action.payload; 
         state.loading = false;
       })
       // Handle postAddress rejected state
@@ -141,7 +120,7 @@ const addressSlice = createSlice({
       })
       // Handle fulfilled state for getting address
       .addCase(getAddress.fulfilled, (state, action) => {
-        state.address = action.payload; // Save address details in state
+        state.address = action.payload; 
         state.loading = false;
       })
       // Handle rejected state for getting address
@@ -174,7 +153,7 @@ const addressSlice = createSlice({
       // Handle fulfilled state for editing/updating address
       .addCase(editAddress.fulfilled, (state, action) => {
         state.loading = false;
-        state.updateSuccess = action.payload.message; // Save success message
+        state.updateSuccess = action.payload.message;
       })
       // Handle rejected state for editing/updating address
       .addCase(editAddress.rejected, (state, action) => {

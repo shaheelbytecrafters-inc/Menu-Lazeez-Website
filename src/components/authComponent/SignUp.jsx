@@ -49,8 +49,6 @@ const SignUp = ({ open, handleClose, handleOpenModal }) => {
       const resultAction = await dispatch(
         signUpUser({ ...formData, fcmToken })
       );
-
-      console.log("resultAction: ", resultAction);
       if (resultAction.payload.error !== "Phone Number already exists") {
         handleOpenModal("otp");
       } else {

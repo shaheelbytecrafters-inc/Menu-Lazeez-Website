@@ -6,7 +6,7 @@ export default function ShimmerCardUi() {
   return (
     <Grid container spacing={2} marginInline={"2rem"}>
       {[...Array(shimmerCount)].map((_, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={index} >
+        <Grid item xs={12} sm={6} md={6} lg={4} key={index} >
           <Box
             sx={{
               borderRadius: "0.5rem",

@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const postAddToCart = createAsyncThunk(
   "cart/postAddToCart",
   async ({payload}, { rejectWithValue }) => {
-    // console.log("++++++++",payload)
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       if (!token) {
@@ -23,7 +22,6 @@ export const postAddToCart = createAsyncThunk(
       toast.success("Added to cart successfully!");
       return response.data;
     } catch (error) {
-      console.error("Error posting AddToCart:", error);
       toast.error("Failed to add to cart.");
       return rejectWithValue(error.response?.data || "Error adding to cart");
     }
@@ -35,8 +33,6 @@ export const postAddToCart = createAsyncThunk(
 export const fetchCartData = createAsyncThunk(
   "cart/fetchCartData",
   async (userId, { rejectWithValue }) => {
-    console.log("userId", userId);
-    
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       const headers = { Authorization: `Bearer ${token}` };
@@ -59,7 +55,6 @@ export const updateCartQuantity = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
-      console.log("updateCart token=========", token);
       const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.post(
@@ -67,7 +62,6 @@ export const updateCartQuantity = createAsyncThunk(
         payload,
         { headers }
       );
-      console.log("Response ###################", response);
       toast.success("Cart quantity updated successfully!");
       return response.data;
     } catch (error) {
@@ -84,9 +78,7 @@ export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async ({ itemId, payload }, { rejectWithValue, dispatch }) => {
     try {
-      console.log("&&&&&&&&&&&&&&&&&&&&&&&&", itemId, payload);
       const token = JSON.parse(localStorage.getItem("token"))?.token;
-      console.log("updateCart token=========", token);
 
       if (!token) {
         throw new Error("Authorization token is missing");
@@ -101,15 +93,10 @@ export const removeCartItem = createAsyncThunk(
           data: payload,
         }
       );
-
-      console.log("Response ###################", response);
-
-      // After successfully removing the item, fetch the updated cart data
       dispatch(fetchCartData(payload.userId));
       toast.success("Item removed from cart!");
       return response.data;
     } catch (error) {
-      console.log("===================== Error from removeCart", error);
       toast.error("Error removing cart item");
       return rejectWithValue(
         error.response?.data || "Error removing cart item"
@@ -137,7 +124,7 @@ const cartSlice = createSlice({
       })
       .addCase(postAddToCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems.push(action.payload); // Add the item to the cart
+        state.cartItems.push(action.payload); 
         state.error = null;
       })
       .addCase(postAddToCart.rejected, (state, action) => {

@@ -12,13 +12,13 @@ const CallingRestaurantPage = () => {
      const searchParams = new URLSearchParams(location.search);
      const query = searchParams.get("query");
 
-  useEffect(() => {
-    if (query) {
-      // Perform the API call with the query
-      console.log("Fetching data for:", query);
-      // Dispatch an action or call API to fetch results
-    }
-  }, [query]);
+  // useEffect(() => {
+  //   if (query) {
+  //     // Perform the API call with the query
+  //     console.log("Fetching data for:", query);
+  //     // Dispatch an action or call API to fetch results
+  //   }
+  // }, [query]);
 
   return (
     <Box sx={{display:"flex",justifyContent:"center",alignItems:"center", width:"100vw" }}>

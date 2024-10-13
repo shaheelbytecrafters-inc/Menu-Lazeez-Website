@@ -64,12 +64,23 @@ const SearchInput = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center", // Center horizontally
+        alignItems: "center", // Center vertically
+        width: "100%",
+        // bgcolor:"red"
+        // minHeight: "100vh", // Ensure it takes full viewport height
+      }}
+    >
       <Box
-        sx={{
-          display: "block",
-          textAlign: "center",
-        }}
+        width={{ xs: "80%", sm: "85%", md: "75%" }} // Adjust width for responsiveness
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        // bgcolor="black"
+        alignItems="center" // Center items vertically inside the column
       >
         <TextField
           variant="outlined"
@@ -77,58 +88,70 @@ const SearchInput = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           sx={{
-            width: { xs: "100%", sm: "80%", md: "70%" }, // Responsive width
-            backgroundColor: "#FFFFFF", // Ensure background is always white
+            width: { xs: "100%", sm: "100%", md: "100%" }, // Responsive width
+            borderRadius: "30px", // Smoother round corners for a modern look
+
             "& .MuiInputBase-root": {
-              backgroundColor: "#FFFFFF", // White background even when typing
+              // backgroundColor: "#F9F9F9", // Light grey for a cleaner look
+              borderRadius: "30px", // Match the rounded corners of the outer container
+              paddingRight: "3rem", // Increased padding to make space for the icon
+            },
+            "& .MuiInputBase-input": {
+              padding: "12px 20px", // More padding for a comfortable typing experience
             },
             "& .MuiInputBase-input::placeholder": {
-              fontWeight: "bold", // Bold placeholder
-              color: "#9E9E9E", // Light gray placeholder color
+              fontWeight: "500",
+              color: "#A0A0A0", // Lighter grey for a softer placeholder
             },
             "& .MuiOutlinedInput-root": {
-              backgroundColor: "#FFFFFF", // White background when hovered or focused
+              "& fieldset": {
+                borderColor: "transparent", // Removing border for a clean look
+              },
               "&:hover fieldset": {
-                borderColor: "gray", // Gray border on hover
+                borderColor: "#DDDDDD", // Subtle border on hover
               },
               "&.Mui-focused fieldset": {
-                borderColor: "gray", // Gray border on focus
-                border: "1px solid gray",
+                borderColor: "#A0A0A0", // Flipkart's blue on focus
+                border: "2px solid #A0A0A0",
               },
-              borderRadius: "8px", // Rounded corners
+              borderRadius: "30px", // Matching outer container's rounded corners
+
+              border: "1px solid #A0A0A0",
             },
           }}
           InputProps={{
             endAdornment: (
               <Search
                 style={{
-                  color: "#282C3F",
-                  fontSize: "2.3rem",
-                  paddingRight: "1.5rem",
+                  color: "#A0A0A0", // Flipkart's blue for the icon
+                  fontSize: "2.3rem", // Keeping the large icon size
+                  position: "absolute", // Align icon to the right inside the input
+                  right: "20px", // More space for a balanced look
                 }}
               />
-            ), // Search icon style
+            ),
             sx: {
-              paddingRight: "8px", // Adjust padding for the icon
-              backgroundColor: "#FFFFFF", // White background near the icon
+              // paddingRight: "8px",
+              backgroundColor: "#FFFFFF",
+              marginBottom: "1rem",
             },
           }}
         />
 
-        <SearchBarSlider />
+        {/* {!searchTerm && <SearchBarSlider />} */}
+
         <Box
           sx={{
-            width: "70%",
+            width: "100%", // Ensure full width of inner box
+            paddingBlock: "0.5rem",
+            // bgcolor:"yellow",
+            // paddingInline:"1rem",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             alignItems: "center",
-            marginTop: "2rem",
-            marginX: "auto",
-            paddingBlock: "2rem",
           }}
         >
-          {/* Conditionally render based on search term */}
           {!searchTerm ? (
             <Box
               sx={{
@@ -136,16 +159,18 @@ const SearchInput = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
+                width: "100%",
+                // bgcolor:"green"
               }}
             >
               <Typography variant="h6" sx={{ color: "#9E9E9E" }}>
-                Search for your favorite food !
+                Search for your favorite food!
               </Typography>
               <img
                 src={SearchGIF}
                 alt="Search"
                 style={{
-                  width: "90%",
+                  width: "70%",
                   height: "100%",
                   marginBottom: "1rem",
                 }}
@@ -159,101 +184,99 @@ const SearchInput = () => {
                 getFilteredDishes(results).map((restaurant, index) => (
                   <Box
                     key={index}
-                    sx={{ width: "100%", cursor: "pointer" }} // Add cursor style for better UX
-                    onClick={handleRestaurantClick} // Handle click and pass query
+                    sx={{ width: "98%", cursor: "pointer" }}
+                    onClick={handleRestaurantClick}
                   >
                     {restaurant.dishes.map((dish) => (
                       <Box
                         key={dish.dishId}
                         sx={{
                           display: "flex",
+                          justifyContent:"space-between",
                           alignItems: "center",
-                          padding: "8px",
-                          borderBottom: "1px solid #ccc",
-                          backgroundColor: "white",
+                          padding: "10px",
+                          borderBottom: "1px solid #eee",
+                          borderRadius: "10px",
+                          backgroundColor: "#fff",
+                          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                           marginBottom: "1rem",
+                          width: "95%",
                         }}
                       >
                         <img
                           src={food}
                           alt={dish.name}
                           style={{
-                            width: "6rem",
-                            height: "5rem",
-                            marginRight: "10px",
-                            borderRadius: "5px",
-                            color: "#3b3a39",
+                            width: "8rem",
+                            height: "6rem",
+                            marginRight: "16px",
+                            borderRadius: "8px",
+                            objectFit: "cover",
                           }}
                         />
-                        <Box sx={{ textAlign: "left" }}>
+                        <Box sx={{  flexGrow: 1 }}>
                           <Typography
                             variant="h6"
                             sx={{
                               color: "#3b3a39",
-                              fontSize: {
-                                xs: "12px",
-                                sm: "13px",
-                                md: "14px",
-                                lg: "15px",
-                              },
-                              lineHeight: "17px",
-                              fontWeight: "bold",
+                              fontSize: { xs: "14px", sm: "16px", md: "16px" },
+                              fontWeight: "600",
+                              marginBottom: "0.1rem",
                             }}
                           >
                             {dish.name}
                           </Typography>
-                          <Box display="flex" alignItems="center">
-                            <Typography component="div">
-                              <Box
-                                display="flex"
-                                alignItems="center"
-                                marginRight="2rem"
+
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            marginBottom="0.5rem"
+                          >
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              marginRight="1.5rem"
+                            >
+                              <StarIcon
+                                sx={{
+                                  width: "1rem",
+                                  height: "1rem",
+                                  color: "#FFC107",
+                                  marginRight: "0.3rem",
+                                  marginBottom: "0.1rem",
+                                }}
+                              />
+                              <Typography
+                                sx={{
+                                  fontSize: "0.9rem",
+                                  fontWeight: "bold",
+                                  color: "#3b3a39",
+                                }}
                               >
-                                <StarIcon
-                                  sx={{
-                                    width: "0.8rem",
-                                    height: "0.8rem",
-                                    marginRight: "0.3rem",
-                                    fontWeight: "bolder",
-                                    color: "#3b3a39",
-                                    marginBottom: "0.2rem",
-                                  }}
-                                />
-                                <Box
-                                  sx={{
-                                    fontSize: "0.8rem",
-                                    lineHeight: "1rem",
-                                    fontWeight: "bolder",
-                                    color: "#3b3a39",
-                                  }}
-                                >
-                                  {dish.rating}
-                                </Box>
-                              </Box>
-                            </Typography>
+                                {dish.rating}
+                              </Typography>
+                            </Box>
+
                             <Typography
-                              variant="subtitle2"
-                              color="#3b3a39"
-                              fontWeight="bold"
+                              sx={{
+                                fontSize: "0.9rem",
+                                fontWeight: "bold",
+                                color: "#3b3a39",
+                              }}
                             >
                               ₹{dish.price} for two
                             </Typography>
                           </Box>
 
-                          {/* Truncate description for small screens */}
                           <Typography
                             variant="subtitle2"
                             sx={{
                               color: "gray",
-                              fontSize: {
-                                xs: "10px",
-                                sm: "12px",
-                                md: "14px",
-                              },
-                              whiteSpace: { xs: "nowrap", sm: "normal" }, // Truncate only on small screens
+                              fontSize: { xs: "10px", sm: "12px", md: "14px" },
+                              whiteSpace: { xs: "nowrap", sm: "normal" },
                               overflow: { xs: "hidden", sm: "visible" },
                               textOverflow: { xs: "ellipsis", sm: "clip" },
-                              maxWidth: { xs: "10rem", sm: "none" }, // Limit width for small screens
+                              maxWidth: { xs: "10rem", sm: "none" },
                             }}
                           >
                             {dish.description}
