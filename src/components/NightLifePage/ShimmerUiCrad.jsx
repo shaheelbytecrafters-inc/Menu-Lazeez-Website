@@ -1,25 +1,23 @@
 import { Grid, Box, Skeleton } from "@mui/material";
 
 export default function ShimmerUiCard() {
-  const shimmerCount = 8; // Number of shimmer cards you want to display
+  const shimmerCount = 8; // Number of shimmer cards to display
 
   return (
-    <Grid container spacing={2} marginInline={"1rem"}>
-      {[...Array(shimmerCount)].map((_, index) => (
-        <Grid item xs={12} sm={6} md={6} lg={4} key={index} >
+    <Grid container spacing={2} marginInline="1rem">
+      {Array.from({ length: shimmerCount }, (_, index) => (
+        <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
           <Box
             sx={{
               borderRadius: "0.5rem",
               overflow: "hidden",
               width: "80%", // Ensuring it takes full grid width
-              transition: "box-shadow 0.3s ease",
-              //   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+              padding: "1rem",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              padding: "1rem",
-              lineHeight: "1rem",
+              transition: "box-shadow 0.3s ease",
             }}
           >
             {/* Shimmer for Image */}
@@ -62,24 +60,8 @@ export default function ShimmerUiCard() {
                 variant="text"
                 width="80%"
                 height={15}
-                sx={{ marginBottom: "0.3rem", borderRadius: "4px" }}
+                sx={{ borderRadius: "4px", marginBottom: "0.3rem" }}
               />
-
-              {/* Shimmer for Price */}
-              {/* <Skeleton
-                variant="text"
-                width="40%"
-                height={15}
-                sx={{ marginBottom: "0.3rem", borderRadius: "4px" }}
-              /> */}
-
-              {/* Shimmer for Delivery Time */}
-              {/* <Skeleton
-                variant="text"
-                width="30%"
-                height={15}
-                sx={{ borderRadius: "4px" }}
-              /> */}
             </Box>
           </Box>
         </Grid>

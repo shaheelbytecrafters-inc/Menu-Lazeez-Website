@@ -58,7 +58,7 @@ const Hero = () => {
               color: "black",
               fontSize: { xs: 25, sm: 35 },
               fontWeight: "bold",
-              fontFamily:"Playwrite DE Grund, cursive"
+              // fontFamily:"Playwrite DE Grund, cursive"
             }}
             
           >

@@ -14,7 +14,6 @@ const HomePage = () => {
     >
     <Hero />
     <CardSlider/>
-    {/* <IconComponent/> */}
     <HomePageCardCalling/>
     
     </Box>

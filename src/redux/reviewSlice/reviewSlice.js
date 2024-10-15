@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify"; // Importing toast
 
 // Fetch Reviews Thunk
 export const fetchReviews = createAsyncThunk(
@@ -17,7 +18,6 @@ export const fetchReviews = createAsyncThunk(
       );
       return response.data; // Successfully return data
     } catch (error) {
-
       if (error.response) {
         return rejectWithValue({ message: error.message });
       }
@@ -28,7 +28,7 @@ export const fetchReviews = createAsyncThunk(
 // Post Review Thunk
 export const postReview = createAsyncThunk(
   "reviews/postReview",
-  async (payload, {  rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       if (!token) {
@@ -42,9 +42,8 @@ export const postReview = createAsyncThunk(
         { headers }
       );
 
-      return response.data; 
+      return response.data;
     } catch (error) {
-
       if (error.response) {
         return rejectWithValue({ message: error.message });
       }
@@ -52,7 +51,7 @@ export const postReview = createAsyncThunk(
   }
 );
 
-
+// Fetch My Reviews
 export const fetchMyReviews = createAsyncThunk(
   "reviews/fetchMyReviews",
   async (restaurantId, { rejectWithValue }) => {
@@ -67,15 +66,16 @@ export const fetchMyReviews = createAsyncThunk(
         `https://lazeez-user-backend-kpyf.onrender.com/review/user/${restaurantId}`,
         { headers }
       );
-      return response.data; 
+      return response.data;
     } catch (error) {
-
       if (error.response) {
         return rejectWithValue({ message: error.message });
       }
     }
   }
 );
+
+// Update Review
 export const updateReview = createAsyncThunk(
   "reviews/updateReview",
   async ({ reviewId, payload }, { rejectWithValue }) => {
@@ -100,7 +100,6 @@ export const updateReview = createAsyncThunk(
   }
 );
 
-
 // Reviews Slice
 const reviewsSlice = createSlice({
   name: "reviews",
@@ -112,7 +111,6 @@ const reviewsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(fetchReviews.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -120,10 +118,14 @@ const reviewsSlice = createSlice({
       .addCase(fetchReviews.fulfilled, (state, action) => {
         state.isLoading = false;
         state.reviews = Array.isArray(action.payload) ? action.payload : [];
+        // toast.success("Reviews loaded successfully!"); // Toast on success
       })
       .addCase(fetchReviews.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to fetch reviews";
+        toast.error(
+          `No reviews found}`
+        ); // Toast on error
       })
 
       .addCase(postReview.pending, (state) => {
@@ -133,13 +135,16 @@ const reviewsSlice = createSlice({
       .addCase(postReview.fulfilled, (state, action) => {
         state.isLoading = false;
         state.reviews.push(action.payload);
+        toast.success("Review posted successfully!"); // Toast on success
       })
       .addCase(postReview.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to post review";
+        toast.error(
+          `Error posting review: ${action.payload?.message || "Unknown error"}`
+        ); // Toast on error
       })
 
-      // Handle fetchMyReviews
       .addCase(fetchMyReviews.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -147,12 +152,18 @@ const reviewsSlice = createSlice({
       .addCase(fetchMyReviews.fulfilled, (state, action) => {
         state.isLoading = false;
         state.myReviews = Array.isArray(action.payload) ? action.payload : [];
+        toast.success("Your reviews loaded successfully!"); // Toast on success
       })
       .addCase(fetchMyReviews.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || "Failed to fetch my reviews";
+        state.error = action.payload || "Failed to fetch your reviews";
+        toast.error(
+          `Error fetching your reviews: ${
+            action.payload?.message || "Unknown error"
+          }`
+        ); // Toast on error
       })
-      // Edit Review
+
       .addCase(updateReview.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -164,11 +175,15 @@ const reviewsSlice = createSlice({
         );
         if (index !== -1) {
           state.reviews[index] = action.payload;
+          toast.success("Review updated successfully!"); // Toast on success
         }
       })
       .addCase(updateReview.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to edit review";
+        toast.error(
+          `Error updating review: ${action.payload?.message || "Unknown error"}`
+        ); // Toast on error
       });
   },
 });

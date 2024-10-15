@@ -253,17 +253,17 @@ const ReviewPage = ({ reviews }) => {
                 </Typography>
                 {myReviewsMode && (
                   <Box display="flex" width="100%" justifyContent="flex-end">
-                    <IconButton
+                    <Button
                       onClick={() => handleEdit(review)}
                       sx={{
                         mt: 2,
                         color: "#fe0604",
                         border: "2px solid #fe0604",
+                        fontWeight:"bold"
                       }}
                     >
                       Edit
-                      <EditIcon />
-                    </IconButton>
+                    </Button>
                   </Box>
                 )}
               </Box>

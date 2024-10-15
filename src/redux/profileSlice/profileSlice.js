@@ -3,10 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 // Fetching profile
 export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
-
   try {
     const token = JSON.parse(localStorage.getItem("token"))?.token;
     const headers = { Authorization: `Bearer ${token}` };
@@ -14,8 +12,10 @@ export const fetchProfile = createAsyncThunk("gitUsers", async (profileId) => {
       `https://lazeez-user-backend-kpyf.onrender.com/profile/${profileId}`,
       { headers }
     );
+    toast.success("Profile fetched successfully!"); // Toast on success
     return response.data;
   } catch (error) {
+    toast.error("Failed to fetch profile!"); // Toast on error
     throw new Error(
       error.response ? error.response.data : "Something went wrong"
     );
@@ -28,17 +28,17 @@ export const editProfile = createAsyncThunk(
   async ({ profileId, phoneNumber, email }, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
-      const headers = `{ Authorization: Bearer ${token} }`;
+      const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.post(
         `https://lazeez-user-backend-kpyf.onrender.com/edit-profile/${profileId}`,
         { phoneNumber, email },
         { headers }
       );
-      toast.success("Profile updated successfully!");
+      toast.success("Profile updated successfully!"); // Toast on success
       return response.data;
     } catch (error) {
-      toast.error("Failed to update profile!");
+      toast.error("Failed to update profile!"); // Toast on error
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -46,16 +46,14 @@ export const editProfile = createAsyncThunk(
   }
 );
 
-
-
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
     profileData: [],
     loading: false,
-    error: null, 
+    error: null,
     user: {},
-    address: [], 
+    address: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -76,18 +74,18 @@ const profileSlice = createSlice({
 
       // Edit Profile
       .addCase(editProfile.pending, (state) => {
-        state.status = "loading";
-        state.error = null; 
+        state.loading = true; // Changed from status to loading
+        state.error = null;
       })
       .addCase(editProfile.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.user = { ...state.user, ...action.payload }; 
-        state.profileData = { ...state.profileData, ...action.payload }; 
+        state.loading = false; // Changed from status to loading
+        state.user = { ...state.user, ...action.payload };
+        state.profileData = { ...state.profileData, ...action.payload };
       })
       .addCase(editProfile.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false; // Changed from status to loading
         state.error = action.payload || "Failed to edit profile";
-      })
+      });
   },
 });
 

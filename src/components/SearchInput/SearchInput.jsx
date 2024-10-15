@@ -11,7 +11,9 @@ import StarIcon from "@mui/icons-material/Star";
 import SearchBarSlider from "./SearchBarSlider.jsx";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ShimmerDish from "./ShimmerDish.jsx";
-import SearchGIF from "../../assets/images/Search.png"; // Path to your GIF
+import SearchGIF from "../../assets/images/Search.gif";
+import SearchNotFound from "../../assets/images/SearchNotFound.gif"; // Path to your GIF
+
 
 const SearchInput = () => {
   const dispatch = useDispatch();
@@ -192,7 +194,7 @@ const SearchInput = () => {
                         key={dish.dishId}
                         sx={{
                           display: "flex",
-                          justifyContent:"space-between",
+                          justifyContent: "space-between",
                           alignItems: "center",
                           padding: "10px",
                           borderBottom: "1px solid #eee",
@@ -214,7 +216,7 @@ const SearchInput = () => {
                             objectFit: "cover",
                           }}
                         />
-                        <Box sx={{  flexGrow: 1 }}>
+                        <Box sx={{ flexGrow: 1 }}>
                           <Typography
                             variant="h6"
                             sx={{
@@ -287,7 +289,31 @@ const SearchInput = () => {
                   </Box>
                 ))
               ) : (
-                <Typography>No results found.</Typography>
+                <Box>
+                  <Typography
+                    variant="h4"
+                    sx={{ color: "#9E9E9E" }}
+                    textAlign="center"
+                  >
+                    Ups!... no results found
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "#9E9E9E" }}
+                    textAlign="center"
+                  >
+                    Please try another search
+                  </Typography>
+                  <img
+                    src={SearchNotFound}
+                    alt="Search"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      marginBottom: "1rem",
+                    }}
+                  />
+                </Box>
               )}
             </>
           )}

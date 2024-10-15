@@ -6,13 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 // Post add to cart
 export const postAddToCart = createAsyncThunk(
   "cart/postAddToCart",
-  async ({payload}, { rejectWithValue }) => {
+  async ({ payload }, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
       if (!token) {
         throw new Error("User not authenticated");
       }
-      
+
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.post(
         `https://lazeez-user-backend-kpyf.onrender.com/cart/add`,
@@ -22,12 +22,11 @@ export const postAddToCart = createAsyncThunk(
       toast.success("Added to cart successfully!");
       return response.data;
     } catch (error) {
-      toast.error("Failed to add to cart.");
+      // toast.error("Failed to add to cart.");
       return rejectWithValue(error.response?.data || "Error adding to cart");
     }
   }
 );
-
 
 // Fetch cart data
 export const fetchCartData = createAsyncThunk(
@@ -42,6 +41,7 @@ export const fetchCartData = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      // toast.error("Error fetching cart data.");
       return rejectWithValue(
         error.response?.data || "Error fetching cart data"
       );
@@ -65,7 +65,7 @@ export const updateCartQuantity = createAsyncThunk(
       toast.success("Cart quantity updated successfully!");
       return response.data;
     } catch (error) {
-      toast.error("Error updating cart quantity");
+      toast.error("Error updating cart quantity.");
       return rejectWithValue(
         error.response?.data || "Error updating cart quantity"
       );
@@ -76,7 +76,7 @@ export const updateCartQuantity = createAsyncThunk(
 // Remove cart item
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
-  async ({ itemId, payload }, { rejectWithValue, dispatch }) => {
+  async ({ itemId, userId }, { rejectWithValue, dispatch }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
 
@@ -88,16 +88,13 @@ export const removeCartItem = createAsyncThunk(
 
       const response = await axios.delete(
         `https://lazeez-user-backend-kpyf.onrender.com/cart/item/${itemId}`,
-        {
-          headers,
-          data: payload,
-        }
+        { headers }
       );
-      dispatch(fetchCartData(payload.userId));
+      dispatch(fetchCartData(userId)); // Ensure to pass the userId to refetch cart data
       toast.success("Item removed from cart!");
       return response.data;
     } catch (error) {
-      toast.error("Error removing cart item");
+      toast.error("Error removing cart item.");
       return rejectWithValue(
         error.response?.data || "Error removing cart item"
       );
@@ -117,14 +114,13 @@ const cartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(postAddToCart.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(postAddToCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems.push(action.payload); 
+        state.cartItems.push(action.payload);
         state.error = null;
       })
       .addCase(postAddToCart.rejected, (state, action) => {
