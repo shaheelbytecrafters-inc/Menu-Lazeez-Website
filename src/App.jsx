@@ -14,6 +14,7 @@ import SignUp from "./components/authComponent/SignUp";
 import RestaurantCardDetails from "./components/SpecificRestaurant/RestaurantCardDetails";
 import RestroAndDishes from "./components/SearchInput/RestroAndDishes";
 import AddressForm from "./components/Cart/AddressForm";
+import Page from "./components/authComponent/Page";
 
 
 function AppContent() {
@@ -24,7 +25,6 @@ function AppContent() {
     <div style={{ padding: isHomePage ? "0" : "90px 0" }}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/restaurantname" element={<RestaurantPage />} /> */}
         <Route path="/foodDetails" element={<NightlifeComponent />} />
         <Route path="/partner" element={<PartnerPage />} />
         <Route path="/sign" element={<SignUp />} />
@@ -52,6 +52,7 @@ function AppContent() {
           element={<RestaurantCardDetails />}
         />
         <Route path="/restroAndDishes" element={<RestroAndDishes />} />
+        <Route path="/page" element={<Page/>} />
       </Routes>
     </div>
   );

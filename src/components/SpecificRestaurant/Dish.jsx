@@ -6,7 +6,8 @@ import {
   Button,
   CardMedia,
   Divider,
-  Grid, // Import Grid component
+  Modal,
+  Grid,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import StarIcon from "@mui/icons-material/Star";
@@ -16,21 +17,41 @@ import {
   setQuery,
   fetchSearchResults,
 } from "../../redux/searchSlice/searchSlice.js";
-import food from "../../assets/images/food.jpeg";
-import { postAddToCart } from "../../redux/cartSlice/cart.js";
+
+import { fetchCartData, postAddToCart } from "../../redux/cartSlice/cart.js";
 import { updateCartQuantity } from "../../redux/cartSlice/cart";
 import ShimmerDish from "./ShimmerDish.jsx";
 import { useMediaQuery } from "@mui/material";
+import DishCard from "./DishCard/DishCard.jsx";
+// import { Grid } from "@mui/system";
 
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const Dish = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const searchQuery = location.state?.query?.toLowerCase() || "";
-
   const { results, isLoading, error } = useSelector((state) => state.search);
-  const [cartItems, setCartItems] = useState({});
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [newRestaurantData, setNewRestaurantData] = React.useState(null);
+
   const { cartData } = useSelector((state) => state.cart);
+  const totalCartItems = cartData?.items || [];
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -57,39 +78,62 @@ const Dish = () => {
     return matchedDishes;
   };
 
-  const handleAddToCart = (dish, restaurantId) => {
+  const handleAddToCart = async (dish, restaurantId) => {
+    // Accept restaurantId as a parameter
     const userId = JSON.parse(localStorage.getItem("userData"))?._id;
-    if (!userId) return alert("User not logged in");
+    let payload = {};
 
-    const payload = {
+    payload = {
       userId,
-      restaurantId,
+      restaurantId, // Use the restaurantId passed in from the map function
       itemId: dish.dishId,
       productName: dish.name,
-      quantity: 1,
+      quantity: 1, // You can adjust the quantity dynamically
       price: dish.price,
       resetCart: false,
     };
-    dispatch(postAddToCart({ payload }));
 
-    setCartItems((prev) => ({
-      ...prev,
-      [dish.dishId]: 1, // Initial quantity set to 1
-    }));
+    const response = await dispatch(postAddToCart({ payload }));
+    console.log("response =>", response);
+
+    if (response?.error?.message === "Rejected") {
+      handleOpen();
+      setMessage(response.payload.message);
+
+      payload = {
+        userId,
+        restaurantId, // Use the restaurantId passed in from the map function
+        itemId: dish.dishId,
+        productName: dish.name,
+        quantity: 1, // You can adjust the quantity dynamically
+        price: dish.price,
+        resetCart: true,
+      };
+      setNewRestaurantData(payload);
+    }
+
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userid = userData?._id;
+
+    if (userid) {
+      dispatch(fetchCartData(userid));
+    }
   };
 
-  const handleUpdateQuantity = (res, dish, action) => {
-    const userId = JSON.parse(localStorage.getItem("userData"))?._id;
-    const payload = {
-      userId,
-      restaurantId: res,
-      itemId: dish.dishId,
-      quantity: 1,
-      action: action,
-    };
-    dispatch(updateCartQuantity(payload));
+  const handleNewRestaurantData = async () => {
+    await dispatch(postAddToCart({ payload: newRestaurantData }));
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const userid = userData?._id;
+    if (userid) {
+      dispatch(fetchCartData(userid));
+    }
+    setNewRestaurantData(null);
+    handleClose();
   };
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm","md"));
+
+  const isSmallScreen = useMediaQuery((theme) =>
+    theme.breakpoints.down("sm", "md")
+  );
 
   const filteredDishes = getFilteredDishes(results, searchQuery);
 
@@ -97,8 +141,84 @@ const Dish = () => {
     return <ShimmerDish />;
   }
 
-  if (error) {
-    return <Typography>Error: {error}</Typography>;
+  console.log("newRestaurantData: ", newRestaurantData);
+
+  // If there's an error, display an error message
+  if (newRestaurantData) {
+     const style = {
+       position: "absolute",
+       top: "50%",
+       left: "50%",
+       transform: "translate(-50%, -50%)",
+       width: 300,
+       bgcolor: "background.paper",
+       boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.2)", // Softer and larger shadow for depth
+       borderRadius: "12px", // Smoother and modern rounded corners
+       p: 4,
+       textAlign: "center", // Center align content
+       backgroundImage: "linear-gradient(135deg, #c62e3e, #fe0604)", // Gradient background for a vibrant look
+     };
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="child-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{
+                fontWeight: "bold",
+                color: "#fff", // White text to contrast with the vibrant background
+                marginBottom: "1rem",
+              }}
+            >
+              Items already in cart
+            </Typography>
+            <Typography
+              id="child-modal-description"
+              variant="body1"
+              sx={{
+                color: "#f3f3f3", // Lighter text for contrast
+                marginBottom: "1.5rem",
+                fontSize: "15px",
+                lineHeight: "1.6",
+              }}
+            >
+              {message}
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={handleNewRestaurantData}
+              sx={{
+                backgroundColor: "#fff", // White button for contrast
+                color: "#fe0604", // Same color as background for consistency
+                fontWeight: "bold",
+                padding: "0.6rem 2rem", // Slightly larger button for emphasis
+                borderRadius: "20px", // Rounded button for a modern look
+                boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.15)", // Subtle shadow for button
+                transition: "background-color 0.3s ease", // Smooth transition
+                "&:hover": {
+                  backgroundColor: "#f3f3f3", // Light hover effect
+                  color: "#fe0604",
+                },
+              }}
+            >
+              Refresh
+            </Button>
+          </Box>
+        </Modal>
+      </Box>
+    );
   }
 
   return (
@@ -113,202 +233,16 @@ const Dish = () => {
       <Grid container justifyContent="center">
         {filteredDishes.map(({ restaurantName, restaurantId, dishes }) =>
           dishes.map((dish, index) => (
-            <Grid item xs={12} sm={6} md={6} key={index}>
-              <Box
-                sx={{
-                  borderRadius: "8px",
-                  border: "1px solid #eee",
-                  // margin: "16px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                  height: "270px",
-                  width: "85%",
-                  padding: "1rem",
-                  marginBottom: "3rem",
-                }}
-              >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  // px={2}
-                  pt={2}
-                  //  gap="1rem"
-                >
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      sx={{ fontFamily: "Poppins, sans-serif" }}
-                    >
-                      {restaurantName}
-                    </Typography>
-                    <Box display="flex" alignItems="center" mt={0.5}>
-                      <StarIcon sx={{ fontSize: "16px", color: "#fbc02d" }} />
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        sx={{ ml: 0.5, fontSize: "14px" }}
-                      >
-                        {dish.rating || "N/A"} · {dish.reviewsCount || 0}{" "}
-                        reviews
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <ArrowForwardIosIcon
-                    sx={{ fontSize: "16px", color: "#757575" }}
-                  />
-                </Box>
-
-                <Divider sx={{ width: "90%", marginTop: "10px" }} />
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    padding: "16px",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <Box marginRight={"1rem"}>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        width: 150,
-                        height: 130,
-                        borderRadius: "8px",
-                        objectFit: "cover",
-                      }}
-                      image={food}
-                      alt={dish.name || "Dish image"}
-                    />
-
-                    <Box mt={1} display="flex" justifyContent="center">
-                      {cartItems[dish.dishId] ? (
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          sx={{
-                            marginTop: "-1rem",
-                            backgroundColor: "red",
-                            color: "#fff",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          <Button
-                            variant="none"
-                            onClick={() =>
-                              handleUpdateQuantity(
-                                restaurantId,
-                                dish,
-                                "decrease"
-                              )
-                            }
-                            sx={{
-                              fontFamily: "Poppins, sans-serif",
-                              fontSize: "14px",
-                              px: 1.5,
-                              py: 0.5,
-                              textTransform: "none",
-                              minWidth: "40px",
-                            }}
-                          >
-                            -
-                          </Button>
-                          <Typography
-                            sx={{
-                              fontFamily: "Poppins, sans-serif",
-                              fontSize: "14px",
-                              fontWeight: "bold",
-                              px: 1.5,
-                            }}
-                          >
-                            {cartItems[dish.dishId]}
-                          </Typography>
-                          <Button
-                            variant="none"
-                            onClick={() =>
-                              handleUpdateQuantity(
-                                restaurantId,
-                                dish,
-                                "increase"
-                              )
-                            }
-                            sx={{
-                              fontFamily: "Poppins, sans-serif",
-                              fontSize: "14px",
-                              px: 1.5,
-                              py: 0.5,
-                              textTransform: "none",
-                              minWidth: "40px",
-                            }}
-                          >
-                            +
-                          </Button>
-                        </Box>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          onClick={() => handleAddToCart(dish, restaurantId)}
-                          sx={{
-                            fontFamily: "Poppins, sans-serif",
-                            bgcolor: "red",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            px: 2,
-                            py: 0.5,
-                            textTransform: "none",
-                            mt: "-1rem",
-                            minWidth: "100px",
-                          }}
-                        >
-                          ADD
-                        </Button>
-                      )}
-                    </Box>
-                  </Box>
-
-                  <Box flex={1} sx={{}}>
-                    <CardContent sx={{ padding: "0" }}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontFamily: "Poppins, sans-serif",
-                          fontSize: "18px",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {dish.name || "Unknown Dish"}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontFamily: "Poppins, sans-serif",
-                          fontSize: "14px",
-                          mt: 0.5,
-                          color: "gray",
-                        }}
-                      >
-                        {isSmallScreen
-                          ? `${dish.description?.substring(0, 20)}...` // Show truncated version
-                          : `${dish.description?.substring(0, 60)}...` ||
-                            "No description available."}
-                      </Typography>
-
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          fontFamily: "Poppins, sans-serif",
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          mt: 1,
-                        }}
-                      >
-                        ₹ {dish.price}
-                      </Typography>
-                    </CardContent>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
+            <DishCard
+              index={index}
+              key={dish.dishId}
+              dish={dish}
+              restaurantName={restaurantName}
+              restaurantId={restaurantId}
+              handleAddToCart={handleAddToCart}
+              totalCartItems={totalCartItems}
+              isSmallScreen={isSmallScreen}
+            />
           ))
         )}
       </Grid>

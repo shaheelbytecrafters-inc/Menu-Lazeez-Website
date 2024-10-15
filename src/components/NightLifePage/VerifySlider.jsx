@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
-const CustomSlider = styled(Slider)({
+const CustomSlider = styled(Slider)(({ theme }) => ({
   ".slick-dots li button:before": {
     fontSize: "12px",
     color: "black",
@@ -13,7 +13,7 @@ const CustomSlider = styled(Slider)({
   ".slick-dots li.slick-active button:before": {
     color: "black",
   },
-});
+}));
 
 function VerifySlider() {
   const cards = [
@@ -25,7 +25,7 @@ function VerifySlider() {
     {
       image:
         "https://b.zmtcdn.com/data/dish_images/197987b7ebcd1ee08f8c25ea4e77e20f1634731334.png",
-      name: "cake",
+      name: "Cake",
     },
     {
       image:
@@ -50,7 +50,7 @@ function VerifySlider() {
     {
       image:
         "https://b.zmtcdn.com/data/dish_images/d5ab931c8c239271de45e1c159af94311634805744.png",
-      name: "Chiken",
+      name: "Chicken",
     },
     {
       image:
@@ -58,6 +58,7 @@ function VerifySlider() {
       name: "Food",
     },
   ];
+
   const settings = {
     dots: false,
     infinite: true,
@@ -95,19 +96,12 @@ function VerifySlider() {
   };
 
   return (
-    <Box
-      sx={{
-        paddingBottom: "50px",
-        paddingInline: "50px",
-      }}
-    >
+    <Box sx={{ paddingBottom: "50px", paddingInline: "50px" }}>
       <Box
         sx={{
           width: "100%",
           maxWidth: "1000px",
           margin: "0 auto",
-          position: "relative",
-          //   backgroundColor: "red",
         }}
       >
         <Typography
@@ -122,6 +116,7 @@ function VerifySlider() {
               sx={{
                 padding: "0 15px",
                 boxSizing: "border-box",
+                textAlign: "center",
               }}
             >
               <Box
@@ -136,9 +131,7 @@ function VerifySlider() {
                   marginBottom: "0.4rem",
                 }}
               />
-              <Typography sx={{ textAlign: "center", fontWeight: "600" }}>
-                {card.name}
-              </Typography>
+              <Typography sx={{ fontWeight: "600" }}>{card.name}</Typography>
             </Box>
           ))}
         </CustomSlider>

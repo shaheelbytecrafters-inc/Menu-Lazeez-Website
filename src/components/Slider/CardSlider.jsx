@@ -71,7 +71,7 @@ function CardSlider() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: "1100px",
+          maxWidth: "1200px",
           margin: "0 auto",
           position: "relative",
           cursor: "pointer",

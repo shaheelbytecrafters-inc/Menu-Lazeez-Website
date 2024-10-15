@@ -3,27 +3,28 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 // Async thunk to post address
 export const postAddress = createAsyncThunk(
   "profile/postAddress",
-  async ({payload}, { rejectWithValue }) => {
+  async ({ payload }, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"))?.token;
-      const headers = { Authorization:`Bearer ${token}` };
+      const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.post(
         `https://lazeez-user-backend-kpyf.onrender.com/address`,
         payload,
         { headers }
       );
-       toast.success("Address posted successfully!");
+      toast.success("Address posted successfully!");
       return response.data;
     } catch (error) {
+      toast.error("Error posting address");
       return rejectWithValue(error.response?.data || "Error posting address");
     }
   }
 );
+
 // Async thunk to fetch address
 export const getAddress = createAsyncThunk(
   "address/getAddress",
@@ -37,6 +38,7 @@ export const getAddress = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      toast.error("Error fetching address");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -55,16 +57,18 @@ export const deleteAddress = createAsyncThunk(
         `https://lazeez-user-backend-kpyf.onrender.com/address/${addressId}`,
         { headers }
       );
-       toast.success("Address deleted successfully!");
-      return response.data.data; 
+      toast.success("Address deleted successfully!");
+      return response.data.data;
     } catch (error) {
-       toast.error("Failed to delete address."); 
+      toast.error("Failed to delete address.");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
     }
   }
 );
+
+// Async thunk to edit address
 export const editAddress = createAsyncThunk(
   "address/editAddress",
   async ({ addressID, address }, { rejectWithValue }) => {
@@ -76,10 +80,10 @@ export const editAddress = createAsyncThunk(
         { address },
         { headers }
       );
-      toast.success("Address updated successfully!"); 
+      toast.success("Address updated successfully!");
       return response.data;
     } catch (error) {
-      toast.error("Failed to update address."); 
+      toast.error("Failed to update address.");
       return rejectWithValue(
         error.response ? error.response.data : "Something went wrong"
       );
@@ -91,9 +95,9 @@ const addressSlice = createSlice({
   name: "address",
   initialState: {
     address: [],
-    loading: false, 
-    error: null, 
-    deleteSuccess: null, 
+    loading: false,
+    error: null,
+    deleteSuccess: null,
     updateSuccess: null,
   },
   reducers: {},
@@ -105,7 +109,7 @@ const addressSlice = createSlice({
       })
       // Handle postAddress fulfilled state
       .addCase(postAddress.fulfilled, (state, action) => {
-        state.address = action.payload; 
+        state.address.push(action.payload); // Change this to push to the address array
         state.loading = false;
       })
       // Handle postAddress rejected state
@@ -120,7 +124,7 @@ const addressSlice = createSlice({
       })
       // Handle fulfilled state for getting address
       .addCase(getAddress.fulfilled, (state, action) => {
-        state.address = action.payload; 
+        state.address = action.payload;
         state.loading = false;
       })
       // Handle rejected state for getting address
@@ -138,10 +142,13 @@ const addressSlice = createSlice({
       .addCase(deleteAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.deleteSuccess = action.payload.message;
+        state.address = state.address.filter(
+          (item) => item.id !== action.payload.id
+        ); // Filter out the deleted address
       })
       // Handle rejected state for deleting address
       .addCase(deleteAddress.rejected, (state, action) => {
-        state.error = action.payload ;
+        state.error = action.payload;
         state.loading = false;
       })
       // Handle pending state for editing/updating address
@@ -154,10 +161,16 @@ const addressSlice = createSlice({
       .addCase(editAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.updateSuccess = action.payload.message;
+        const index = state.address.findIndex(
+          (item) => item.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.address[index] = action.payload; // Update the specific address
+        }
       })
       // Handle rejected state for editing/updating address
       .addCase(editAddress.rejected, (state, action) => {
-        state.error = action.payload ;
+        state.error = action.payload;
         state.loading = false;
       });
   },

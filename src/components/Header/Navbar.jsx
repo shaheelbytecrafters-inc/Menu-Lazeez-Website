@@ -94,22 +94,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const totalItemsInCart = cartData && cartData.items?.length || "0"
 
-  // console.log("cartData =>",cartData.items)
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("userData");
-  //   let userData = {};
-  //   if (storedUserData) {
-  //     try {
-  //       userData = JSON.parse(storedUserData); // Safely parse JSON
-  //     } catch (e) {
-  //       console.error("Invalid JSON in localStorage for 'userData':", e);
-  //     }
-  //   }  
-  //   const userId = userData?._id;
-  //   if (userId) {
-  //     dispatch(fetchCartData(userId));
-  //   }
-  // }, [dispatch]);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -204,6 +188,7 @@ const Navbar = () => {
                   color: homePage ? (scroll ? "white" : "black") : "white",
                   fontSize: "2rem",
                   textTransform: "italic",
+                  cursor: "pointer",
                 }}
               >
                 MenuLazeez
@@ -219,14 +204,24 @@ const Navbar = () => {
               <SearchBar>
                 <SearchIcon style={{ color: "white", fontSize: "1.7rem" }} />
                 <Typography
-                  sx={{ color: "white", fontSize: "18px", fontWeight: "500" }}
+                  sx={{
+                    color: "white",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                  }}
                   onClick={() => navigate("/searchBar")}
                 >
                   Search
                 </Typography>
               </SearchBar>
               <Typography
-                sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
+                sx={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => navigate("/foodDetails")}
               >
                 Restaurant
@@ -250,7 +245,12 @@ const Navbar = () => {
                   </StyledBadge>
                 </IconButton>
                 <Typography
-                  sx={{ fontSize: "18px", fontWeight: "500", color: "white" }}
+                  sx={{
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
                 >
                   Cart
                 </Typography>
@@ -271,6 +271,7 @@ const Navbar = () => {
                       transform: "scale(1.05) rotate(-1deg)",
                       backgroundColor: "white",
                     },
+                    cursor: "pointer",
                   }}
                   onClick={() => handleOpenModal("logIn")}
                 >
@@ -283,12 +284,22 @@ const Navbar = () => {
               {!showDrawer ? (
                 <Button onClick={toggleDrawer(true)}>
                   <MenuRoundedIcon
-                    style={{ color: "white", fontSize: "2rem" }}
+                    style={{
+                      color: "white",
+                      fontSize: "2rem",
+                      cursor: "pointer",
+                    }}
                   />
                 </Button>
               ) : (
                 <Button onClick={toggleDrawer(false)}>
-                  <CloseIcon style={{ color: "white", fontSize: "2rem" }} />
+                  <CloseIcon
+                    style={{
+                      color: "white",
+                      fontSize: "2rem",
+                      cursor: "pointer",
+                    }}
+                  />
                 </Button>
               )}
             </HamburgerOrClose>
@@ -330,6 +341,7 @@ const Navbar = () => {
                       alignItems: "center",
                       fontWeight: "bold",
                       fontSize: "1.3rem",
+                      cursor: "pointer",
                     }}
                   >
                     ML
@@ -339,6 +351,7 @@ const Navbar = () => {
                       fontWeight: "bold",
                       color: "#fe0604",
                       fontSize: "1.5rem",
+                      cursor:"pointer"
                     }}
                   >
                     MenuLazeez
@@ -356,9 +369,11 @@ const Navbar = () => {
                         backgroundColor: "#fe0604",
                         borderRadius: "0.5rem",
                         color: "#fff",
+                        cursor:"pointer",
                         transform: "scale(1.05)",
                         "& svg": {
                           color: "#fff",
+                          
                         },
                       },
                     }}
@@ -369,6 +384,7 @@ const Navbar = () => {
                         sx={{
                           color: "#fe0604",
                           fontSize: "1.8rem",
+                          
                         }}
                       />
                     </ListItemIcon>
@@ -414,6 +430,7 @@ const Navbar = () => {
                       transition:
                         "transform 0.3s ease, background-color 0.3s ease",
                       mt: "0.5rem",
+                      cursor:"pointer",
                       "&:hover": {
                         backgroundColor: "#fe0604",
                         borderRadius: "0.5rem",
@@ -442,6 +459,7 @@ const Navbar = () => {
                   <ListItem
                     sx={{
                       padding: "0.6rem",
+                      cursor:"pointer",
                       transition:
                         "transform 0.3s ease, background-color 0.3s ease",
                       mt: "0.5rem",
@@ -471,6 +489,7 @@ const Navbar = () => {
                   <ListItem
                     sx={{
                       padding: "0.6rem",
+                      cursor:"pointer",
                       transition:
                         "transform 0.3s ease, background-color 0.3s ease",
                       mt: "0.5rem",
