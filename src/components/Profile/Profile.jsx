@@ -15,8 +15,8 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-  Grid,
   Stack,
+  Grid,
 } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -1093,11 +1093,11 @@ function Profile() {
                             >
                               {address.map((addressData) => (
                                 <>
-                                  <Grid
+                                  <Grid 
                                     item
                                     xs={12} // Takes full width on extra-small screens
                                     sm={6} // Half-width on small screens
-                                    md={4} // Third-width on medium screens
+                                    md={6} // Third-width on medium screens
                                     // sx={{ border: "1px solid blue" }}
                                   >
                                     <Box

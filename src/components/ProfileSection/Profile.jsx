@@ -69,7 +69,7 @@ function Profile() {
               <Button
                 sx={{
                   color: "#fff",
-                  border: "1.5px solid #fff",
+                  border: "1.5px solid red",
                   fontWeight: "bold",
                 }}
               >

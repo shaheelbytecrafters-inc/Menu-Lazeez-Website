@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import {
   TextField,
   Button,
@@ -13,6 +13,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { postAddress } from "../../redux/profileSlice/addressSlice";
 import checkout from "../../assets/images/Checkout.gif"; // Import your image
+import PaymentModal from "../PaymentModal/PaymentModal";
+import { fetchCartData } from "../../redux/cartSlice/cart";
 
 const textFieldStyles = {
   width: "100%",
@@ -50,21 +52,60 @@ const FormField = ({ label, name, value, onChange, ...props }) => (
 
 function AddressForm() {
   const [formData, setFormData] = useState(initialFormState);
+  const { cartData } = useSelector((state) => state.cart);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
+
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.address);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("userData"))?._id;
-    dispatch(postAddress({ payload: { ...formData, userId } }));
-    setFormData(initialFormState);
+    if (userId) {
+      dispatch(fetchCartData(userId));
+    }
+  
+  }, [dispatch]);
+
+  const handleClosePaymentModal = () => setPaymentModalOpen(false);
+
+
+  const products = cartData?.items || [];
+
+  const taxRate = 0.05;
+  const shippingRate = 15.0;
+
+  const subtotal = useMemo(
+    () => products.reduce((acc, product) => acc + product.totalPrice, 0),
+    [products]
+  );
+  const tax = useMemo(() => subtotal * taxRate, [subtotal]);
+  const total = useMemo(
+    () => subtotal + tax + (subtotal > 0 ? shippingRate : 0),
+    [subtotal, tax]
+  );
+
+  const handleOpenPaymentModal = () => {
+    setPaymentDetails({
+      restaurantId: cartData.restaurantId,
+      amount: total.toFixed(2),
+      userId: cartData.userId,
+    });
+    setPaymentModalOpen(true);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userId = JSON.parse(localStorage.getItem("userData"))?._id;
+    await dispatch(postAddress({ payload: { ...formData, userId } }));
+    setFormData(initialFormState);
+    handleOpenPaymentModal()
+  };
+ 
   return (
     <Box
       sx={{
@@ -74,6 +115,13 @@ function AddressForm() {
         width: "100%",
       }}
     >
+      {paymentModalOpen && (
+        <PaymentModal
+          open={paymentModalOpen}
+          handleClose={handleClosePaymentModal}
+          paymentDetails={paymentDetails}
+        />
+      )}
       <Box
         sx={{
           display: "flex",
@@ -127,7 +175,6 @@ function AddressForm() {
                 multiline
                 rows={4}
               />
-
               {/* Address Type */}
               <FormLabel
                 sx={{ fontSize: "14px", color: "#555", textAlign: "left" }}
@@ -150,7 +197,6 @@ function AddressForm() {
                   />
                 ))}
               </RadioGroup>
-
               {/* Submit Button */}
               <Button
                 type="submit"
@@ -167,12 +213,11 @@ function AddressForm() {
                   textTransform: "none",
                 }}
               >
-                Save And Deliver Here
+                Save Address And Pay
               </Button>
             </Box>
           </Container>
         </Box>
-
         {/* Image Section */}
         <Box
           sx={{

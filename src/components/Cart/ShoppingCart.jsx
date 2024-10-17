@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Container,
   Grid,
@@ -48,6 +48,7 @@ const ShoppingCart = () => {
       updateCartQuantity({ itemId, quantity: 1, userId, restaurantId, action })
     );
   };
+
 
   const products = cartData?.items || [];
 
@@ -121,16 +122,19 @@ const ShoppingCart = () => {
               total={total}
               shippingRate={shippingRate}
               onCheckout={handleCheckout}
+              // onOpenPaymentModal={handleOpenPaymentModal}
             />
           </Paper>
         </Grid>
       </Grid>
+      
     </Container>
   );
 };
 
 // CartItem Component
 const CartItem = ({ product, onRemove, onUpdateQuantity }) => {
+
   return (
     <Paper sx={cartStyles.productBox}>
       <Box
@@ -174,7 +178,7 @@ const CartItem = ({ product, onRemove, onUpdateQuantity }) => {
 };
 
 // CartSummary Component
-const CartSummary = ({ subtotal, tax, total, shippingRate, onCheckout }) => (
+const CartSummary = ({ subtotal, tax, total, shippingRate, onCheckout ,  onOpenPaymentModal}) => (
   <Box display="flex" flexDirection="column">
     <Box display="flex" justifyContent="space-between" mb={1}>
       <Typography>Subtotal</Typography>

@@ -95,7 +95,7 @@ const addressSlice = createSlice({
   name: "address",
   initialState: {
     address: [],
-    loading: false,
+    isLoading: false,
     error: null,
     deleteSuccess: null,
     updateSuccess: null,
@@ -104,43 +104,43 @@ const addressSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(postAddress.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       // Handle postAddress fulfilled state
       .addCase(postAddress.fulfilled, (state, action) => {
         state.address.push(action.payload); // Change this to push to the address array
-        state.loading = false;
+        state.isLoading = false;
       })
       // Handle postAddress rejected state
       .addCase(postAddress.rejected, (state, action) => {
         state.error = action.payload || "Failed to post address";
-        state.loading = false;
+        state.isLoading = false;
       })
       // Handle pending state for getting address
       .addCase(getAddress.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       // Handle fulfilled state for getting address
       .addCase(getAddress.fulfilled, (state, action) => {
         state.address = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       // Handle rejected state for getting address
       .addCase(getAddress.rejected, (state, action) => {
         state.error = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       // Handle pending state for deleting address
       .addCase(deleteAddress.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
         state.deleteSuccess = null;
       })
       // Handle fulfilled state for deleting address
       .addCase(deleteAddress.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.deleteSuccess = action.payload.message;
         state.address = state.address.filter(
           (item) => item.id !== action.payload.id
@@ -149,17 +149,17 @@ const addressSlice = createSlice({
       // Handle rejected state for deleting address
       .addCase(deleteAddress.rejected, (state, action) => {
         state.error = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       // Handle pending state for editing/updating address
       .addCase(editAddress.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
         state.updateSuccess = null;
       })
       // Handle fulfilled state for editing/updating address
       .addCase(editAddress.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.updateSuccess = action.payload.message;
         const index = state.address.findIndex(
           (item) => item.id === action.payload.id
@@ -171,7 +171,7 @@ const addressSlice = createSlice({
       // Handle rejected state for editing/updating address
       .addCase(editAddress.rejected, (state, action) => {
         state.error = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       });
   },
 });

@@ -50,7 +50,7 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: {
     profileData: [],
-    loading: false,
+    isLoading: false,
     error: null,
     user: {},
     address: [],
@@ -60,30 +60,30 @@ const profileSlice = createSlice({
     builder
       // Fetch Profile
       .addCase(fetchProfile.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.profileData = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.error = action.payload || "Failed to fetch profile data";
-        state.loading = false;
+        state.isLoading = false;
       })
 
       // Edit Profile
       .addCase(editProfile.pending, (state) => {
-        state.loading = true; // Changed from status to loading
+        state.isLoading = true; // Changed from status to loading
         state.error = null;
       })
       .addCase(editProfile.fulfilled, (state, action) => {
-        state.loading = false; // Changed from status to loading
+        state.isLoading = false; // Changed from status to loading
         state.user = { ...state.user, ...action.payload };
         state.profileData = { ...state.profileData, ...action.payload };
       })
       .addCase(editProfile.rejected, (state, action) => {
-        state.loading = false; // Changed from status to loading
+        state.isLoading = false; // Changed from status to loading
         state.error = action.payload || "Failed to edit profile";
       });
   },
